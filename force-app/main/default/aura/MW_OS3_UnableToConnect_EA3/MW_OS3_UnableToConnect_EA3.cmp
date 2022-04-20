@@ -1,0 +1,31 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />   
+    
+    <h1 class="slds-text-heading_large text-red">Restart EA-3</h1>
+    
+	<div class="slds-p-top_large slds-text-align_center">
+        <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_630,h_360,f_auto,q_auto/customer-support/Controllers_EA-3-Front.png"/> 
+	</div>
+	<div class="slds-text-align_center">
+        <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_630,h_360,f_auto,q_auto/v1559328571/customer-support/c4_ea3_v2_back.jpg"/> 
+	</div>
+    
+    <p class="slds-p-top_x-large text-paragraph bold">Disconnect the power to your Control4 controller for about 15 seconds, then
+			reconnect the power. Wait five minutes for the system to restart.</p> 
+        
+    <p class="slds-p-top_large text-paragraph">If you’re uncomfortable performing this step, contact your authorized Control4 Pro to continue troubleshooting your issue.</p>
+    
+    <p class="slds-p-top_large text-paragraph">Does this resolve your connectivity issue?</p>
+
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="yesButton" class="slds-button style1button" label="Yes" onclick="{!c.YesButtonClick}"/>
+                <lightning:button aura:id="noButton" class="slds-button style1button" label="No" onclick="{!c.NoButtonClick}"/>
+            </div>
+        </div>
+    </div>		
+</aura:component>

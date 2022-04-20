@@ -1,0 +1,22 @@
+<aura:component >      
+    	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    <h1 class="slds-text-heading_large slds-m-bottom_large" name="Title ">I Don’t Know</h1>
+    
+    <p class="slds-m-bottom_large text-paragraph">Not sure which Control4 controller you have? We can help!</p>
+    <ol class="text-paragraph">
+        <li>1. <a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+        <li>2. Click <b>My Account</b>, then click <b>My Account</b>. Under Account on the right side, you will see the something similar to this:
+<i>control4_ea5_000FFF000000</i>. Your main controller will be the model number after “control4_”. In the example above, it would be <b>EA-5</b>.</li>
+    </ol>
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+                <lightning:button aura:id="RestartButton" class="slds-button style1button" label="Restart Controller" onclick="{!c.RestartButtonClick}"/>
+                <lightning:button aura:id="ContactButton" class="slds-button style1button" label="Contact Your Pro" onclick="{!c.ContactButtonClick}"/>
+            </div>
+        </div>
+    </div> 	
+</aura:component>

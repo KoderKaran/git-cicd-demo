@@ -1,0 +1,24 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Solution Guides</h1>
+             
+    <p class="slds-p-top_large text-paragraph">Use these handy guides to learn how to use your system.</p>
+   
+    <ul class="slds-p-top_large slds-list--dotted text-paragraph ">
+      <li><a href="https://www.control4.com/docs/product/control4-system/quick-start-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4 System Quick Start Guide</u></a></li>
+      <li><a href="http://ctrl4.co/user-entertain" class="slds-text-link text-paragraph" target="_blank"><u>Entertainment Guide</u></a></li>
+      <li><a href="http://ctrl4.co/intercom" class="slds-text-link text-paragraph" target="_blank"><u>Intercom Guide</u></a></li>
+      <li><a href="http://ctrl4.co/user-lighting" class="slds-text-link text-paragraph" target="_blank"><u>Lighting Guide</u></a></li>
+      <li><a href="http://ctrl4.co/security" class="slds-text-link text-paragraph" target="_blank"><u>Safety and Security Guide</u></a></li>
+      <li><a href="http://ctrl4.co/user-climate" class="slds-text-link text-paragraph" target="_blank"><u>Climate and Comfort Guide</u></a></li>
+      <li><a href="http://ctrl4.co/user-automations" class="slds-text-link text-paragraph" target="_blank"><u>Automations Guide</u></a></li>
+      <li><a href="https://www.control4.com/docs/product/control4-app/quick-reference/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>Control4 App Reference Guide</u></a></li>
+    </ul>
+
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

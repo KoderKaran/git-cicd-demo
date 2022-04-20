@@ -1,0 +1,472 @@
+.THIS {
+	color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    margin-right: -12.5px;
+    margin-left: -12.5px;
+        width: 95%;
+}
+
+.THIS :before{
+    /*content: " ";*/
+    display: table;
+}
+
+.THIS :after {
+    /*content: " ";*/
+    display: table;
+    clear: both;
+}
+
+.THIS .row [class^="col-"] {
+    padding-right: 12.5px;
+    padding-left: 12.5px;
+}
+
+.THIS .row [class*=" col-"] {
+    padding-right: 12.5px;
+    padding-left: 12.5px;
+}
+
+.THIS div {
+    display: block;
+    position: relative;
+}
+
+.THIS * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.THIS .margin-bottom {
+    margin-bottom: 25px;
+}
+
+.THIS .flex {
+    display: flex;
+    width: 100%;
+}
+
+.THIS .border-bottom {
+    border-bottom: 1px solid #e2e0e0;
+}
+
+.THIS .margin-top {
+    margin-top: 25px;
+}
+
+.THIS .flex .flex-75 {
+    width: 75px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.THIS .flex .flex-stretch {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.THIS a {
+    background-color: transparent;
+    color: #8a2432;
+}
+
+.THIS * a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.THIS .block {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.THIS .text-light-grey {
+    color: #cecccc;
+}
+
+.THIS .count {
+    margin: 0 5px 2px 5px;
+    width: 28px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.THIS .userimg {
+    display: block;
+    height: 60px;
+    width: 60px;
+    background-color: #f0eeee;
+    background-size: cover;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+.THIS .bold {
+    font-weight: 600 !important;
+}
+
+.THIS .no-margin {
+    margin-top: 15px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+.THIS .text-success {
+    color: #c5b92f !important;
+}
+
+.THIS p {
+    margin: 0px 0px 25px 0px;
+    padding: 0px;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.THIS .tags {
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+
+.THIS .tags a {
+       display: inline-block;
+    padding: 0 10px;
+    margin: 0 5px 10px 0;
+    height: 25px;
+    color: #8a878a;
+    font-size: 12.30769px;
+    line-height: 24px;
+    background-color: #f0eeee;
+    border-radius: 13px;
+}
+
+.THIS small {
+    display: inline-block;
+    color: #8a878a;
+    font-size: 12.30769px;
+    font-style: italic;
+    line-height: 18px;
+    font-size: 80%;
+}
+
+.THIS textarea {
+    padding-top: 20px;
+    height: calc(15px + 25px*4);
+    line-height: normal;
+    resize: vertical;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    color: #000;
+    font-size: 16px;
+    background-color: #e8e8e8;
+    border-width: 0;
+    border-color: transparent;
+    border-radius: 0px;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    font: inherit;
+    -webkit-writing-mode: horizontal-tb !important;
+}
+
+.THIS  button.light-grey {
+    color: black;
+    background-color: #cecccc;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    /*color: #fff;*/
+    text-align: center;
+    margin-top: 15px;
+}
+
+.THIS button {
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    line-height: 18px;
+    border-width: 0;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    max-width: 250px;
+    overflow: visible;
+    font: inherit;
+}
+
+.THIS button:active {
+    background-color: #8a2432;
+    box-shadow: none;
+}
+
+.THIS button:not([disabled]):hover {
+    color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+}
+
+.THIS i {
+    position: relative;
+    margin: 0 5px;
+    font-size: 100%;
+    line-height: 16px;
+}
+
+.THIS button i {
+    position: relative;
+    margin: 0 10px;
+    font-size: 150%;
+    line-height: 16px;
+}
+
+.THIS .fal {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-size: 2rem;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-family: 'Font Awesome\ 5 Pro';
+    font-weight: 300;
+}
+
+.THIS .fa-paperclip:before {
+    content: "\f0c6";
+}
+
+.THIS * a.active {
+    color: #000;
+}
+
+.THIS * a:hover {
+    color: #c32032;
+}
+
+.THIS .slds-file-selector__text {
+  display: none;
+}
+
+.THIS .slds-button_neutral {
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: #cecccc!important;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgb(206, 204, 204);
+    -webkit-transition: border .15s linear;
+    transition: border .15s linear;
+    border-color: #f4f4f4;
+    color: #491300;
+    border-radius: 0;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+} 
+
+.THIS .slds-button--neutral {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: #cecccc !important;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgb(206, 204, 204);
+    -webkit-transition: border .15s linear;
+    transition: border .15s linear;
+    border-color: #f4f4f4;
+    color: #491300;
+    border-radius: 0px;
+}
+
+.THIS span.slds-file-selector__button.slds-button.slds-button_neutral:hover {
+    color: #fff!important;
+    background-color: #c32032!important;
+    border-color: transparent!important;
+}
+
+.THIS a.text-grey:hover {
+    color: #c32032;
+}
+
+.THIS.uppercase{
+    text-transform:uppercase !important;
+    margin-top: 10px;
+    padding:0px;
+    color:inherit;
+
+    margin-bottom: 26px;
+    font-weight:300;
+    line-height:1.1em;
+    font-size: 24px;
+    padding-left: 35px;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+.THIS.col-lg-8 {
+    margin-bottom: 30px;
+    padding-left: 30px;
+    color: #000;
+     font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-style: normal;
+    letter-spacing: normal;
+    text-transform: none;
+}
+.THIS .feedItem {
+    font-weight: 600 !important;
+}
+.THIS .slds-file-selector__button {
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    /*background-color: #8a2432;*/
+    border-color: transparent;
+}
+.THIS textarea {
+        padding-top: 20px;
+    height: calc(15px + 25px*4);
+    line-height: normal;
+    resize: vertical;
+}
+.THIS textarea::placeholder {
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    text-transform: uppercase;
+}
+.THIS .slds-col--padded.slds-size--12-of-12.slds-medium-size--4-of-12.slds-large-size--4-of-12.comm-layout-column {
+
+    border-left-style: groove;
+    border-left-width: 2px;
+}
+
+.THIS .slds-size--12-of-12 {
+      padding-right: 30px;
+}
+.THIS .slds-form-element__label {
+    display: none;
+}
+.THIS .slds-form-element__control {
+    margin-top: 0px;
+    height: 82px;
+}
+.THIS .pointer {
+    pointer-events: none;
+}
+.THIS .slds-file-selector__button {
+    pointer-events: auto;
+}
+.THIS .pointerTrue {
+    pointer-events: auto;
+}
+
+.THIS .slds-file--card {
+    width: 80%;
+}
+
+.THIS .slds-file__title_card {
+    height: 40%;
+}
+
+.THIS [is=lightning-input][lightning-input_input], .THIS lightning-input[lightning-input_input] {
+    display: inline-block;
+    height: 20%;
+}
+
+.THIS .uploadFile {
+    width: 250px;
+    max-width: 250px;
+}
+
+.THIS .slds-file-selector.slds-file-selector_files {
+    width: 100%;
+}
+
+.THIS .slds-file-selector__dropzone {
+    padding: 0px;
+    border: 0px dashed #f4f4f4;
+    width: 100%;
+}
+
+.THIS .slds-file-selector__dropzone .slds-file-selector__button .slds-button__icon {
+    display: none;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button{
+    font-size: 0;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button:before{
+    content: 'Upload File';
+    font-size: 12.30769px;
+    color: #000;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button:hover:before{
+    color: #fff!important;
+}

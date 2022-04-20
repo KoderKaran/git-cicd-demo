@@ -1,0 +1,24 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Control4 Music Driver</h1>
+       
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4  slds-align_absolute-center slds-p-bottom_large">
+              		<img src="https://res.cloudinary.com/control4/image/upload/e_trim/c_pad,w_120,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Add-Music.svg"/>   
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-p-bottom_medium"  >
+                  <p class="text-paragraph text-paragraph">The new Add Music driver gives homeowners the ability to add any supported native
+                    streaming music service to their Control4 system from a touch screen or the Control4
+                    app. With the Add Music driver installed on a updated Control4 system running OS 2.10.4
+                    or higher, homeowners won’t have to worry about scheduling an appointment to add a
+                      new music service in the future. To install the Control4 Music Driver, contact your Control4 Pro.</p>
+                </div>
+            </div>           
+		</div>       
+    </div> 
+    
+    <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+</aura:component>

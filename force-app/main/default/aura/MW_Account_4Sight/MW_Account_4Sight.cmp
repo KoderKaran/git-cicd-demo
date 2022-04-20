@@ -1,0 +1,36 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large">4Sight</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+            <p class="text-paragraph">If you're living in a Control4 Smart Home, get connected like never before. With a<br />
+            yearly 4Sight subscription, you’ll get the most out of your smart home with added<br />
+            hands-on personalization, voice control, and mobile access.</p>
+        </div>
+        <div class="slds-p-top_large">
+        	<lightning:button class="slds-button style1button" label="Get 4Sight Now" onclick="{!c.Get4SightNowButtonClick}"/>
+		</div>	
+        <div class="slds-p-top_small">
+        	<lightning:button class="slds-button style1button" label="How to fix a subscription fee tax error?" onclick="{!c.TaxErrorButtonClick}"/>            
+		</div>	
+        <div class="slds-p-top_small">
+        	<lightning:button class="slds-button style1button" label="How to cancel 4Sight auto-renewal" onclick="{!c.Cancel4SightButtonClick}"/>            
+		</div>
+        <div class="slds-p-top_small">
+        	<lightning:button class="slds-button style1button" label="How to update your credit card" onclick="{!c.CreditCardButtonClick}"/>            
+		</div>
+        <div class="slds-p-top_large">
+            <p class="text-paragraph">Questions about your invoice?<br />
+				<a href="mailto:4sight@control4.com" class="slds-text-link text-paragraph"><u>4sight@control4.com</u></a>
+			</p>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

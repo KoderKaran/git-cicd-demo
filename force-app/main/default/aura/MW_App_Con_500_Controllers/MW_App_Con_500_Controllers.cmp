@@ -1,0 +1,65 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+   
+    <p class="slds-p-top_large text-paragraph bold">Choose Your Main Controller</p>
+
+    <div class="slds-p-top_large">
+        <div class="slds-scrollable_y" style="max-height: 28rem;" >    
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_EA-5-Front.png"/> 
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <lightning:button aura:id="ea5Button" class="slds-button style1button" label="EA-5" onclick="{!c.EA5TroubshootClick}"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_EA-3-Front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">     
+                  <lightning:button aura:id="ea3Button" class="slds-button style1button" label="EA-3" onclick="{!c.EA3TroubshootClick}"/>      
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_EA-1-Front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <lightning:button aura:id="ea1Button" class="slds-button style1button" label="EA-1" onclick="{!c.EA1TroubshootClick}"/>      
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/customer-support-controllers-ca-10-front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <lightning:button aura:id="ea10Button" class="slds-button style1button" label="CA-10" onclick="{!c.CA10TroubshootClick}"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_CA-1-Front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <lightning:button aura:id="ca1Button" class="slds-button style1button" label="CA-1" onclick="{!c.CA1TroubshootClick}"/>      
+              </div>            
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_HC250-Front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <lightning:button aura:id="HC250Button" class="slds-button style1button" label="HC-250" onclick="{!c.HC250TroubshootClick}"/>      
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_330,h_160,f_auto,q_auto/customer-support/Controllers_HC800-Front.png"/>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-align_absolute-center" >
+                 <lightning:button aura:id="HC800Button" class="slds-button style1button" label="HC-800" onclick="{!c.HC800TroubshootClick}"/>      
+              </div>  
+        	</div>
+    	</div>
+    </div>
+    
+        <div class="slds-grid slds-wrap slds-p-top_x-large">
+        	<div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            	<lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>      
+        	</div>
+        	<div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            	<div class="slds-float_right">
+        			<lightning:button aura:id="IDKButton" class="slds-button style1button" label="I Don't Know" onclick="{!c.IDKClick}"/>         	 	
+            	</div>
+        	</div>
+        </div>	
+</aura:component>

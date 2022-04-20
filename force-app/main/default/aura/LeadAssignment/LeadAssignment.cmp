@@ -1,0 +1,157 @@
+<aura:component controller="LeadAssignmentController" implements="flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId">
+
+    <aura:attribute type="String" name="leadId" default=""/>
+    <aura:attribute type="List" name="dealers" default="[]"/>
+    <aura:attribute type="List" name="sendImmediately" default="[]"/>
+    <aura:attribute type="List" name="sendLater" default="[]"/>
+    <aura:attribute type="String" name="hours" default="24" />
+    <aura:attribute type="Boolean" name="disabledSent" default="false" />
+    <!--<aura:handler event="aura:waiting" action="{!c.toggleSpinner}"/>-->
+    <!--<aura:handler event="aura:doneWaiting" action="{!c.toggleSpinner}"/>-->
+
+    <!--<lightning:spinner variant="brand" size="large" aura:id="mySpinner" class="slds-hide"/>-->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <div class="lead-assignment">
+        <div>
+            <span class="slds-text-heading--medium">
+                Lead to Dealer Assignment
+            </span>
+            <!-- <button class="slds-button slds-button_icon slds-float_right" onclick="{!c.openSetup}">
+                <lightning:icon iconName="utility:settings"/>
+                <span class="slds-assistive-text">Setup</span>
+            </button> -->
+        </div>
+        <div class="available-dealers">
+            <div class="header">
+                <span>
+                <lightning:icon iconName="standard:lead"/>
+                </span>
+                <span>
+                    <span>Available Dealers</span>
+                </span>
+                <span>
+                    <lightning:button variant="neutral" label="Save" onclick="{!c.sendLeads}" disabled="{!v.disabledSent}"/>
+                    <lightning:button variant="neutral" label="Clear" onclick="{!c.closeModal}" />
+                </span>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div>
+                    <div>
+                        <span>Dealer</span>
+                        <span>Phone</span>
+                        <span><span>Certified</span><br/><span>Showroom</span></span>
+                        <span>Premier Status</span>
+                        <span>Score</span>
+                        <span>Miles</span>
+                        <span>Leads Sent</span>
+                    </div>
+                    <div class="slds-scrollable_y dealers-output">
+                        <ul aria-multiselectable="true" class="slds-listbox slds-listbox_vertical">
+                          <aura:iteration items="{!v.dealers}" var="dealer" indexVar="index">
+                            <li id="{!'dealers_' + index}" class="slds-listbox__item" onclick="{!c.selectDealersItem}">
+
+                                <div title="{!dealer.addressString1 + if(dealer.addressString2 != '', '&#13;') + dealer.addressString2
+                                    + if(dealer.addressString3 != '', '&#13;') + dealer.addressString3}" class="{!'slds-listbox__option
+                                    slds-listbox__option_plain slds-media slds-media_small slds-media_inline' + if(dealer.isSelected,
+                                    ' slds-is-selected', '')}" aria-selected="{!dealer.isSelected}">
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.name}</span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.phone}</span>
+                                    </span>
+                                    <span class="{!v.dealers.length > 18 ? 'slds-media__body' : 'smaller-size slds-media__body'}">
+                                        <span class="slds-truncate">
+                                            <aura:renderIf isTrue="{!dealer.showroom}">
+                                                <lightning:icon iconName="utility:check"/>
+                                            </aura:renderIf>
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.level}</span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.score}</span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.milesFromLead}</span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate">{!dealer.leadsSent}</span>
+                                    </span>
+                              </div>
+                            </li>
+                          </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+                <div class="arrows-area">
+                    <span>
+                        <button class="slds-button slds-button_icon" onclick="{!c.moveToNow}">
+                            <lightning:icon iconName="utility:right"/>
+                        </button>
+                        <button class="slds-button slds-button_icon" onclick="{!c.moveFromNow}">
+                            <lightning:icon iconName="utility:left"/>
+                        </button>
+                    </span>
+                    <span>
+                        <button class="slds-button slds-button_icon" onclick="{!c.moveToLater}">
+                            <lightning:icon iconName="utility:right"/>
+                        </button>
+                        <button class="slds-button slds-button_icon" onclick="{!c.moveFromLater}">
+                            <lightning:icon iconName="utility:left"/>
+                        </button>
+                    </span>
+                </div>
+                <div>   
+                    <span class="header-dealer">Send Immediately</span>    
+                    <div class="send-immediately slds-scrollable_y">
+                        <ul aria-multiselectable="true" class="slds-listbox slds-listbox_vertical">
+                          <aura:iteration items="{!v.sendImmediately}" var="dealer" indexVar="index">
+                            <li id="{!'sendImmediately_' + index}" class="slds-listbox__item" onclick="{!c.selectNowItem}">
+                              <div class="{!'slds-listbox__option slds-listbox__option_plain slds-media slds-media_small slds-media_inline' + if(dealer.isSelected, ' slds-is-selected', '')}" aria-selected="{!dealer.isSelected}">
+                                <span class="slds-media__body">
+                                    <span class="dealers-spans slds-truncate"><span title="{!dealer.name}" class="slds-truncate">{!dealer.name}</span>
+                                        <aura:renderIf isTrue="{!dealer.phone != null &amp;&amp; dealer.phone != ''}">
+                                            <span title="{!dealer.phone}" class="slds-truncate">{!dealer.phone}</span>
+                                        </aura:renderIf>
+                                    </span>
+                                </span>
+                              </div>
+                            </li>
+                          </aura:iteration>
+                        </ul>
+                    </div>
+                    <div class="send-in slds-form-element__control">
+                        <div class="middle-aligned">
+                            <span>Send in</span>
+                            <span class="number-input">
+                                <lightning:input type="number" min="1" step="1" maxlength="2" value="{!v.hours}" />
+                            </span>
+                            <span>hours</span>
+                        </div>
+                    </div>
+                    <div class="send-later slds-scrollable_y">
+                        <ul aria-multiselectable="true" class="slds-listbox slds-listbox_vertical">
+                          <aura:iteration items="{!v.sendLater}" var="dealer" indexVar="index">
+                            <li id="{!'sendLater_' + index}" class="slds-listbox__item" onclick="{!c.selectLaterItem}">
+                              <div class="{!'slds-listbox__option slds-listbox__option_plain slds-media slds-media_small slds-media_inline' + if(dealer.isSelected, ' slds-is-selected', '')}" aria-selected="{!dealer.isSelected}">
+                                <span class="slds-media__body">
+                                   <span class="dealers-spans slds-truncate"><span title="{!dealer.name}" class="slds-truncate">{!dealer.name}</span>
+                                        <aura:renderIf isTrue="{!dealer.phone != null &amp;&amp; dealer.phone != ''}">
+                                            <span title="{!dealer.phone}" class="slds-truncate">{!dealer.phone}</span>
+                                        </aura:renderIf>
+                                    </span>
+                                </span>
+                              </div>
+                            </li>
+                          </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,188 @@
+<aura:component controller="CustomChatterFeedListController" implements="forceCommunity:availableForAllPageTypes,force:hasRecordId">
+	<aura:attribute name="userId" type="String" default=""/>
+	<aura:attribute name="questionsType" type="String" default="Latest"/>
+	<aura:attribute name="date" type="String" default="Latest"/>
+	<aura:attribute name="feeds" type="sObject[]" default=""/>
+	<aura:attribute name="currentPage" type="Integer" default="1"/>
+	<aura:attribute name="totalPages" type="Integer"/>
+
+	<aura:attribute name="numOfRecords" type="Integer" default="3" access="global"/>
+	<aura:attribute name="isThisQuestionListPage" type="Boolean" default="false" access="global"/>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+	<!-- <aura:handler event="c:FilterDataByTopicName" action="{!c.filterData}"/> -->
+
+	<ltng:require styles="{!join(',', 
+	    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css',
+	    	$Resource.FontAwesomeMinCss,
+	    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}" />
+
+    <ltng:require styles="{!$Resource.TechnicianCommunityResources_1 + '/TechnicianCommunityResources/css/style2.css'}" />
+
+    <div class="row">
+		<div class="col-md-8">
+			<div class="row">
+				<div class="slds-grid">
+					<div class="slds-col slds-size_1-of-2">
+						<h2 class="uppercase">Great<br/><strong>Questions</strong></h2>
+					</div>
+
+					<aura:if isTrue="{! v.isThisQuestionListPage == true}">
+						<div class="slds-col slds-size_1-of-2">
+							<div class="technician">
+								<!-- filters -->	
+								<ul class="inline text-right">
+									<aura:if isTrue="{! v.questionsType == 'Latest'}">
+										<li><button class="transparent active" onclick="{!c.filterQuestions}" value="Latest">Latest</button></li>
+										<aura:set attribute="else">
+											<li><button class="transparent" onclick="{!c.filterQuestions}" value="Latest">Latest</button></li>
+										</aura:set>
+									</aura:if>
+									<aura:if isTrue="{! v.questionsType == 'Week'}">
+										<li><button class="transparent active" onclick="{!c.filterQuestions}" value="Week">Week</button></li>
+										<aura:set attribute="else">
+											<li><button class="transparent" onclick="{!c.filterQuestions}" value="Week">Week</button></li>
+										</aura:set>
+									</aura:if>
+									<aura:if isTrue="{! v.questionsType == 'All Time'}">
+										<li><button class="transparent active" onclick="{!c.filterQuestions}" value="All Time">All Time</button></li>
+										<aura:set attribute="else">
+											<li><button class="transparent" onclick="{!c.filterQuestions}" value="All Time">All Time</button></li>
+										</aura:set>
+									</aura:if>
+									<aura:if isTrue="{! v.questionsType == 'Unanswered'}">
+										<li><button class="transparent active" onclick="{!c.filterQuestions}" value="Unanswered">Unanswered</button></li>
+										<aura:set attribute="else">
+											<li><button class="transparent" onclick="{!c.filterQuestions}" value="Unanswered">Unanswered</button></li>
+										</aura:set>
+									</aura:if>
+								</ul>
+							
+							</div>
+						</div>
+					</aura:if>
+				</div>
+			</div>
+
+			<aura:if isTrue="{!empty(v.feeds)}">
+			   <h2>There are no records.</h2>
+			   <aura:set  attribute="else"  >
+			   		<aura:if isTrue="{! v.questionsType != 'Latest'}">
+						<div class="paginationBlock">
+							<aura:if isTrue="{! v.currentPage == 1}" >
+								<div class="pageLeft">
+									<i class="fa fa-angle-double-left disabledIcon"></i>
+									<i class="fa fa-angle-left disabledIcon"></i>
+								</div>
+								<aura:set  attribute="else">
+									<div class="pageLeft">
+										<i class="fa fa-angle-double-left activeIcon" onclick="{!c.firstPage}"></i>
+										<i class="fa fa-angle-left activeIcon" onclick="{!c.prevPage}"></i>
+									</div>
+								</aura:set>
+							</aura:if>
+							<!-- <lightning:input class="inputPage" id="pageNumber" value="{!v.currentPage}" onkeydown="{!c.getPageNumber}"/>&nbsp;&nbsp;/&nbsp;&nbsp;{!v.totalPages} -->
+							{!v.currentPage}&nbsp;&nbsp;/&nbsp;&nbsp;{!v.totalPages}
+							<aura:if isTrue="{! v.currentPage == v.totalPages}" >
+								<div class="pageRight">
+									<i class="fa fa-angle-right disabledIcon"></i>
+									<i class="fa fa-angle-double-right disabledIcon"></i>
+								</div>
+								<aura:set  attribute="else">
+									<div class="pageRight">
+										<i class="fa fa-angle-right activeIcon" onclick="{!c.nextPage}"></i>
+										<i class="fa fa-angle-double-right activeIcon" onclick="{!c.lastPage}"></i>
+									</div>
+								</aura:set>
+							</aura:if>
+						</div>
+					</aura:if>
+			   		<aura:iteration items="{!v.feeds}" var="feed">		
+					<!-- question -->
+					<div class="flex margin-bottom">
+						<div class="flex-75">
+							<div class="{!if(feed.myVote == 'Up','slds-show','slds-hide')}">
+								<a href="" class="block text-grey" onclick="{!c.upvoteFeedItem}" id="{!feed.feedItem.Id}" name="{!feed.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+							</div>
+							<div class="{!if(feed.myVote != 'Up','slds-show','slds-hide')}">
+								<a href="" class="block text-light-grey" onclick="{!c.upvoteFeedItem}" id="{!feed.feedItem.Id}" name="{!feed.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+							</div>
+
+							<div class="count">{!feed.countVote}</div>
+
+							<div class="{!if(feed.myVote == 'Down','slds-show','slds-hide')}">
+								<a href="" class="block text-grey" onclick="{!c.downvoteFeedItem}" id="{!feed.feedItem.Id}" name="{!feed.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+							</div>
+							<div class="{!if(feed.myVote != 'Down','slds-show','slds-hide')}">
+								<a href="" class="block text-light-grey" onclick="{!c.downvoteFeedItem}" id="{!feed.feedItem.Id}" name="{!feed.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+							</div>
+						</div>
+						<div class="flex-75">
+							<!-- <a href="{!'profile/' + feed.user.Id}"><div class="userimg" style="{!'background-image: url(' + feed.userPhoto + ')'}" title="{! feed.user.Contact.FirstName + '&nbsp;' + feed.user.Contact.LastName + '\n'+feed.user.Account.Name}"></div></a> -->
+							<!-- <aura:if isTrue="{! feed.userPhoto != ''}">
+								<a href="{!'profile/' + feed.user.Id}"><div class="userimg" style="{!'background-image: url(' + feed.userPhoto + ')'}" title="{! feed.user.Contact.FirstName + '&nbsp;' + feed.user.Contact.LastName + '\n'+feed.user.Account.Name}"></div></a>
+								<aura:set attribute="else">
+									<a href="{!'profile/' + feed.user.Id}"><div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultProfileAvatar + ')'}" title="{! feed.user.Contact.FirstName + '&nbsp;' + feed.user.Contact.LastName + '\n'+feed.user.Account.Name}"></div></a>
+								</aura:set>
+							</aura:if> -->
+							<div class="{!if(feed.userPhoto == '','slds-show','slds-hide')}">
+								<a href="{!'profile/' + feed.user.Id}"><div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultProfileAvatar + ')'}" title="{! feed.user.Contact.FirstName + '&nbsp;' + feed.user.Contact.LastName + '\n'+feed.user.Account.Name}"></div></a>
+							</div>
+							<div class="{!if(feed.userPhoto == '','slds-hide','slds-show')}">
+								<a href="{!'profile/' + feed.user.Id}"><div class="userimg" style="{!'background-image: url(' + feed.userPhoto + ')'}" title="{! feed.user.Contact.FirstName + '&nbsp;' + feed.user.Contact.LastName + '\n'+feed.user.Account.Name}"></div></a>
+							</div>
+						</div>
+						<div class="flex-stretch">
+							<a href="{!'question/' + feed.feedItem.Id}" class="text-dark">
+								<div class="clip-7-lines">
+									<h3><p>{!feed.feedItem.Title}</p></h3>
+								</div>
+							</a>
+							<a href="{!'question/' + feed.feedItem.Id}" class="text-dark">
+								<div class="clip-3-lines">
+									<ui:outputRichText class="slds-text-longform" value="{!feed.feedItem.Body}"/>
+								</div>
+							</a>
+							<small><span class="{!if(feed.feedItem.BestCommentId == null, 'slds-hide', 'answered')}"><i class="fal size fa-check"></i>Answered | </span>
+							<span>{!feed.views} views and {!feed.feedItem.CommentCount} responses | Question by {!feed.user.Contact.FirstName}&nbsp;{!feed.user.Contact.LastName} | <lightning:formattedDateTime value="{!feed.feedItem.CreatedDate}"
+	                                 year="numeric" month="long" day="2-digit" hour="2-digit"
+	                                 minute="2-digit"/></span></small>
+						</div>
+					</div>
+					</aura:iteration>
+					<aura:if isTrue="{! v.questionsType != 'Latest'}">
+						<div class="paginationBlock">
+							<aura:if isTrue="{! v.currentPage == 1}" >
+								<div class="pageLeft">
+									<i class="fa fa-angle-double-left disabledIcon"></i>
+									<i class="fa fa-angle-left disabledIcon"></i>
+								</div>
+								<aura:set  attribute="else">
+									<div class="pageLeft">
+										<i class="fa fa-angle-double-left activeIcon" onclick="{!c.firstPage}"></i>
+										<i class="fa fa-angle-left activeIcon" onclick="{!c.prevPage}"></i>
+									</div>
+								</aura:set>
+							</aura:if>
+							<!-- <lightning:input class="inputPage" id="pageNumber" value="{!v.currentPage}" onkeydown="{!c.getPageNumber}"/>&nbsp;&nbsp;/&nbsp;&nbsp;{!v.totalPages} -->
+							{!v.currentPage}&nbsp;&nbsp;/&nbsp;&nbsp;{!v.totalPages}
+							<aura:if isTrue="{! v.currentPage == v.totalPages}" >
+								<div class="pageRight">
+									<i class="fa fa-angle-right disabledIcon"></i>
+									<i class="fa fa-angle-double-right disabledIcon"></i>
+								</div>
+								<aura:set  attribute="else">
+									<div class="pageRight">
+										<i class="fa fa-angle-right activeIcon" onclick="{!c.nextPage}"></i>
+										<i class="fa fa-angle-double-right activeIcon" onclick="{!c.lastPage}"></i>
+									</div>
+								</aura:set>
+							</aura:if>
+						</div>
+					</aura:if>
+			   </aura:set>
+			</aura:if>
+			<!-- <a href="ask-question" class="c4btn light-grey"><i class="fal fa-question-circle"></i>Ask A Question</a> -->
+		</div>
+	</div>
+</aura:component>

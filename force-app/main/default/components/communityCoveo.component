@@ -1,0 +1,120 @@
+<apex:component ><div id="search" class="CoveoSearchInterface" data-enable-history="true" data-design="new" data-excerpt-length="" data-results-per-page="" data-maximum-age="">
+
+<div class="CoveoAnalytics"></div>
+<div class="coveo-tab-section" style="display: none;">
+    
+<a class="CoveoTab" data-id="All" data-caption="All Content" data-expression="@objecttype==(FeedItem)"></a></div>
+<div class="coveo-search-section" style="display: none;"><div class="CoveoCommunityStateManager"></div></div>
+<div class="coveo-main-section">
+    <div class="coveo-facet-column"><div class="CoveoFacet" data-title="Object Type" data-field="@objecttype" data-tab="All"></div><div class="CoveoFacet" data-title="Account Name" data-field="@sfaccountname" data-tab="All"></div><div class="CoveoFacet" data-title="Owner" data-field="@sfownername" data-tab="All"></div><div class="CoveoFacet" data-title="Created By" data-field="@sfcreatedbyname" data-tab="All"></div><div class="CoveoFacet" data-title="Type" data-field="@sftype" data-tab="All"></div></div>
+    <div class="coveo-results-column" style="margin; 0px;">
+        
+        
+        <div class="CoveoTriggers"></div>
+        <div class="CoveoBreadcrumb"></div>
+        <div class="CoveoDidYouMean"></div>
+        <div class="coveo-results-header" style="display: none;">
+            <div class="coveo-summary-section">
+                <span class="CoveoQuerySummary"></span>
+                <span class="CoveoQueryDuration"></span>
+            </div>
+            <div class="coveo-result-layout-section">
+                <span class="CoveoResultLayout"></span>
+            </div>
+            <div class="coveo-sort-section">
+                <span class="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance"></span>
+<span class="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date"></span>
+            </div>
+        </div>
+        <div class="CoveoHiddenQuery"></div>
+        <div class="CoveoErrorReport" data-pop-up="false"></div>
+        <h2 style="margin: 0px; text-align: left; text-transform:uppercase !important; font-weight:600 !important; color:inherit; line-height:1.1em; font-family: &apos;Montserrat&apos;,&apos;Gotham&apos;,&apos;Gotham SSm A&apos;,&apos;Gotham SSm B&apos;,&apos;Helvetica Neue&apos;,Calibri,Arial;">Search</h2>
+        <div class="CoveoResultList" data-layout="list" data-wait-animation="fade" data-auto-select-fields-to-include="true" data-infinite-scroll-page-size="15" data-fields-to-include="@SfCreatedDate" style="padding: 0px;" data-enable-infinite-scroll="true">
+            <div class="coveo-show-if-no-results" style="max-width: 100%; margin: 0px; text-align: left;">No results.</div>
+            <script id="SalesforceQuestionPost" class="result-template" type="text/html" data-field-sftype="QuestionPost"><div class="coveo-result-frame">
+    
+    <div class="coveo-result-cell" style="vertical-align: top;">
+        <div class="coveo-result-row" style="margin-top:0;">
+            <div class="coveo-result-cell coveo-no-wrap" style="vertical-align: top; font-size: 16px;"><a class="CoveoSalesforceResultLink" style="text-decoration: none; padding-right: 6px;"><span class="CoveoText" data-value="QUESTION |" style="color: #8a2432; font-size: 16px; letter-spacing: 0.1em; font-weight: 600;"></span></a><a class="CoveoSalesforceResultLink" style="text-transform: uppercase; color: #000; font-weight: 600; text-decoration: none;"></a></div>
+            
+        </div>
+        <div class="coveo-result-row">
+            <div class="coveo-result-cell">
+                <a class="CoveoSalesforceResultLink" style="color: #000; text-decoration: none;">
+                    <div class="bodyHover">
+                        <span class="CoveoFieldValue" data-field="@sfbody" data-html-value="true"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="coveo-result-row" style="font-size: 12px;margin-top:8px;">
+            <div class="coveo-result-cell coveo-no-wrap" style="vertical-align: top;">
+                <div class="italicText">
+                    <span class="CoveoText" data-value="Question by" style="padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@sfcreatedbyname"></span>
+                    <span class="CoveoText" data-value="|" style="padding-left: 2px; padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@SfCreatedDate" data-helper="dateTime" data-html-value="false" data-helper-options-always-include-time="true" data-helper-options-include-time-if-this-week="false" data-helper-options-include-time-if-today="false" data-helper-options-use-today-yesterday-and-tomorrow="false" data-helper-options-use-weekday-if-this-week="false" data-helper-options-omit-year-if-current-one="false" data-helper-options-use-long-date-format="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></script><script id="SalesforceChatter" class="result-template" type="text/html" data-field-objecttype="FeedItem,FeedComment"><div class="coveo-result-frame" style="border: none;">
+    
+    <div class="coveo-result-cell" style="vertical-align: top; border: none;">
+        <div class="coveo-result-row" style="margin-top:0;">
+            <div class="coveo-result-cell coveo-no-wrap" style="vertical-align: top; font-size: 16px;"><a class="CoveoSalesforceResultLink" style="text-decoration: none; padding-right: 6px;"><span class="CoveoText" data-value="QUESTION |" style="color: #8a2432; font-size: 16px; letter-spacing: 0.1em; font-weight: 600;"></span></a><a class="CoveoSalesforceResultLink" style="text-transform: uppercase; color: #000; font-weight: 600; text-decoration: none;"></a></div>
+        </div>
+        <div class="coveo-result-row" style="margin-top:12px;">
+            <div class="coveo-result-cell">
+                <a class="CoveoSalesforceResultLink" style="color: #000; text-decoration: none;">
+                    <div class="bodyHover">
+                        <span class="CoveoFieldValue" data-field="@sfbody" data-html-value="true"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="coveo-result-row" style="margin-top:8px;">
+            <div class="coveo-result-cell coveo-no-wrap" style="vertical-align: top; font-size: 12px;">
+                <div class="italicText">
+                    <span class="CoveoText" data-value="Question by" style="padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@sfcreatedbyname"></span>
+                    <span class="CoveoText" data-value="|" style="padding-left: 2px; padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@SfCreatedDate" data-helper="dateTime" data-html-value="false" data-helper-options-always-include-time="true" data-helper-options-include-time-if-this-week="false" data-helper-options-include-time-if-today="false" data-helper-options-use-today-yesterday-and-tomorrow="false" data-helper-options-use-weekday-if-this-week="false" data-helper-options-omit-year-if-current-one="false" data-helper-options-use-long-date-format="true"></span>
+                </div>
+        </div>
+    </div>
+</div></script><script id="SalesforceFeedComment" class="result-template" type="text/html" data-field-objecttype="FeedComment"><div class="coveo-result-frame">
+    <div class="coveo-result-cell" style="vertical-align: top;width: 46px;">
+        <span class="CoveoIcon" data-small="true"></span>
+    </div>
+    <div class="coveo-result-cell" style="vertical-align: top;">
+        <div class="coveo-result-row" style="margin-top:0;">
+            <div class="coveo-result-cell" style="vertical-align: top; font-size: 14px;">
+                <a class="CoveoSalesforceResultLink" style="color: #000; text-decoration: none;">
+                    <div class="bodyHover">
+                        <span class="CoveoFieldValue" data-field="@sfbody" data-html-value="true"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="coveo-result-row" style="margin-top:8px;">
+            <div class="coveo-result-cell coveo-no-wrap" style="vertical-align: top; font-size: 12px;">
+                <div class="italicText">
+                    <span class="CoveoText" data-value="Question by" style="padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@sfcreatedbyname"></span>
+                    <span class="CoveoText" data-value="|" style="padding-left: 2px; padding-right: 2px;"></span>
+                    <span class="CoveoFieldValue" data-field="@SfCreatedDate" data-helper="dateTime" data-html-value="false" data-helper-options-always-include-time="true" data-helper-options-include-time-if-this-week="false" data-helper-options-include-time-if-today="false" data-helper-options-use-today-yesterday-and-tomorrow="false" data-helper-options-use-weekday-if-this-week="false" data-helper-options-omit-year-if-current-one="false" data-helper-options-use-long-date-format="true"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></script>
+        </div>
+        <div class="CoveoPager" style="display: none;"></div>
+        <div class="CoveoLogo" style="display: none;"></div>
+        <div class="CoveoResultsPerPage" style="display: none;"></div>
+    </div>
+    
+</div>
+</div>
+</apex:component>

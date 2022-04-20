@@ -1,0 +1,18 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Contact Dealer</h1>
+            
+    <p class="slds-p-top_large text-paragraph">We are sorry to hear you're still having an issue with your remote. If you need technical
+            support, contact your authorized Control4 Dealer. Your system was designed and
+            implemented with customizations just for you. Your authorized Control4 Dealer
+            knows your system and the best approach to resolving any questions
+            relating to your specific implementation. If you don’t have their contact information, <a href="https://customer.control4.com/" class="slds-text-link text-paragraph" target="_blank"><u>log in</u></a> to your Control4
+            account to obtain it. If you don’t have a Control4 Dealer, visit our <a href="https://www.control4.com/dealer_locator" class="slds-text-link text-paragraph" target="_blank"><u>Dealer Locator</u></a>.</p>        
+	
+    <div class="slds-p-top_small"> 
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>	
+</aura:component>

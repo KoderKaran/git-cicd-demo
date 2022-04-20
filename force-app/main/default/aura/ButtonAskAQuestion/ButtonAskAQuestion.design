@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="padding-top" label="String" description="padding-top" />
+    <design:attribute name="padding" label="String" description="padding" />
+</design:component>

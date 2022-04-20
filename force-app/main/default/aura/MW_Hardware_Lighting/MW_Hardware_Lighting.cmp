@@ -1,0 +1,39 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Lighting</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.TroubleShootingClick}" onmouseover="{!c.HoverTSImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'TS','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Troubleshooting.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'TS','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-troubleshooting.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Troubleshooting</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ElectricianClick}" onmouseover="{!c.HoverEImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'E','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Electrician.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'E','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-electrician.svg" /></div>
+                                       
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Electrician</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.LightingSolutionsClick}" onmouseover="{!c.HoverLGImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'LG','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Lighting-Guide.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'LG','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-lighting-guide.svg" /></div>
+                                        
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Lighting Guide</p>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>   
+</aura:component>

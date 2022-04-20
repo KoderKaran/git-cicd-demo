@@ -1,0 +1,11 @@
+<aura:component controller="AskAQuestionController" implements="forceCommunity:availableForAllPageTypes">
+	
+
+	<ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources_1 + '/TechnicianCommunityResources/img/photo_2018-06-14_11-42-15.jpg')}" />
+
+
+	<div>
+		<img src="{!$Resource.TechnicianCommunityResources_1 + '/TechnicianCommunityResources/img/photo_2018-06-14_11-42-15.jpg'}"></img>
+	</div>
+</aura:component>

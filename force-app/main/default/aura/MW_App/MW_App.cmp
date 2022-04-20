@@ -1,0 +1,201 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+
+ 	<aura:attribute name="DNAPath" type="String" default="" />
+    <aura:attribute name="NewDeviceBackBackButton" type="String" default="" /> 
+ 	<aura:attribute name="SkipTracker" type="String" default="" />     
+ 	<aura:attribute name="PreviousScreen" type="String" default="" />
+ 	<aura:attribute name="Trail" type="String" default="" />
+    <aura:attribute name="DeviceType" type="String" default="" />
+ 	<aura:attribute name="DeviceType_ForDNAPath" type="String" default="" />
+    <aura:attribute name="ScreenTitle" type="String" default="" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib2"/>    
+    
+    <div aura:id="MWAppBegin_Div">
+        <c:MW_App_Begin/>   
+    </div> 
+    <div aura:id="MWAppCon_Div">
+        <c:MW_App_Con/>   
+    </div>
+	<div aura:id="MWAppCon40321_Div">
+        <c:MW_App_Con_403_21/>
+    </div>
+	<div aura:id="MWAppCon40321Rem_Div">
+        <c:MW_App_Con_403_21_Rem/>
+    </div>
+	<div aura:id="MWAppCon40321Loc_Div">
+        <c:MW_App_Con_403_21_Loc/>
+    </div>
+	<div aura:id="MWAppCon40321LocDNAPath_Div">
+        <c:MW_App_Con_403_21_Loc_DNA_Path/>
+    </div>
+    <div aura:id="MWAppCon40321Loc1_Div">
+        <c:MW_App_Con_403_21_Loc_1/>
+    </div>
+	<div aura:id="MWAppConDNA_Div">
+        <c:MW_App_Con_DNA/>
+    </div>     
+	<div aura:id="MWAppConDNA_N_Div">
+        <c:MW_App_Con_DNA_N/>
+    </div>     
+	<div aura:id="MWAppSuccess_Div">
+        <c:MW_App_Success/>
+    </div>
+	<div aura:id="MWAppCon40321Loc1N_Div">
+        <c:MW_App_Con_403_21_Loc_1_N/>
+    </div>
+	<div aura:id="MWAppCon40321Loc2iOS_Div">       
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1> 
+        <c:MW_App_Con_403_21_Loc_2_iOS/>
+	</div>
+    <div aura:id="MWAppCon40321Loc2iOS1_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1> 
+        <c:MW_App_Con_403_21_Loc_2_iOS_1/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS2_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1> 
+        <c:MW_App_Con_403_21_Loc_2_iOS_2/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS3_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_3/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS4_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_4/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS5_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_5/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS6_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_6/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS7_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_7/>
+	</div>
+	<div aura:id="MWAppCon40321Loc2iOS8_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_iOS_8/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid/>
+	</div>
+    <div aura:id="MWAppCon40321Loc2Droid1_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_1/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid2_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_2/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid3_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_3/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid4_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_4/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid5_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_5/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid6_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_6/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid7_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_7/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid8_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_8/>
+	</div>                
+	<div aura:id="MWAppCon40321Loc2Droid9_Div">
+        <h1 class="slds-text-heading_large text-red">{!v.ScreenTitle}</h1>
+        <c:MW_App_Con_403_21_Loc_2_Droid_9/>
+	</div>       
+	<div aura:id="MWAppCon500_Div">
+        <c:MW_App_Con_500/>
+    </div>
+	<div aura:id="500_Title_Div">    
+    	<h1 class="slds-text-heading_large text-red">500</h1> 
+    </div>
+    <div aura:id="403Step3_Title_Div">    
+    	<h1 class="slds-text-heading_large text-red">403.21 - Step 3</h1> 
+    </div>
+    <div aura:id="403Step2_Title_Div">    
+    	<h1 class="slds-text-heading_large text-red">403.21 - Step 2</h1> 
+    </div>
+    <div aura:id="MWAppCon500Controllers_Div">
+        <c:MW_App_Con_500_Controllers/>
+    </div>   
+    <div aura:id="MWAppCon500_EA5_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA5/>
+    </div>   
+	<div aura:id="MWAppCon500_EA3_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA3/>
+    </div>   
+    <div aura:id="MWAppCon500_EA1_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA1/>
+    </div>
+    <div aura:id="MWAppCon500_CA10_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_CA10/>
+    </div>
+    <div aura:id="MWAppCon500_CA1_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_CA1/>
+    </div>
+    <div aura:id="MWAppCon500_HC250_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_HC250/>
+    </div>
+    <div aura:id="MWAppCon500_HC800_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_HC800/>
+    </div>   
+    <div aura:id="MWHardwareWatchContactUs_Div">
+        <c:MW_Hardware_Watch_ContactUs/>   
+    </div> 
+    <div aura:id="MWAppContactDealer_Div">
+        <c:MW_App_ContactDealer/>
+    </div> 
+    <div aura:id="MWAppNewDevice_Div">
+        <c:MW_App_NewDevice/>   
+    </div> 
+    <div aura:id="MWAppMusicServices_Div">
+        <c:MW_Hardware_Listen_Music/>   
+    </div>
+    <div aura:id="MWHardwareListenMusicDriver_Div">
+        <c:MW_Hardware_Listen_Music_Driver/>   
+    </div> 
+    <div aura:id="MWAppIntAnywhere_Div">
+        <c:MW_App_IntAnywhere/>   
+    </div>
+   
+   
+    <div aura:id="MWAppPCMac_Div">
+        <c:MW_App_PCMac/>   
+    </div>
+    <div aura:id="MWAppPCMacInstall_Div">
+        <c:MW_App_PCMac_Install/>   
+    </div>
+    <div aura:id="MWAppPCMacTroubleshoot_Div">
+        <c:MW_App_PCMac_Troubleshoot/>   
+    </div>  
+
+
+    <div aura:id="MWAppIntAnywhereGet_Div">
+        <c:MW_App_IntAnywhere_Get/>   
+    </div>
+    <div aura:id="MWAppIntAnywhereDoc_Div">
+        <c:MW_App_IntAnywhere_Doc/>   
+    </div>
+    <div aura:id="OS3IDK_Div">
+        <c:MW_App_Con_500_Controllers_IDK  aura:id="OS3IDK"/>
+    </div>    
+</aura:component>

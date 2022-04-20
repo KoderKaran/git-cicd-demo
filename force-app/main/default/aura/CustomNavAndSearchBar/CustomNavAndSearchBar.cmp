@@ -1,0 +1,31 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,forceCommunity:searchInterface" access="global">
+	<aura:attribute name="search" type="Aura.Component[]" required="false"/>
+	<ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css', 
+    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}" />
+	<div class="padding">
+		<div class="row no-margin slds-grid slds-wrap">
+			<div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+				<div class="nav">
+					<a href="" class="slds-text-link_reset" onclick="{!c.goToHome}">Home</a>
+					<a href="" class="slds-text-link_reset" onclick="{!c.goToQuestions}">Questions</a>
+					<!--  onclick="{!c.goToQuestions}" -->
+					<!-- <a href="" class="slds-text-link_reset" onclick="{!c.goToIdeas}">Ideas</a> -->
+					<!--  onclick="{!c.goToIdeas}" -->
+					<!-- <a href="" class="slds-text-link_reset" onclick="{!c.goToBlogs}">Blog</a> -->
+					<!--  onclick="{!c.goToBlogs}" -->
+				</div>
+			</div>
+			<div class="slds-col slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+				<div class="flex">
+					<div class="flex-stretch">
+						<input id="searchFieldId" type="text" placeholder="Search Community" onkeydown="{!c.checkEnterButton}"/>
+					</div>
+					<div class="flex-50">
+						<a href="" class="c4btn dark-grey slds-text-link_reset" onclick="{!c.searchResults}"><i class="fal fa-search"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</aura:component>

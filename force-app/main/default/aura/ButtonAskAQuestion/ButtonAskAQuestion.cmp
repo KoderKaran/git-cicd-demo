@@ -1,0 +1,8 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes">  
+	<aura:attribute name="padding-top" type="String" access="global"/>
+	<aura:attribute name="padding" type="String" access="global"/>
+    
+	<div style="{!'padding-top:' + v.padding + ';'}" class="div">
+	<a href="" onclick="{!c.goToAsk}" class="c4btn light-grey"><i class="fal fa-question-circle"></i>Ask A Question</a>
+</div>
+</aura:component>

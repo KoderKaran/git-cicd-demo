@@ -1,0 +1,11 @@
+.THIS .sales-tier{
+    background-color: green;
+    text-align: center;
+    font-size: 18pt;
+}
+
+.THIS .defect-tier{
+    background-color: red;
+    text-align: center;
+    font-size: 18pt;
+}

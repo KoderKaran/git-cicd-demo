@@ -1,0 +1,39 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Quick Tips</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.NeeoFAQClick}" onmouseover="{!c.HoverFAQImage}" onmouseout="{!c.NoMouseOver}">
+                   <div class="{!if(v.ImageToggle == 'FAQ','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-v1a-pg_faq.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'FAQ','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-solid-v1a-pg_faq.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Neeo FAQ</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.RestartClick}" onmouseover="{!c.HoverRestartImage}" onmouseout="{!c.NoMouseOver}">
+                   <div class="{!if(v.ImageToggle == 'Restart','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-v1a-pg_restart-remote.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Restart','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-solid-v1a-pg_restart-remote.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Restart Remote</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ResetClick}" onmouseover="{!c.HoverResetImage}" onmouseout="{!c.NoMouseOver}">
+                   <div class="{!if(v.ImageToggle == 'Reset','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-v1a-pg_reset-remote.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Reset','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-solid-v1a-pg_reset-remote.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Remote Reset</p>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>
+</aura:component>

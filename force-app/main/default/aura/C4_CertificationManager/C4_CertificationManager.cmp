@@ -1,0 +1,37 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="C4_CertificationManagerController">
+    <!-- This attribute is used by the lookup component -->
+    <aura:attribute access="public" type="List" name="selection" default="[]"/>
+    
+    <!-- These attributes are for the certification list -->
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="Certifications" type="C4_Training_Certification__c" />
+    <aura:attribute name="Columns" type="List" />  
+    <aura:attribute name="selectedRows" type="List" /> 
+    <aura:attribute name="currentSelectedRows" type="List" />    
+    <aura:handler name="change" value="{!v.selection}" action="{!c.getCertificationsAction}"/>
+    
+    <div class="slds-form slds-form_stacked slds-m-around_xx-large">
+        <div class="slds-align_absolute-center slds-text-heading_large">
+            Certification Manager
+        </div>
+      <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-3">
+            <span>
+            <c:C4_CertificationLookup aura:id="lookup" selection="{!v.selection}" onSearch="{!c.lookupSearch}" label="" placeholder="Search Salesforce" isMultiEntry="false"/>
+          </span>
+        </div>
+        <div class="slds-col slds-size_1-of-3">
+        <span>
+            <br/>
+            <lightning:button onclick="{!c.copyButtonClickAction}" label="Copy"/> 
+            <lightning:button onclick="{!c.moveButtonClickAction}" label="Move Certification(s) from Selected Contact"/>
+            <lightning:button onclick="{!c.clearForm}" label="Clear Form"/>
+         </span>
+        </div>
+      </div> 
+        <!-- This is the certification list -->
+        <lightning:card iconName="standard:contact" title="C4 Training Certifications">
+            <lightning:datatable aura:id="certDatatable" data="{! v.Certifications }" onrowselection="{! c.updateSelectedText }" columns="{! v.Columns }"  keyField="Id" /> 
+        </lightning:card>
+    </div>    
+</aura:component>

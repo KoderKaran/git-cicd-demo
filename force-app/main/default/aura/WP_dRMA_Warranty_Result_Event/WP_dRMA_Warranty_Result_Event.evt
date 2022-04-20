@@ -1,0 +1,15 @@
+<aura:event type="APPLICATION" description="Communicates Warranty Information" access="global">
+	<aura:attribute name="ItemId" type="Id"/>
+   	<aura:attribute name="ItemName" type="String"/> 
+    <aura:attribute name="ItemSKU" type="String"/> 
+   	<aura:attribute name="InWarranty" type="Integer"/>
+    <aura:attribute name="WarrantyStart" type="Date"/>    
+    <aura:attribute name="WarrantyEnd" type="Date"/>    
+    <aura:attribute name="MacSerServ" type="String"/>    
+    <aura:attribute name="SalesNumber" type="Integer"/>
+   	<aura:attribute name="SalesDate" type="Date"/>
+    <aura:attribute name="ExactMatch" type="Boolean"/>  
+    <aura:attribute name="StockType" type="String"/>  
+    <aura:attribute name="StockTypeReason" type="String"/>    
+    <aura:attribute name="SerialCode" type="String"/>    
+</aura:event>

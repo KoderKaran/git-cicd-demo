@@ -1,0 +1,40 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Listen</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.EntertainmentGuideClick}" onmouseover="{!c.HoverEGImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'EG','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Entertainment-Guide.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'EG','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-entertainment-guide.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Entertainment</p>
+                    <p class="slds-align_absolute-center text-navigation">Guide</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.NoSoundClick}" onmouseover="{!c.HoverNSImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'NS','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_No-Sound.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'NS','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-no-sound.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">No Sound</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.MusicServicesClick}" onmouseover="{!c.HoverMSImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'MS','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Music-Services.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'MS','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-music-services.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Music Services</p>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>    
+</aura:component>

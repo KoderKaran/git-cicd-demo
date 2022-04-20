@@ -1,0 +1,7 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<aura:attribute name="height" type="String" access="global"/>
+	<aura:attribute name="top" type="String" access="global"/>
+
+	<div style="{!'top:' + v.top + ';height:' + v.height + ';'}" class="div">
+	</div>
+</aura:component>

@@ -1,0 +1,36 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large text-red">Intercom Anywhere</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+              <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_2 slds-medium-order_1">
+                    <p class="slds-text-heading_small text-paragraph">Whether you’re home or away, with Intercom Anywhere you can
+                    monitor and communicate with any room of your smart home.
+                    Greet guests and allow them to enter even if you are running late.
+                    Check on your kids even if they aren’t answering their phones.
+                    Observe and communicate with anyone who approaches your
+                    front door. With Intercom Anywhere, you have peace of mind in
+                    the palm of your hand.</p>
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_1 slds-medium-order_2 slds-align_absolute-center slds-p-bottom_medium"  >
+                    <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/App-Intercom.png"/>
+                </div>
+            </div>           
+		</div>       
+    </div>    
+   
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+                <lightning:button aura:id="HowDoIGetButton" class="slds-button style1button" label="How Do I Get It?" onclick="{!c.HowDoIGetButtonClick}"/>                
+                <lightning:button aura:id="ShowDocsButton" class="slds-button style1button" label="Show Documents" onclick="{!c.ShowDocsButtonClick}"/>
+            </div>
+        </div>
+    </div> 
+</aura:component>

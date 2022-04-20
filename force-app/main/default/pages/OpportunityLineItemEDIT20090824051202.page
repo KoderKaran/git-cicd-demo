@@ -1,0 +1,26 @@
+<apex:page standardController="OpportunityLineItem">
+	<apex:sectionHeader title="{!$ObjectType.OpportunityLineItem.label} Edit"/>
+	<apex:form >
+	<apex:pageBlock title="{!$ObjectType.OpportunityLineItem.label} Edit" mode="edit">
+		<apex:pageBlockButtons >
+			<apex:commandButton action="{!save}" value="Save"/>
+			<apex:commandButton action="{!cancel}" value="Cancel"/>
+		</apex:pageBlockButtons>
+		<apex:pageBlockSection showHeader="true" title="Product Information" columns="2">
+			<apex:inputField required="true" value="{!OpportunityLineItem.OpportunityId}"/>
+			<apex:inputField value="{!OpportunityLineItem.ServiceDate}"/>
+			<apex:pageBlockSectionItem />
+			<apex:pageBlockSectionItem />
+			<apex:inputField required="true" value="{!OpportunityLineItem.UnitPrice}"/>
+			<apex:pageBlockSectionItem />
+			<apex:inputField required="true" value="{!OpportunityLineItem.Quantity}"/>
+			<apex:pageBlockSectionItem />
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="true" title="System Information" columns="2">
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="false" columns="1">
+			<apex:inputField value="{!OpportunityLineItem.Description}"/>
+		</apex:pageBlockSection>
+	</apex:pageBlock>
+	</apex:form>
+</apex:page>

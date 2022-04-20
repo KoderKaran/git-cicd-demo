@@ -1,0 +1,125 @@
+<aura:component controller="RMALookupToolController" implements="flexipage:availableForAllPageTypes">
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>    
+    <aura:attribute name="IsSpinner" type="Boolean" default="false"/>
+    
+    <aura:attribute name="url" type="String" /> 
+    <aura:attribute name="ShowPanel" type="String" default=""/>
+    <aura:attribute name="RMAList" type="Object[]" />
+    
+    <aura:attribute name="searchString" type="String" default=""/> <!-- default="st181059531c491e"-->
+    
+    <div class="slds-p-top_medium slds-p-right_large slds-p-left_large">
+        
+        <div class="slds-grid slds-wrap">
+            <!--<div class="slds-col slds-size_1-of-2 slds-border_top slds-border_bottom slds-border_right slds-border_left"> -->
+              <div class="slds-col slds-size_1-of-2">
+                <div class="slds-grid">
+                    <div class="slds-col ">            
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                          <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">                        
+                                  <!--  <div class="slds-size_2-of-10">
+                                        <div class="slds-form-element">                                          
+                                            <div class="slds-form-element__control">
+                                                <b>
+                                                    <lightning:select class="slds-form-element__label" label="Search Type" aura:id= "searchTypePickList" >
+                                                        <option value="Exact">Exact Match</option>
+                                                        <option value="MacBW">Mac: Begins With</option>
+                                                        <option value="MacEW">Mac: Ends With</option>
+                                                        <option value="SerialBW">Serial: Begins With</option>
+                                                        <option value="SerialEW">Serial: Ends With</option>
+                                                    </lightning:select>
+                                                </b>                                                
+                                            </div>                             
+                                        </div>
+                                    </div> -->
+                                    <div class="slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-01"><b>Mac/Serial/Service Tag</b></label>
+                                            <div class="slds-form-element__control">                                    
+                                                <input type="text" id="text-input-productId" class="slds-input" value ="{!v.searchString}" onkeypress="{!c.GetRMAInformationKeyCheck}"/>                                    
+                                            </div>                                
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-11">
+                                        <div class="slds-form-element">                                
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-form-element__label" for="text-input-id-1">&nbsp;</label>
+                                                <lightning:button class="slds-button slds-button_stretch" label="Lookup" onclick="{!c.GetRMAButtonClick}"/> 
+                                            </div>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="slds-p-right_large slds-p-left_large">
+        
+        <div class="{!if(v.ShowPanel == 'ErrorMessage','slds-show','slds-hide')}">            
+            <div class="slds-text-heading_large slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#32527B">
+                <b>The Search Query Timed Out</b>
+            </div>
+        </div>        
+        <div class="{!if(v.ShowPanel == 'NoWarrantyFound','slds-show','slds-hide')}">            
+            <div class="slds-p-top_large slds-text-heading_medium">
+                <B>{!v.searchString} RMA Not Found</B>
+        	</div>
+        </div>
+        <div class="{!if(v.ShowPanel == 'ResultMessage','slds-show','slds-hide')}">            
+            <div class="slds-p-top_large slds-text-heading_medium">
+                <B>RMA Result List</B>
+            </div>            
+            <table class="slds-table slds-table--bordered"> 
+                <tbody>
+                    <tr class="slds-theme_shade slds-text-heading_small slds-text-title_bold">
+                        <td>Account</td>
+                        <td>Case</td>
+                        <td>Contact</td> 
+                        <td>RMA Number</td>
+                        <td>MacID</td> 
+                        <td>RMA Type</td>
+                        <td>Sales Number</td>
+                        <td>Sales Date</td>
+                    </tr>
+                    <aura:iteration items="{!v.RMAList}" var="item">
+                        <tr>
+                            <td><a target="_blank" href="{!v.url +'/'+ item.Case__r.Account.Id}">({!item.Case__r.Account.SAP_ACCOUNT_ID__c}) {!item.Case__r.Account.Name}</a></td>                 
+                            <td><a target="_blank" href="{!v.url +'/'+ item.Case__c}">({!item.Case__r.CaseNumber}) {!item.Case__r.Subject}</a></td>
+                            <td><a target="_blank" href="{!v.url +'/'+ item.Case__r.Contact.Id}">{!item.Case__r.Contact.Name}</a></td>
+                            <td><a target="_blank" href="{!v.url +'/'+ item.Id}">{!item.Name}</a></td>                          
+                            <td>{!item.MacID__c}</td>
+                            <td>{!item.RMA_Type__c}</td>
+                            <td>{!item.Sales_Order_Number__c}</td>
+                            <td>{!item.Sales_Order_Date__c}</td>
+                        </tr> 
+                        <aura:iteration items="{!item.row}" var="i">
+                            <tr>
+                                <td><a target="_blank" href="{!v.url +'/'+ item.row.Case__r.Account.Id}">({!item.row.Case__r.Account.SAP_ACCOUNT_ID__c}) {!item.row.Case__r.Account.Name}</a></td>                                                                 
+                                <td><a target="_blank" href="{!v.url +'/'+ item.row.Case__c}">({!item.row.Case__r.CaseNumber}) {!item.Case__r.Subject}</a></td>
+                                <td><a target="_blank" href="{!v.url +'/'+ item.row.Case__r.Contact.Id}">{!item.row.Case__r.Contact.Name}</a></td> 
+                                <td><a target="_blank" href="{!v.url +'/'+ item.row.Id}">{!item.row.Name}</a></td>                               
+                                <td>{!i.row.MacID__c}</td>
+                                <td>{!item.RMA_Type__c}</td>
+                                <td>{!item.Sales_Order_Number__c}</td>
+                                <td>{!item.Sales_Order_Date__c}</td>
+                            </tr>     
+                        </aura:iteration>   
+                    </aura:iteration>             
+                </tbody>
+            </table>           
+        </div>
+    </div>
+    
+    
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" size="large" />
+    </aura:if>
+    
+</aura:component>

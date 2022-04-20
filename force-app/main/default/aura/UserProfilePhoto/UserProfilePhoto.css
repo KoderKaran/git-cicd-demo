@@ -1,0 +1,17 @@
+.THIS .profileimg {
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color:#f0eeee;
+    background-size:cover;
+    border-radius:50%;
+    -webkit-border-radius:50%;
+}
+ @media (min-width: 992px){
+	.THIS .col-md-2 {
+	    width: 46.66667%;
+	}
+}
+.THIS .uppercase {
+	font-size:24px;
+}

@@ -1,0 +1,25 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+   <h1 class="slds-text-heading_large text-red">Cancel 4Sight</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+        <p class="text-paragraph">If you would like to cancel your 4Sight auto-renewal, follow the steps below.</p>
+            
+        <p class="slds-p-top_large text-paragraph">    
+   		<ol class="slds-list--ordered">
+          <li><a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+          <li>Click <b>My Automation</b>, then click <b>4Sight</b>.</li>
+          <li>Click <b>Cancel 4Sight Auto-renew </b> under <i>4SIGHT</i>.</li>
+        </ol>           
+        </p>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_small">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>	
+</aura:component>

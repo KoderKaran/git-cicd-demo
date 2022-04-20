@@ -1,0 +1,31 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Thermostat V2</h1>
+  
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_small">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 slds-align_absolute-center">
+              		<img src="https://res.cloudinary.com/control4/image/upload/e_trim/c_pad,w_350,h_300,f_auto,q_auto/customer-support/Thermostats_V2-Troubleshoot.png"/>    
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 "  >
+            		<p class="slds-p-top_large text-paragraph bold">Is your thermostat not working correctly? To restart your Control4 thermostat, quickly tap the top right button 15 times.</p>
+					<p class="slds-p-top_large text-paragraph">Does that resolve your comfort issue?</p>
+                </div>
+            </div>           
+		</div>       
+    </div> 
+ 
+    <div class="slds-grid slds-wrap slds-p-top_large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="yesButton" class="slds-button style1button" label="Yes" onclick="{!c.YesButtonClick}"/>
+                <lightning:button aura:id="noButton" class="slds-button style1button" label="No" onclick="{!c.NoButtonClick}"/>
+            </div>
+        </div>
+    </div>    
+</aura:component>

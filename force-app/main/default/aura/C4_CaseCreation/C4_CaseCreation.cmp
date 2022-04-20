@@ -1,0 +1,127 @@
+<aura:component controller="CaseCreationController" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="contactName" type="string" />
+    <aura:attribute access="public" type="List" name="selection" default="[]"/>
+    
+    <aura:attribute name="createCaseMessage" type="string" default=""/>
+    <aura:attribute name="createCaseStatus" type="string" default=""/>
+    
+    <aura:attribute name="IsSalesforceClassic" type="String" default="false"/> 
+    <aura:attribute name="ContactId" type="string" default=""/>
+    
+    <aura:attribute name="CaseInfo" type="object" />
+    <aura:attribute name="Status" type="List" />
+    <aura:attribute name="Origin" type="List" />
+    <aura:attribute name="Account" type="List" />
+    <aura:attribute name="Controller" type="List" />
+    <aura:attribute name="SoftwareVersion" type="List" />    
+    
+    <aura:attribute name="SelectedAccount" type="Id" />
+    <aura:attribute name="SelectedStatus" type="String" default="New" />
+    <aura:attribute name="SelectedOrigin" type="String" default="Inbound Phone Call" />
+    <aura:attribute name="SelectedController" type="string" default="Unknown" />
+    <aura:attribute name="SelectedSoftwareVersion" type="string" default="Unknown" />
+    
+    <aura:attribute name="Subject" type="string" />
+    <aura:attribute name="Description" type="string" />  
+    <aura:attribute name="Customer" type="string" />  
+    <aura:attribute name="MyControl4Name" type="string" />     
+    
+    <aura:attribute name="caseStatus" type="List" />
+    
+    <aura:attribute name="newCase" type="Case"
+                    default="{ 'sobjectType': 'Case',
+                             'Subject': '',
+                             'Origin': '',
+                             'Status': '',
+                             'Contact': ''
+                             }"/>  
+    
+    <!--<aura:handler name="change" value="{!v.selection}" action="{!c.getCertificationsAction}"/>-->
+    
+    <!-- Input Form using components -->    
+    <div class="{!if(v.IsSalesforceClassic == 'true','slds-p-around_x-large','')}">
+        <div class="container">
+            <form class="slds-p-top_small slds-form--stacked">            
+                <div class="slds-text-heading--small" style="padding: 0.2rem; background: rgb(243, 242, 242);">
+                    Case Info
+                </div>
+                <div class="slds-grid slds-gutters slds-p-top_xx-small">
+                    <div class="slds-col ">                    
+                        <lightning:combobox name="progress" label="Case Origin" value="{!v.SelectedOrigin}" placeholder="Select Status" options="{!v.Origin}" />
+                    </div>
+                    <div class="slds-col">
+                        <div class="slds-form-element__control">                
+                            <lightning:combobox name="account" label="Account" value="{!v.SelectedAccount}" placeholder="Select Account" options="{!v.Account}" />                            
+                        </div>                   
+                    </div>
+                </div>            
+                
+                <div class="slds-p-top_medium">            
+                    <div class="slds-text-heading--small" style="padding: 0.2rem; background: rgb(243, 242, 242);">
+                        Project Info
+                    </div>
+                </div>
+                
+                <div class="slds-grid slds-gutters slds-p-top_xx-small">
+                    <div class="slds-col">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">                            
+                                <c:C4_CaseCreationLookup aura:id="lookup" selection="{!v.selection}" onSearch="{!c.lookupSearch}" label="Customer" placeholder="Search Salesforce" isMultiEntry="false"/>
+                                <!--<lightning:combobox name="account" label="Customer Controller" value="{!v.SelectedController}" placeholder="Select Controler" options="{!v.Controller}" /> -->  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                        <div class="slds-form-element__control">                        
+                            <lightning:input type="text" name="myControl4Name" label="Job/Project Name" value="{!v.MyControl4Name}" />
+                            <!--<lightning:combobox name="account" label="Customer Software Version" value="{!v.SelectedSoftwareVersion}" placeholder="Customer Software Version" options="{!v.SoftwareVersion}" /> -->  
+                        </div>
+                    </div>
+                </div>            
+                
+                <div class="slds-p-top_medium">    
+                    <div class="slds-text-heading--small" style="padding: 0.2rem; background: rgb(243, 242, 242);">
+                        Case Description
+                    </div>
+                </div>
+                
+                <div class="slds-grid slds-gutters slds-p-top_xx-small">
+                    <div class="slds-col">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">                            
+                                <lightning:input type="text" name="subject" label="Subject" required="true" value="{!v.Subject}" />
+                                <!--<lightning:textarea placeholder="" value="{!v.Description}"></lightning:textarea>-->                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="{!if(v.createCaseMessage != '','slds-show','slds-hide')}"> 
+                
+                <br></br>
+                <div class="{!if(v.createCaseStatus == 'Success','slds-show','slds-hide')}"> 
+                    <div style="padding: 0.5rem; background: rgb(212, 237, 218);">
+                        <div class="slds-text-color_success"><strong>Success</strong> - {!v.createCaseMessage}</div>
+                    </div>
+                </div>
+                
+                <div class="{!if(v.createCaseStatus == 'Error','slds-show','slds-hide')}">               
+                    <div style="padding: 0.5rem; background: rgb(248, 215, 218);">
+                        <div class="slds-text-color_error"><strong>Error</strong> - {!v.createCaseMessage}</div>
+                    </div>
+                </div>            
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-p-top_medium slds-p-left_small">
+              <div class="slds-p-right_small">
+                <lightning:button class="slds-button slds-button_brand" aura:id="creatcasebutton" label="Create Case" onclick="{!c.CaseCreationClick}" /> 
+              </div>
+              <div class="{!if(v.IsSalesforceClassic == 'true','slds-show','slds-hide')}">
+                <!--<lightning:button class="slds-button slds-button_brand" label="Close Window" onclick="{!c.CloseWindowClick}" />-->
+              </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

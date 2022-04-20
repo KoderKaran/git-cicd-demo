@@ -1,0 +1,5 @@
+<design:component>
+    <design:attribute name="modalContainer" label="Component Name" description="The name of the component that you want to run." />
+    <design:attribute name="imageLocation" label="Image Location" description="The image location name of the component that you want to run." />
+    <design:attribute name="label" label="Label" description="The language for the button." />
+</design:component>

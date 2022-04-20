@@ -1,0 +1,18 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">User Guide</h1>
+    
+    <p class="slds-p-top_large text-paragraph">Use these handy guides to learn how to use your Neeo Remote.</p>
+    
+    <ul class="slds-p-top_large slds-list--dotted">
+        <li><a href="https://ctrl4.co/neeo-ug" class="slds-text-link text-paragraph" target="_blank" onclick="{!c.UserGuide}"><u>User Guide</u></a></li>
+        <li><a href="https://www.control4.com/docs/product/neeo-remote/quick-start-guide/english/latest" class="slds-text-link text-paragraph" target="_blank" onclick="{!c.QuickStartGuide}"><u>Quick Start Guide</u></a></li>
+    </ul>  
+
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

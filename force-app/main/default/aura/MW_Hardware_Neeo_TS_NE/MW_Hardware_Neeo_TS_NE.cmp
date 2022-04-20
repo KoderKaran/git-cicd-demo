@@ -1,0 +1,31 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />
+    
+    <div aura:id="Main_Div">    
+        <h1 class="slds-text-heading_large text-red">Network Error</h1>
+        
+        <p class="slds-p-top_large text-paragraph">Cannot Communicate with Control4. Check your Wi-Fi connection.</p>
+        
+        <p class="slds-p-top_large text-paragraph">To resolve your remote issue:</p>
+                
+        <div class="slds-p-top_large">
+            <ol class="slds-list_ordered text-paragraph">
+                <li>Relocate your remote</li>
+                <li>Restart your remote <a onclick="{!c.Skip2ButtonClick}" class="slds-text-link">(Skip to Step 2)</a></li>
+                <li>Restart your network router (Wi-Fi) <a onclick="{!c.Skip3ButtonClick}" class="slds-text-link">(Skip to Step 3)</a></li>
+                <li>Reboot your Control4 system <a onclick="{!c.Skip4ButtonClick}" class="slds-text-link">(Skip to Step 4)</a></li>      
+            </ol>
+        </div>
+        
+        <div class="slds-grid slds-wrap slds-p-top_x-large">
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+                <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+                <div class="slds-float_right">
+                    <lightning:button class="slds-button style1button" label="Next" onclick="{!c.NextButtonClick}"/>
+                </div>
+            </div>
+        </div>       
+    </div>         
+</aura:component>

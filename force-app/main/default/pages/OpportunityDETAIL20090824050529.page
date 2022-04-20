@@ -1,0 +1,72 @@
+<apex:page standardController="Opportunity">
+	<apex:sectionHeader title="{!$ObjectType.Opportunity.label}" subtitle="{!Opportunity.name}"/>
+	<apex:pageBlock title="{!$ObjectType.Opportunity.label} Detail">
+		<apex:pageBlockButtons >
+		<apex:form >
+			<apex:commandButton action="{!edit}" value="Edit"/>
+			<apex:commandButton action="{!delete}" value="Delete"/>
+			<apex:commandButton action="{!URLFOR($Action.Opportunity.Clone,Opportunity.id)}" value="Clone"/>
+			<apex:commandButton action="{!URLFOR($Action.Opportunity.Share,Opportunity.id)}" value="Sharing"/>
+		</apex:form>
+		</apex:pageBlockButtons>
+		<apex:pageBlockSection showHeader="false" columns="2">
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Opportunity Owner"/>
+				<apex:outputPanel >
+					<apex:outputField value="{!Opportunity.OwnerId}"/>&nbsp;
+					<apex:outputLink value="{!URLFOR($Action.Opportunity.ChangeOwner,Opportunity.id)}">[Change]</apex:outputLink>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem>
+			<apex:outputField value="{!Opportunity.Status__c}"/>
+			<apex:outputField value="{!Opportunity.Name}"/>
+			<apex:outputField value="{!Opportunity.Amount}"/>
+			<apex:outputField value="{!Opportunity.AccountId}"/>
+			<apex:outputField value="{!Opportunity.Probability}"/>
+			<apex:outputField value="{!Opportunity.StageName}"/>
+			<apex:outputField value="{!Opportunity.ExpectedRevenue}"/>
+			<apex:outputField value="{!Opportunity.ForecastCategoryName}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.CloseDate}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.NextStep}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.LeadSource}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Opportunity_Type__c}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Partner_Sub1__c}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Partner_Sub_2__c}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Partner_Product_Segment_old__c}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Partner_Product_Segment_2__c}"/>
+			<apex:pageBlockSectionItem />
+			<apex:outputField value="{!Opportunity.Partner_Development_Resources__c}"/>
+			<apex:pageBlockSectionItem />
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="false" columns="2">
+			<apex:outputField value="{!Opportunity.CreatedById}"/>
+			<apex:outputField value="{!Opportunity.LastModifiedById}"/>
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="false" columns="1">
+			<apex:outputField value="{!Opportunity.Description}"/>
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="true" title="Deliverables" columns="1">
+			<apex:outputField value="{!Opportunity.Deliverable__c}"/>
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="true" title="Useful Links" columns="3">
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="false" columns="2">
+		</apex:pageBlockSection>
+		<apex:pageBlockSection showHeader="true" title="Additional Information" columns="2">
+		</apex:pageBlockSection>
+	</apex:pageBlock>
+	<apex:relatedList list="OpportunityHistories"/>
+	<apex:relatedList list="OpenActivities"/>
+	<apex:relatedList list="OpportunityContactRoles"/>
+	<apex:relatedList list="OpportunityCompetitors"/>
+	<apex:relatedList list="ActivityHistories"/>
+	<apex:relatedList list="NotesAndAttachments"/>
+	<apex:relatedList list="OpportunityTeamMembers"/>
+</apex:page>

@@ -1,0 +1,2990 @@
+<!--
+/**
+*   This visual page Controller is used to create Sales_Notes records along with Discussion_Item , Task and Opportunity records
+*
+* ====================================================================================================
+*     Version     Date            Comment
+* ====================================================================================================
+*     1.0         15-Mar-2017     - Working on "Meet" tab
+*
+**/
+-->
+<apex:page standardController="Account" extensions="dealerVisitController2" standardStylesheets="true" showHeader="false" docType="html-5.0">
+  <apex:form id="form">
+  
+                         
+                                    
+    <html>
+      <head>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700" rel="stylesheet" />
+
+        <link rel="stylesheet" href="style.css" />
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+        <!-- <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"/> -->
+
+<!--
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+                <style  type="text/css">
+                #assign-action-spinner-main {
+                                                position: fixed;left: 0;top: 0;
+                                                background-color:rgba(0,0,0,.6);height: 100%;
+                                                width: 100%;z-index: 999;align: center;
+                                                vertical-align: middle;
+                }
+                #assign-action-spinner-content {
+                                                    position: absolute; top: 50%;left: 50%;
+                                                    z-index: 1000;background-color: #F5FCFF;
+                                                    width: 204;height: 94; border-radius: 1em;
+                                                    border: 1px solid #CEECFF;
+                                                    padding: 20px 40px 20px 40px;
+                                                    margin-left: -116px;margin-top: -36px;
+                }
+                #assign-action-spinner-content img {
+                                                        width: 32;height: 32;align: center;
+                                                        vertical-align: middle;
+                }
+                #assign-action-spinner-content p {
+                                                    display: inline;font-size: 135%;
+                                                    font-weight: bold;
+                }
+
+                progress, progress[role] {
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  appearance: none;
+                  border: none;
+                  background-size: auto;
+                  height: 15px;
+                  width: 100%;
+                }
+                .skill-list {
+                  list-style: none;
+                  margin: 0;
+                  padding: 1em;
+                }
+                .skill {
+                  margin-bottom: 1em;
+                  position: relative;
+                }
+
+                .skill h3 {
+                  color: #fff;
+                  left: 1em;
+                  line-height: 1;
+                  position: absolute;
+                  top: 1em;
+                }
+
+                .skill ::-webkit-progress-value {
+                  -webkit-animation: bar-fill 2s;
+                  width: 0px;
+                }
+
+                .skill-1::-webkit-progress-value {
+                  background: #1797c0;
+                }
+
+                .skill-1::-webkit-progress-bar {
+                  background: #ccc;
+                }
+
+                .skill-2::-webkit-progress-value {
+                  background: #1797ct;
+                }
+
+                .skill-2::-webkit-progress-bar {
+                  background: #ccc;
+                }
+
+                .skill-3::-webkit-progress-value {
+                  background: #1797c8;
+                }
+
+                .skill-3::-webkit-progress-bar {
+
+                  background: #ccc;
+
+                }
+
+                @-webkit-keyframes bar-fill {
+                  0% {
+                    width: 0;
+                  }
+                }
+                @keyframes bar-fill {
+                  0% {
+                    width: 0;
+                  }
+                }
+
+
+                .pbTitle {
+                        white-space: nowrap
+                    }
+                </style>
+
+        <style>
+          html { margin:0px; padding:0px; background:#f5f5f5; }
+          body { background:#f5f5f5; }
+          body, p, h1, h2, h3, h4, h5, h6, ul li, a, td, input, textarea {
+            font-family: 'Montserrat', 'Open Sans', sans-serif;
+            font-weight:300;
+            color:#000000;
+          }
+          h3, h4, a { color:#c32032; }
+          h3 { margin:30px 0px -12px; font-size:22px; display:block; }
+          p { margin:0px; font-size:16px; }
+          td { font-size:16px; vertical-align:middle !important; }
+
+          .oneThird { float:left; width:30%; margin:0px 1.5%; }
+          .oneHalf { float:left; width:46%; margin:0px 2%; }
+          .twoThirds { float:left; width:63%; margin:0px 1.5%; }
+          .fullWidth { float:left; width:97%; margin:0px 1.5%; }
+
+          .mainContainer { width:1200px; margin:40px auto; }
+          #tabPrepare,
+          #tabMeet,
+          #tabFollow { background:#eeeeee; }
+          .tabHeader { width:100%; padding:0px; }
+          .tabHeader ul { padding:0px; }
+          .tabHeader ul li {
+            list-style-type:none; float:left; width:30%; box-sizing:border-box; background:#dfdfdf; text-align:center;
+            border-left:1px solid #666666; border-top:1px solid #666666; border-bottom:1px solid #666666; margin:0px;
+            border-top:1px solid #666666; border-bottom:1px solid #666666; margin:0px;
+          }
+          .tabHeader ul li a {
+            color:#000000; text-transform:uppercase; font-weight:700; letter-spacing:2px; font-size:13px;
+            text-decoration:none; width:100%; padding:12px 80px; box-sizing:border-box; float:inherit;
+          }
+          .tabHeader ul li:last-of-type { border-right:1px solid #666666; }
+          .tabHeader ul li.ui-tabs-active { width:40%; color:#ffffff; background:#c32032; border-bottom:1px solid #c32032; }
+          .tabHeader ul li.ui-tabs-active a { color:#ffffff; }
+
+          .tabBody {
+            background:#ffffff; border-left:1px solid #666666; border-right:1px solid #666666;
+            border-bottom:1px solid #666666;width:100%; box-sizing:border-box; padding:30px;
+          }
+
+          textarea, input {
+            border:none !important; padding:15px !important; background:#e8e8e8 !important;
+            box-sizing:border-box !important; //text-transform:uppercase !important;
+            font-weight:700; letter-spacing:2px; font-size:12px;
+          }
+          textarea { width:100%; height:90px; margin-top:10px; }
+          textarea:focus, input:focus {
+            box-shadow:0px 0px 12px 0px rgba(0, 0, 0, 0.2) !important; background:#ffffff !important; border-width:0 !important;
+            border-color:transparent !important; outline:none !important; -webkit-appearance:none !important;
+          }
+
+          select {
+            opacity:1 !important; z-index:10 !important; max-height:inherit !important; height:inherit !important; line-height:13px;
+            font-size:13px; font-family:'Montserrat', 'Open Sans', sans-serif; font-weight:700; letter-spacing:2px;
+              //text-transform:uppercase;
+              background:#e0e0e0; width:100%; padding:15px; -webkit-appearance:none; border:none; border-radius:0px;
+            background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89
+            +bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd
+            +Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP
+            +5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo
+            +AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8
+            +xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U
+            +IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI
+            +pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n
+            +hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1
+            +c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7
+            +Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z
+            +pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX
+            +G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1
+            +cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAAGJJREFUeNqUUEEKwDAIS4Y/8v9P8E3ZpRYrdjBBDCZpipSEv2UJSPqC0R/qnJWlF9E2dg5A2JDuaVzYb9
+            +LahhmagIAKAkka4oP6dsgCc+N/NqxXmpIPAxbK+nofpBaqXkHAHk7OjcgmYkxAAAAAElFTkSuQmCC);
+            background-repeat:no-repeat; background-position:right 10px center;
+          }
+
+          .ui-checkbox, .ui-radio { margin:0px; padding:0px; }
+          .ui-checkbox input, .ui-radio input, .ui-checkbox .ui-btn { position:relative; left:inherit; top:inherit; padding:0px !important; margin:0px; }
+          .ui-icon-check:after { display:none; }
+          .ui-btn.ui-checkbox-off:after, .ui-btn.ui-checkbox-on:after, .ui-btn.ui-radio-off:after, .ui-btn.ui-radio-on:after {
+            width:9px; height:5px; margin:0px;
+          }
+          .ui-btn.ui-checkbox-on.ui-btn-a:after { background:none; border:none; }
+
+          .styleCheck { width:20px; position:relative; float:right; margin:6px 0px 6px 10px; }
+          .styleCheck label { width:20px; height:20px; cursor:pointer; position:absolute; top:0; left:0; background:-webkit-linear-gradient(top, #9b0e23 0%, #c32032 100%); background:linear-gradient(to bottom, #9b0e23 0%, #c32032 100%); border-radius:4px; box-shadow:inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.4); }
+          .styleCheck label:after { content:''; width:9px; height:5px; position:absolute; top:4px; left:4px; border:3px solid #fcfff4; border-top:none; border-right:none; background:transparent; opacity:0; -webkit-transform:rotate(-45deg); transform:rotate(-45deg); }
+          .styleCheck label:hover::after { opacity:0.3; }
+          .styleCheck input[type=checkbox] { visibility:hidden; }
+          .styleCheck input[type=checkbox]:checked + label:after { opacity:1; }
+            
+          .checkLabel { float:right; margin:6px 0px; }
+          .checkContainer { display:block; clear:both; margin:10px 0px 10px; }
+          
+          .testing {float:right;}
+          
+          #tabs2 .checkContainer { float:right; clear:none; display:inline; margin-left:30px; }
+          #tabFollow .tableContainer { margin-top:0px; }
+
+          .button {
+            color:#ffffff; background:#c32032; padding:12px 25px; text-transform:uppercase; letter-spacing:2px;
+            font-weight:700; text-decoration:none; float:right; margin-top:40px;
+          }
+
+          .tableContainer { width:100%; border-spacing:0px; margin-top:30px; }
+          .tableContainer th {
+            background:#333333 !important; color:#ffffff !important; font-weight:700; text-transform:uppercase; letter-spacing:2px;
+            font-size:13px !important; text-align:center; padding:7px 0px !important; border:none !important; white-space:normal !important;
+          }
+          .tableContainer tr { background:#f6f6f6; }
+          .tableContainer tr:nth-child(2n) { background:#ffffff; }
+          .tableContainer td { border-left:1px solid #bbbbbb !important; padding:10px !important; border-bottom:1px solid #bbbbbb !important; border-top: 1px solid #bbbbbb !important;}
+          .tableContainer td:last-of-type { border-left:1px solid #bbbbbb 1important; border-right:1px solid #bbbbbb !important; }
+          .tableContainer td .styleCheck { float:none; margin:0px auto; }
+
+          .productsub .tableContainer { margin-top:0px; margin-left:8%; width:90%; padding-left:21px; }
+          .productsub td { padding:0px; }
+          .productsub .tableContainer td { padding:4px; }
+          .productsub:first-of-type { display:none; }
+          .productsub .checkContainer { margin:5px 0px; }
+
+          .customPopup {
+            background-color: white;
+            border-style: solid;
+            border-width: 2px;
+            left: 0;
+            padding: 10px;
+            position: absolute;
+            z-index: 9999;
+            width: 500px;
+            top: 10%;
+            margin:0px;
+          }
+
+          .customPopup .styleCheck { float:none; margin:6px auto; }
+          .individualPalette .accountBlock .secondaryPalette { background:none !important; border:none !important; }
+          body .bPageBlock .pbBody { margin:0px !important; }
+          input.btn { background:#c32032 !important; color:#ffffff; float:right; margin-top:10px; }
+
+          .disabledTextBox {
+            background-color: white;
+            border: 1px solid;
+            color: black;
+            cursor: default;
+            width: 90px;
+            display: table;
+            padding: 2px 1px;
+            text-align:right;
+          }
+
+
+          .customCompetitorPopup {
+            background-color: white;
+            border-style: solid;
+            border-width: 2px;
+            left: 50%;
+            padding: 10px;
+            position: absolute;
+            z-index: 9999;
+            width: 500px;
+            top: 98%;
+            margin:-175px 0px 0px -250px;
+          }
+
+          .customCompetitorPopup .styleCheck { float:none; margin:6px auto; }
+          .individualPalette .accountBlock .secondaryPalette { background:none !important; border:none !important; }
+          body .bPageBlock .pbBody { margin:0px !important; }
+          input.btn { background:#c32032 !important; color:#ffffff; float:right; margin-top:10px; }
+
+          .disabledTextBox {
+            background-color: white;
+            border: 1px solid;
+            color: black;
+            cursor: default;
+            width: 90px;
+            display: table;
+            padding: 2px 1px;
+            text-align:right;
+          }
+
+
+          .closeButton {
+            float: right;
+          }
+          .requiredField { color: red; font-weight: bold; }
+          .recordsCreated { color: green; font-weight: bold; }
+
+          <!-- Chirag's Change -->
+          #oppSection { display:none; }
+          #PrepareTab { width: 50%; }
+          #MeetTab{ width: 50%;}
+
+          #openOpp .dateFormat,
+          #products .dateFormat { display:none; }
+
+          .pageSection { background:#ffffff; border:1px solid #cccccc; box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.2); float:left; box-sizing:border-box; position:relative; padding:15px 20px; width:100%; }
+          .mainContainer .bPageBlock .pbHeader { background:#999999; color:#ffffff; margin-bottom:-5px; }
+          .mainContainer .bPageBlock .pbHeader h2 { color:#ffffff; font-weight:100; font-size:18px; padding:8px 0px 8px 20px; }
+          body .bPageBlock .pbBody .pbSubheader img { position:absolute; top:-35px; right:10px; }
+          .apexp .bPageBlock.apexDefaultPageBlock .pbBody .pbSubheader { height:0px; padding:0px; }
+          .apexp .bPageBlock.apexDefaultPageBlock .pbBody .pbSubheader .hideListButton {  }
+
+          .tableYear { border-right:1px solid #ccc; box-sizing:border-box; padding-right:15px; width:33%; margin:0px; }
+          .year { float:left; }
+          .rank { float:right; text-align:right; }
+          .year span { font-size:19px; color:#c32032; padding:4px 12px; border:2px solid #c32032; display:inline-block; margin-left:25px; }
+          .rank span { font-size:18px; text-align:right; line-height:22px; }
+          .borderTop { border-top:1px solid #cccccc; margin-top:12px !important; }
+          .noPadding { padding:20px 0px; }
+
+          .styleTitle { font-size:38px; font-weight:100; margin-bottom:42px; }
+          .totalSales { display:block; margin:15px 0px 12px; }
+          .totalSales strong { font-size:14px; font-weight:500; }
+          .label-txt { color:#666666; font-size:11px; text-align:right; }
+
+          .boxedForm .formLabel { float:left; width:30%; font-size:13px; font-weight:bold; }
+          .boxedForm input { float:right; width:60%; }
+          .boxedForm select { float:right; width:60%; }
+          .boxedForm .formSection { border-bottom:1px solid #eaeaea; padding-bottom:5px; margin-bottom:5px; }
+
+          #tabs2 .tabHeader ul li { width:23%; }
+          #tabs2 .tabHeader ul li.ui-tabs-active { width:31%; }
+          #tabs2 .tabHeader ul li a { padding:12px 10px; }
+          #tabs2 textarea { height:110px; }
+
+          #tabs3 .tabHeader ul li { width:initial; border-right:1px solid #666666; }
+          #tabs3 .tabHeader ul li.ui-tabs-active { width:initial; }
+          #tabs3 .tabHeader ul li a { padding:12px 0px; letter-spacing:initial; font-weight:300; }
+          #tabs3 textarea { height:120px; margin-bottom:20px; }
+          #tabs3 .formLabel { float:left; font-size:16px; line-height:18px; }
+          #tabs3 .formLabelSelect { width:40%; }
+          #tabs3 select { float:right; width:60%; }
+          #tabs3 h4 { font-weight:bold; color:#000; font-size:14px; }
+          #tabs3 .ui-tab:nth-child(1),
+          #tabs3 .ui-tab:nth-child(2),
+          #tabs3 .ui-tab:nth-child(3),
+          #tabs3 .ui-tab:nth-child(4),
+          #tabs3 .ui-tab:nth-child(5) { width:16.6% !important; }
+          #tabs3 .ui-tab:nth-child(6) { width:16.9% !important; }
+          #tabs3 .ui-tab:nth-child(7),
+          #tabs3 .ui-tab:nth-child(8),
+          #tabs3 .ui-tab:nth-child(9),
+          #tabs3 .ui-tab:nth-child(10),
+          #tabs3 .ui-tab:nth-child(11) { width:20% !important; }
+
+          #tabs4 .tabHeader ul li { width:45%; }
+          #tabs4 .tabHeader ul li.ui-tabs-active { width:55%; }
+          #tabs4 .tabHeader ul li a { padding:12px 5px; letter-spacing:1.5px; }
+
+          .fullSection { width:98%; float:left; margin:0px 1% 15px 1%; }
+          .oneThirdSection { width:31%; float:left; margin:0px 1% 15px 1%; }
+          .twoThirdsSection { width:65%; float:left; margin:0px 1% 15px 1%; }
+          .oneHalfSection { width:48%; float:left; margin:0px 1% 15px 1%; }
+
+
+          #chart-1009 text, #chart-1009 path,
+          #chart-1011 text, #chart-1011 path,
+          #chart-1013 text, #chart-1013 path,
+          #chart-1015 text, #chart-1015 path,
+          #chart-1017 text, #chart-1017 path,
+          #chart-1019 text, #chart-1019 path,
+          #chart-1021 text, #chart-1021 path,
+          #chart-1023 text, #chart-1023 path,
+          #chart-1025 text, #chart-1025 path,
+          #chart-1027 text, #chart-1027 path,
+          #chart-1029 text, #chart-1029 path,
+          #chart-1031 text, #chart-1031 path,
+          #chart-1033 text, #chart-1033 path,
+          #chart-1035 text, #chart-1035 path,
+          #chart-1037 text, #chart-1037 path,
+          #chart-1039 text, #chart-1039 path,
+          #chart-1041 text, #chart-1041 path,
+          #chart-1043 text, #chart-1043 path,
+          #chart-1045 text, #chart-1045 path,
+          #chart-1047 text, #chart-1047 path,
+          #chart-1049 text, #chart-1049 path,
+          #chart-1051 text, #chart-1051 path,
+          #chart-1053 text, #chart-1053 path,
+          #chart-1055 text, #chart-1055 path,
+          #chart-1057 text, #chart-1057 path,
+          #chart-1059 text, #chart-1059 path {
+              display: none;
+          }
+
+          .chartLabel { text-align:right; width:20%; display:inline-block; padding-top:5px; }
+          .chartArea { float:right; width:80%; margin-top:-20px; margin-bottom:-20px; }
+          .chartSection { clear:both; }
+          .chartAxis { width:78%; margin-bottom:30px; }
+          .chartAxis span { width:26%; float:left; text-align:center; }
+          .chartAxis span:first-of-type { width:11%; float:left; text-align:left; }
+          .chartAxis span:last-of-type { width:11%; float:left; text-align:right; }
+
+          @media only screen and (max-width: 1200px) {
+            .mainContainer { width:1000px; }
+          }
+          @media only screen and (max-width: 980px) {
+            .mainContainer { width:100%; }
+              #tabs3 .ui-tab:nth-child(1),
+              #tabs3 .ui-tab:nth-child(2),
+              #tabs3 .ui-tab:nth-child(3),
+              #tabs3 .ui-tab:nth-child(4) { width:25% !important; }
+              #tabs3 .ui-tab:nth-child(5),
+              #tabs3 .ui-tab:nth-child(6),
+              #tabs3 .ui-tab:nth-child(7),
+              #tabs3 .ui-tab:nth-child(8) { width:25% !important; }
+              #tabs3 .ui-tab:nth-child(9),
+              #tabs3 .ui-tab:nth-child(10),
+              #tabs3 .ui-tab:nth-child(11) { width:33.3% !important; }
+              #tabs3 input[type="text"] { max-width:100% !important; }
+          }
+          @media only screen and (max-width: 768px) {
+            .fullSection { width:100%; margin-left:0px; margin-right:0px; }
+            .oneThirdSection { width:100%; }
+            .twoThirdsSection { width:100%; }
+            .oneHalfSection { width:100%; }
+            .oneHalf { width:100%; }
+            .oneHalf .oneHalf { width:46%; margin-top:20px; }
+              #tabs3 .ui-tab:nth-child(1),
+              #tabs3 .ui-tab:nth-child(2),
+              #tabs3 .ui-tab:nth-child(3),
+              #tabs3 .ui-tab:nth-child(4) { width:25% !important; }
+              #tabs3 .ui-tab:nth-child(5),
+              #tabs3 .ui-tab:nth-child(6),
+              #tabs3 .ui-tab:nth-child(7) { width:33.3% !important; }
+              #tabs3 .ui-tab:nth-child(8),
+              #tabs3 .ui-tab:nth-child(9),
+              #tabs3 .ui-tab:nth-child(10),
+              #tabs3 .ui-tab:nth-child(11) { width:25% !important; }
+          }
+          @media only screen and (max-width: 600px) {
+            .tabHeader ul li a { padding:12px 10px; }
+              #tabs3 .ui-tab:nth-child(1),
+              #tabs3 .ui-tab:nth-child(2),
+              #tabs3 .ui-tab:nth-child(3) { width:33.3% !important; }
+              #tabs3 .ui-tab:nth-child(4),
+              #tabs3 .ui-tab:nth-child(5),
+              #tabs3 .ui-tab:nth-child(6) { width:33.3% !important; }
+              #tabs3 .ui-tab:nth-child(7),
+              #tabs3 .ui-tab:nth-child(8),
+              #tabs3 .ui-tab:nth-child(9) { width:33.3% !important; }
+              #tabs3 .ui-tab:nth-child(10),
+              #tabs3 .ui-tab:nth-child(11) { width:50% !important; }
+          }
+        </style>
+
+        <script type="text/javascript">
+            $( document ).ready(function() {
+            $(function() {
+                $( "#tabs2" ).tabs();
+                $( "#tabs3" ).tabs();
+                $( "#tabs4" ).tabs();
+                $(".productsub").hide();
+                $(".productmain").click(function(){
+                    $(this).next(".productsub").show();
+                });
+            });
+        });
+        
+                      // Function executes when page is loaded                     
+                      $(document).ready(function () {        
+                          
+                          dependent();     
+                          
+                          /* Start updated by Sudeep for enhancement */
+                          
+                          // Get the Page Block and the div with class name 'pbHeader'
+                          var classEle = document.getElementById('{!$Component.form.openActivitiesPB}')
+                          .getElementsByClassName("pbHeader");
+                          
+                          // Get underlying td to append the image and related functionality
+                          var tdToAddImage = classEle[0].childNodes[0].childNodes[0].childNodes[0].childNodes[1];                          
+                          
+                          // Add image and related functionality acquired from standard Salesforce's PageBlockSection when inspected as HTML
+                          var showHideHTML = "<img src=\"/img/s.gif\" alt=\"Hide Section - \" class=\"hideListButton\"  name=\"\" " 
+                          + "onclick=\"twistSection(this);\" onkeypress=\"if (event.keyCode=='13')twistSection(this);\" style=\"cursor:pointer;float: right;\" "
+                          + "tabindex=\"0\" title=\"Hide Section - \">";
+                                                    
+                          tdToAddImage.innerHTML = showHideHTML;
+                          
+                          /* End updated by Sudeep for enhancement */                          
+                          
+                      });    
+                
+                      function dependent(){       
+                          var dealerVisitType = JSON.parse('{!JsonMapDependent}');        
+                          var callType = JSON.parse('{!JsonMapDependentCall}');       
+                          var parentPicklist = document.getElementsByClassName("parentPicklist")[0].value;        
+                          var dependentPicklist 
+                          = document.getElementById('{!$Component.depPageBlock.dealerType}');  // Added by Sudeep dynamic id     
+                          var c = dependentPicklist.length;       
+                          if(parentPicklist == "Dealer Visit"){       
+                              for (i = c; i > 0; i--) {       
+                                  dependentPicklist.remove(i-1);      
+                              }       
+                              for (i = 0; i < dealerVisitType.length; i++) {      
+                                  var option = document.createElement("option");      
+                                  option.text = dealerVisitType[i].Name;      
+                                  dependentPicklist.add(option);      
+                              }           
+                          }       
+                          if(parentPicklist == "Call"){       
+                              for (i = c; i > 0; i--) {       
+                                  dependentPicklist.remove(i-1);      
+                              }       
+                              for (i = 0; i < callType.length; i++) {     
+                                  var option = document.createElement("option");      
+                                  option.text = callType[i].Name;     
+                                  dependentPicklist.add(option);      
+                              }           
+                          }                           
+                      }
+        
+                      function createActivities(){
+                          
+                          var actyForm = document.getElementById("createActivity");
+                          
+                          /* Start updated by Sudeep to remove j_id0 */
+                          var note1 = document.getElementById('{!$Component.dealerEngageNotesPB.followup1}').checked;
+                          var note2 = document.getElementById('{!$Component.dealerEngageNotesPB.followup2}').checked;
+                          var note3 = document.getElementById('{!$Component.dealerEngageNotesPB.followup3}').checked;
+                          var note4 = document.getElementById('{!$Component.dealerEngageNotesPB.followup4}').checked;
+                          
+                          
+                          var note1Task = document.getElementById("task1");
+                          var note2Task = document.getElementById("task2");
+                          var note3Task = document.getElementById("task3");
+                          var note4Task = document.getElementById("task4");
+                          
+                          var getSubject1 = document.getElementById('{!$Component.dealerEngageNotesPB.Note1Subject}');
+                          var getSubject2 = document.getElementById('{!$Component.dealerEngageNotesPB.Note2Subject}');
+                          var getSubject3 = document.getElementById('{!$Component.dealerEngageNotesPB.Note3Subject}');
+                          var getSubject4 = document.getElementById('{!$Component.dealerEngageNotesPB.Note4Subject}');
+                          
+                          var getNoteTask1 = document.getElementById('{!$Component.dealerEngageNotesPB.plan}');
+                          var getNoteTask2 = document.getElementById('{!$Component.dealerEngageNotesPB.problem}');
+                          var getNoteTask3 = document.getElementById('{!$Component.dealerEngageNotesPB.proposal}');
+                          var getNoteTask4 = document.getElementById('{!$Component.dealerEngageNotesPB.progress}');
+                          
+                          if((note1 != true) && (note2 != true) && (note2 != true) && (note2 != true)){
+                              actyForm.style.display = "none";
+                          }
+                          if(note1 == true){
+                              actyForm.style.display = "block";
+                              note1Task.style.display = "table-row";
+                              document.getElementById('{!$Component.openActivitiesPB.Note1Subject}').value 
+                              = getSubject1.value;
+                              document.getElementById('{!$Component.openActivitiesPB.Note1Description}').value 
+                              = getNoteTask1.value;
+                          }if(note2 == true){
+                              actyForm.style.display = "block";
+                              note2Task.style.display = "table-row";
+                              document.getElementById('{!$Component.openActivitiesPB.Note2Subject}').value 
+                              = getSubject2.value;
+                              document.getElementById('{!$Component.openActivitiesPB.Note2Description}').value 
+                              = getNoteTask2.value;
+                          }if(note3 == true){
+                              actyForm.style.display = "block";
+                              note3Task.style.display = "table-row";
+                              document.getElementById('{!$Component.openActivitiesPB.Note3Subject}').value 
+                              = getSubject3.value;
+                              document.getElementById('{!$Component.openActivitiesPB.Note3Description}').value 
+                              = getNoteTask3.value;
+                          }if(note4 == true){
+                              actyForm.style.display = "block";
+                              note4Task.style.display = "table-row";
+                              document.getElementById('{!$Component.openActivitiesPB.Note4Subject}').value 
+                              = getSubject4.value;
+                              document.getElementById('{!$Component.openActivitiesPB.Note4Description}').value 
+                              = getNoteTask4.value;
+                          }
+                          
+                          /* End updated by Sudeep to remove j_id0 */
+                          
+                          if(note1 != true){
+                              note1Task.style.display = "none";
+                          }if(note2 != true){
+                              note2Task.style.display = "none";
+                          }if(note3 != true){
+                              note3Task.style.display = "none";
+                          }if(note4 != true){
+                              note4Task.style.display = "none";
+                          }
+                      }
+                      </script>
+
+      </head>
+      <body>
+        <div class="mainContainer">
+          <div id="tabs">
+            <div class="tabHeader" id="tabHeader">
+              <ul>
+                <!-- Code changes by Chirag -->
+                
+                <li id="PrepareTab"><a href="#tabPrepare">Prepare</a></li>
+                <li id="MeetTab"><a href="#tabMeet">Meet</a></li>
+                
+                <!-- <li><a href="#tabFollow">Follow Up</a></li>  -->
+                <!-- End of code changes by Chirag -->
+                
+              </ul>
+            </div>
+            <div style="clear:both;"></div>
+
+            <!--apex:actionFunction action="{!Proceed}" name="invokeProcess" oncomplete="" /-->
+
+            <!-- ----------------------------   Prepare Tab ------------------------ -->
+
+            <div class="tabBody" id="tabPrepare">
+
+              <div class="fullSection">
+              <apex:pageBlock title="{!account.name}">
+                  <div class="pageSection">
+                  <apex:pageBlockSection title="" columns="2">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Account Name:" for="account__name"/>
+                        <apex:outputText value="{!account.name}" id="account__name"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Showroom Type:" for="Showroom_Type"/>
+                        <apex:outputText value="{!account.Showroom_Type__c}" id="Showroom_Type"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Account Number:" for="AccountNumber"/>
+                        <apex:outputText value="{!account.AccountNumber}" id="AccountNumber"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Buying Relationship:" for="Buying_Relationship"/>
+                        <apex:outputText value="{!account.Buying_Relationship__c}" id="Buying_Relationship"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Premier Status:" for="Premier_Status"/>
+                            <apex:outputText value="{!account.Premier_Status__c}" id="Premier_Status"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Billing Address:" for="BillingAddress"/>
+                        <apex:outputText value="{!account.BillingStreet +', '+account.BillingCity+ ', '+account.BillingState+', '+account.BillingPostalCode+', '+account.BillingCountry}" id="BillingAddress"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Credit Line Balance:" for="Credit_Line_Balance"/>
+                        <apex:outputField value="{!account.Credit_Line_Balance__c}" id="Credit_Line_Balance"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Phone:" for="phone"/>
+                        <apex:outputText value="{!account.Phone}" id="phone"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Credit Limit:" for="Credit_Limit"/>
+                        <apex:outputText value="{!account.Credit_Limit__c}" id="Credit_Limit"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Primary Account Email:" for="Primary_Account_Email"/>
+                        <apex:outputText value="{!account.Primary_Account_Email__c}" id="Primary_Account_Email"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Custom Filter:" for="Custom_Filter"/>
+                        <apex:outputText value="{!account.Custom_Filter__c}" id="Custom_Filter"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Website:" for="Website"/>
+                        <apex:outputText value="{!account.Website}" id="Website"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Custom Filter 2:" for="Custom_Filter_2"/>
+                        <apex:outputText value="{!account.Custom_Filter_2__c}" id="Custom_Filter_2"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Decision Makers:" for="Decision_Makers"/>
+                        <apex:outputText value="{!account.Decision_Makers__c}" id="Decision_Makers"/>
+                    </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="# of Registered Customers:" for="of_Registered_Customers"/>
+                            <apex:outputText value="{!account.of_Registered_Customers__c}" id="of_Registered_Customers"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="Open Orders Dollars:" for="Open_Orders_Dollars"/>
+                            <apex:outputfield value="{!account.Open_Orders_Dollars__c}" id="Open_Orders_Dollars"/>
+                        </apex:pageBlockSectionItem>
+                        <apex:pageBlockSectionItem >
+                            <apex:outputLabel value="First Order Date:" for="First_Order_Date"/>
+                            <apex:outputfield value="{!account.First_Order_Date__c}" id="First_Order_Date"/>
+                        </apex:pageBlockSectionItem>
+                  </apex:pageBlockSection>
+                  </div>
+                </apex:pageBlock>
+                </div>
+
+                <div class="oneHalfSection">
+                <apex:pageBlock title="Status">
+                <div class="pageSection">
+                <p style="font-size:14px; margin-bottom:12px;"><span style="color:#999;">Current Status:</span> <strong>{!account.Current_Premier_Status__c}</strong></p>
+                <h2 class="styleTitle">{!account.Projected_Premier_Status_1__c}</h2>
+                <p style="font-size:14px; color:#999;">Projected Status Next Year*</p>
+                 <span class="totalSales" style="text-align:left;">
+                     <span style="font-size:18px; font-weight:400;"><apex:outputfield value="{!account.YTD_Revenue__c}" id="Current_VIR_Earned"/></span><br />
+                     <p style="font-size:12px; color:#999;">Total Sales this Year</p>
+                 </span>
+                 <table width="100%" cellpadding="0" style="margin-bottom:20px;">
+                   <tr>
+                     <td style="width:33%;">
+                       <div>
+                         <progress class="skill-1" max="100" value="{!ratingForGold}"> </progress>
+                         <div class="label-txt">Gold</div>
+                       </div>
+                     </td>
+                     <td style="width:33%;">
+                       <div>
+                         <progress class="skill-1" max="100" value="{!ratingForPlatinum}"> </progress>
+                         <div class="label-txt">Platinum</div>
+                       </div>
+                     </td>
+                     <td style="width:33%;">
+                       <div>
+                         <progress class="skill-1" max="100" value="{!ratingForDiamond}"> </progress>
+                         <div class="label-txt">Diamond</div>
+                       </div>
+                     </td>
+                   </tr>
+                 </table>
+                 <span class="totalSales" style="text-align:right;">
+                     <strong><span style="font-size:14px;"><apex:outputfield value="{!account.Revenue_to_Projected_Premier_Status_2__c}" id="Next_Status_Remaining_Revenue_Required"/></span></strong>
+                     <span style="font-size:14px;">until&nbsp;<apex:outputfield value="{!account.Projected_Premier_Status_2__c}" id="Next_Premier_Status_Name" /></span>
+                     <br />
+                 </span>
+                    <p style="font-size:11px; color:#999; text-align:right;">*Status subject to sales and finance approval.<br />This offer renews on each calendar year.</p>
+                </div>
+                </apex:pageBlock>
+                </div>
+
+                <div class="oneHalfSection" style="{!IF(account.Current_Premier_Status__c == 'None' || account.Current_Premier_Status__c == '', 'display:none','display:block')}">
+                    <apex:pageBlock title="Volume Incentive Rebate">
+                        <div class="pageSection">
+                                <h2 class="styleTitle" ><span style="float:right;"><apex:outputfield value="{!virDataObj.QTDTotalRebateEarnedAmt__c}" />*</span></h2>
+                                <br/>
+                                <span style="float:right; color:#999;">
+                                    <apex:outputfield value="{!virDataObj.CurrentVIRTier__c}"/> Rebate on &nbsp;
+                                    <strong><apex:outputfield value="{!virDataObj.QTDRevenueC4Amt__c}"/></strong>**
+                                </span>
+                                <br/>
+                                <br/>
+                                <span class="totalSales" style="text-align:left;">
+                                    <span style="font-size:18px; font-weight:400;"><apex:outputfield value="{!virDataObj.QTDRevenueTotalAmt__c}" id="Current_VIR_Earned"/></span><br />
+                                    <p style="font-size:12px; color:#999;">Total Sales this Quarter</p>
+                                </span>
+                                <!-- 1st VIR progress bar -->
+                                <table width="100%" cellpadding="0" style="margin-bottom:20px;">
+                                   <tr>
+                                     <td style="width:33%;">
+                                       <div>
+                                         <progress class="skill-1" max="100" value="{!ratingForFirstVIR}"> </progress>
+                                         <div class="label-txt">{!virDataObj.First_VIR_Tier__c}%</div>
+                                       </div>
+                                     </td>
+                                     <td style="width:33%;">
+                                       <div>
+                                         <progress class="skill-1" max="100" value="{!ratingForSecondVIR}"> </progress>
+                                         <div class="label-txt">{!virDataObj.SecondVIRTier__c}%</div>
+                                       </div>
+                                     </td>
+                                     <td style="width:33%;">
+                                       <div>
+                                         <progress class="skill-1" max="100" value="{!ratingForThirdVIR}"> </progress>
+                                          <div class="label-txt">{!virDataObj.ThirdVIRTier__c}%</div>
+                                       </div>
+                                     </td>
+                                   </tr>
+                                </table>
+                            <!--<span style="font-size:18px; font-weight:400;"><apex:outputfield value="{!virDataObj.YoYQtrRevenueGrowthPct__c}"/> Growth</span>-->
+                            <!-- 2st VIR progress bar, no needed for now -->
+                            <!-- <table width="100%" cellpadding="0" style="margin-bottom:20px;">
+                               <tr>
+                                 <td style="width:33%;">
+                                   <div>
+                                     <progress class="skill-1" max="100" value="{}"> </progress>
+                                     <div class="label-txt">{!virDataObj.Growth_Breakpoint_1__c}%</div>
+                                   </div>
+                                 </td>
+                                 <td style="width:33%;">
+                                   <div>
+                                     <progress class="skill-1" max="100" value="{}"> </progress>
+                                     <div class="label-txt">{!virDataObj.Growth_Breakpoint_2__c}%</div>
+                                   </div>
+                                 </td>
+                                 <td style="width:33%;">
+                                   <div>
+                                     <progress class="skill-1" max="100" value="{}"> </progress>
+                                     <div class="label-txt">{!virDataObj.Growth_Breakpoint_3__c}%</div>
+                                   </div>
+                                 </td>
+                               </tr>
+                             </table> -->
+                            <br/>
+                             <!-- < <apex:outputpanel rendered="{!virDataObj.IsProSourceBuyingGroup_0_or_1__c == true}"> -->
+
+                         <!-- </apex:outputpanel> -->
+                            <span style="float: right; {!IF(virDataObj.NextVIRTier__c == Null || virDataObj.NextVIRTier__c <= 0, 'display:none','display:block')}">
+                                <span style="font-size:14px;">
+                                <strong><apex:outputfield value="{!virDataObj.NextTierRemainingRevenueRequiredAmt__c}"/></strong>
+                                    until
+                                <strong><apex:outputfield value="{!virDataObj.NextVIRTier__c}"/></strong>
+                                    credit rebate
+                                </span>
+                            </span><br/><br/>
+                            <p style="font-size:11px; color:#999; text-align:right;">*Estimate only. Pending sales and finance approval.<br/>**Excludes partner product total sales.<br/></p>
+                        </div>
+                    </apex:pageBlock>
+            </div>
+
+                <div class="fullSection">
+                  <apex:pageBlock title="Dealer Financials">
+                  <div class="pageSection noPadding">
+                      <div class="oneThird tableYear">
+                          <div class="year"><span>{!year(today())}</span></div>
+
+                          <div class="rank">
+                          <span><font color="{!IF(AND(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_YTD__c)),(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_Last_Year__c))), accountRecord.Dealer_Ranking_within_Region_YTD__c < accountRecord.Dealer_Ranking_within_Region_Last_Year__c ), 'green', 'red')}">
+                            <font color="{!IF(ISNULL(accountRecord.Dealer_Ranking_within_Region_Last_Year__c), 'Black', '')}">
+                                <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_YTD__c)),(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_Last_Year__c))), accountRecord.Dealer_Ranking_within_Region_YTD__c < accountRecord.Dealer_Ranking_within_Region_Last_Year__c ),true,false)}">⬆</apex:outputText>
+                                <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_YTD__c)),(NOT(ISNULL(accountRecord.Dealer_Ranking_within_Region_Last_Year__c))), accountRecord.Dealer_Ranking_within_Region_YTD__c > accountRecord.Dealer_Ranking_within_Region_Last_Year__c ),true,false)}">⬇</apex:outputText>
+                                {!accountRecord.Dealer_Ranking_within_Region_YTD__c}
+                            </font>
+                          </font></span>
+                          <p style="font-size:13px; margin:0px 0px 10px; text-align:right;"><strong>Rank</strong></p>
+                          </div>
+
+                          <div style="display:block; clear:both;">
+                              <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.YTD_Revenue__c}" id="YTD_Revenue"/></span>
+                              <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Revenue to Date</strong></p>
+                          </div>
+                          <div style="display:block; clear:both;">
+                              <span style="font-size:18px; margin:0px 0px 0px; text-align:right; float:right; width:100%;">
+                              <div style="width:65%; float:right;">
+                                  <font color="{!IF(AND(NOT(ISNULL(accountRecord.YTD_Comparison__c)), accountRecord.YTD_Comparison__c > 0 ), 'green', 'red')}">
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YTD_Comparison__c)), accountRecord.YTD_Comparison__c > 0 ),true,false)}">⬆</apex:outputText>
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YTD_Comparison__c)), accountRecord.YTD_Comparison__c < 0 ),true,false)}">⬇</apex:outputText>
+                                          ${!IF(accountRecord.YTD_Comparison__c < 1000, TEXT(accountRecord.YTD_Comparison__c ),
+                                          IF(accountRecord.YTD_Comparison__c < 1000000, TEXT(FLOOR(accountRecord.YTD_Comparison__c /1000))
+                                          & ','
+                                          & RIGHT(TEXT(accountRecord.YTD_Comparison__c), LEN(TEXT(accountRecord.YTD_Comparison__c)) - LEN(TEXT(FLOOR(accountRecord.YTD_Comparison__c /1000)))),
+                                          IF(accountRecord.YTD_Comparison__c < 1000000000, TEXT(FLOOR(accountRecord.YTD_Comparison__c /1000000))
+                                          & ','
+                                          & TEXT(FLOOR(accountRecord.YTD_Comparison__c /1000))
+                                          & ','
+                                          & RIGHT(TEXT(accountRecord.YTD_Comparison__c), LEN(TEXT(accountRecord.YTD_Comparison__c)) - LEN(TEXT(FLOOR(accountRecord.YTD_Comparison__c /1000)))), "#Quantity-Too-High!")))}
+                                   </font>
+                                </div>
+                                <div style="width:35%; float:left; text-align:right;">
+                                    <font color="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth__c)), accountRecord.YOY_Growth__c > 0 ), 'green', 'red')}">
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth__c)), accountRecord.YOY_Growth__c > 0 ),true,false)}">⬆</apex:outputText>
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth__c)), accountRecord.YOY_Growth__c < 0 ),true,false)}">⬇</apex:outputText>
+                                      {!accountRecord.YOY_Growth__c}%
+                                    </font>
+                                </div>
+                               </span>
+                               <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Growth</strong></p>
+                           </div>
+
+                      </div>
+                      <div class="oneThird tableYear">
+                          <p class="year"><span>{!year(today()-365)}</span></p>
+
+                          <div class="rank">
+                              <span><apex:outputText value="{!account.Dealer_Ranking_within_Region_Last_Year__c}" id="Dealer_Ranking_within_Region_Last_Year"/></span>
+                              <p style="font-size:13px; margin:0px 0px 10px; text-align:right;"><strong>Rank</strong></p>
+                          </div>
+
+                          <div style="display:block; clear:both;">
+                              <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.YTD_Revenue_Comparison__c}" id="YTD_Revenue_Comparison"/></span>
+                              <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Revenue to Date</strong></p>
+                          </div>
+                          <div style="display:block; clear:both;">
+                              <span style="font-size:18px; margin:0px 0px 0px; text-align:right; float:right; width:100%;">
+                                  <div style="width:65%; float:right;">
+                                  <font color="{!IF(AND(NOT(ISNULL(accountRecord.Previous_YOY_Difference__c)), accountRecord.Previous_YOY_Difference__c > 0 ), 'green', 'red')}">
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.Previous_YOY_Difference__c)), accountRecord.Previous_YOY_Difference__c > 0 ),true,false)}">⬆</apex:outputText>
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.Previous_YOY_Difference__c)), accountRecord.Previous_YOY_Difference__c < 0 ),true,false)}">⬇</apex:outputText>
+                                                                             </font>
+                                   <apex:outputtext value="${0, number, ###,###,###,##0.00}" style="color:{!IF(accountRecord.Previous_YOY_Difference__c > 0 , 'green', 'red')};"><apex:param value="{!accountRecord.Previous_YOY_Difference__c}"/></apex:outputtext>
+                                   </div>
+                                   <div style="width:35%; float:left; text-align:right;">
+                                   <font color="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth_Prev__c)), accountRecord.YOY_Growth_Prev__c > 0 ), 'green', 'red')}">
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth_Prev__c)), accountRecord.YOY_Growth_Prev__c > 0 ),true,false)}">⬆</apex:outputText>
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.YOY_Growth_Prev__c)), accountRecord.YOY_Growth_Prev__c < 0 ),true,false)}">⬇</apex:outputText>
+                                      {!accountRecord.YOY_Growth_Prev__c}%
+                                   </font>
+                                   </div>
+                               </span>
+                               <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Growth</strong></p>
+                                <div style="display:block; clear:both;">
+                                  <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.Last_Year_s_Total_Rev__c}" id="Last_Years_Total_Rev"/></span>
+                                  <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Total Revenue</strong></p>
+                              </div>
+                          </div>
+
+                      </div>
+                      <div class="oneThird">
+                          <p class="year"><span>{!year(today()-730)}</span></p>
+
+                          <div class="rank">
+                              <span><apex:outputText value="{!account.Dealer_Ranking_within_Region_2_Years_Ago__c}" id="Dealer_Ranking_within_Region_2_Years_Ago"/></span>
+                              <p style="font-size:13px; margin:0px 0px 10px; text-align:right;"><strong>Rank</strong></p>
+                          </div>
+
+                            <div style="display:block; clear:both; margin-bottom:85px;">
+                                  <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.Revenue_to_Date_2_Years_Ago__c}" id="Two_Years_Ago_Total_Rev"/></span>
+                                  <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Revenue to Date</strong></p>
+                              </div>
+
+                          <div style="display:block; clear:both;">
+                              <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.Revenue_2_Years_Ago__c}" id="Revenue_2_Years_Ago"/></span>
+                              <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Total Revenue</strong></p>
+                          </div>
+
+                      </div>
+
+                      <div class="fullSection borderTop">
+
+                          <div style="width:48%; float:left; margin-top:20px; padding-right:4%; border-right:1px solid #ccc;">
+                              <p class="year"><span>{!year(today())}</span></p>
+                              <div style="float:right; display:block; width:50%; margin-bottom:10px;">
+                                <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.QTD_Revenue__c}" id="QTD_Revenue"/></span>
+                                <p style="font-size:13px; margin:0px 0px 10px; text-align:right;"><strong>QTD Revenue</strong></p>
+                              </div>
+                              <div style="display:block; clear:both;">
+                              <span style="font-size:18px; margin:0px 0px 0px; text-align:right; float:right; width:100%;">
+                                  <div style="width:65%; float:right;">
+                                  <font color="{!IF(AND(NOT(ISNULL(accountRecord.QTD_Comparison__c)), accountRecord.QTD_Comparison__c > 0 ), 'green', 'red')}">
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.QTD_Comparison__c)), accountRecord.QTD_Comparison__c > 0 ),true,false)}">⬆</apex:outputText>
+                                  <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.QTD_Comparison__c)), accountRecord.QTD_Comparison__c < 0 ),true,false)}">⬇</apex:outputText>
+
+                                   </font>
+                                   <apex:outputtext value="${0, number, ###,###,###,##0.00}" style="color:{!IF(accountRecord.QTD_Comparison__c > 0 , 'green', 'red')};"><apex:param value="{!accountRecord.QTD_Comparison__c}"/></apex:outputtext>
+                                   </div>
+                                   <div style="width:35%; float:left; text-align:right;">
+                                   <font color="{!IF(AND(NOT(ISNULL(accountRecord.QTD_YOY_Growth__c)), accountRecord.QTD_YOY_Growth__c > 0 ), 'green', 'red')}">
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.QTD_YOY_Growth__c)), accountRecord.QTD_YOY_Growth__c > 0 ),true,false)}">⬆</apex:outputText>
+                                      <apex:outputText rendered="{!IF(AND(NOT(ISNULL(accountRecord.QTD_YOY_Growth__c)), accountRecord.QTD_YOY_Growth__c < 0 ),true,false)}">⬇</apex:outputText>
+                                      {!accountRecord.QTD_YOY_Growth__c}%
+                                   </font>
+                                   </div>
+                               </span>
+                              </div>
+                               <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Growth</strong></p>
+
+                              <span style="font-size:26px; margin:10px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.Last_Quarter_s_Total_Rev__c}" id="Last_QTD_Revenue"/></span>
+                              <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Previous Quarter's Total Revenue</strong></p>
+                          </div>
+
+                          <div style="width:44%; float:right; margin-top:20px; padding-right:3%;">
+                              <p class="year"><span>{!year(today()-365)}</span></p>
+                              <div style="float:right; display:block; width:50%; margin-bottom:10px;">
+                                <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.QTD_Revenue_Comparison__c}" id="QTD_Revenue_Comparison"/></span>
+                                <p style="font-size:13px; margin:0px 0px 50px; text-align:right;"><strong>QTD Revenue</strong></p><br/><br/>
+                              </div>
+                              <div style="display:block; clear:both;">
+                                <span style="font-size:26px; margin:0px 0px 0px; text-align:right; float:right; width:100%; font-weight:100;"><apex:outputfield value="{!account.This_Quarter_Last_Year_Total_Rev__c}" id="This_Quarter_Last_Year"/></span>
+                                <p style="font-size:13px; margin:20px 0px 10px; text-align:right;"><strong>Total Revenue</strong></p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  </apex:pageBlock>
+                  </div>
+
+                  <div class="fullSection">
+                  <apex:pageBlock title="Purchase History">
+                  <!-- for now -->
+                  <div class="pageSection">
+                  <div class="oneHalf">
+                    <label> <strong>THIS YEAR</strong></label>
+                    <div id="audioChart"></div>
+                    <div id="controllersChart"></div>
+                    <div id="videoChart"></div>
+                    <div id="climateChart"></div>
+                    <!-- <div id="pakedgeChart"></div> -->
+                    <div id="networkingChart"></div>
+                    <div id="lightingChart1"></div>
+                    <div id="interfaceChart"></div>
+                    <div id="partnerProductChart"></div>
+                    <div id="doorLocksChart"></div>
+                    <div id="triadChart"></div>
+                    <!--<div id="thirdPartyChart"></div>-->
+                    <div id="cardAccessChart"></div>
+
+                  </div>
+                  <div class="oneHalf">
+                      <span ><strong>LAST YEAR </strong> </span>
+                      <div id="audioLastYearChart"></div>
+                      <div id="controllersLastYearChart"></div>
+                      <div id="videoLastYearChart"></div>
+                      <div id="climateLastYearChart"></div>
+                      <!-- <div id="pakedgeLastYearChart"></div> -->
+                      <div id="networkingLastYearChart"></div>
+                      <div id="lightingLastYearChart1"></div>
+                      <div id="interfaceLastYearChart"></div>
+                      <div id="partnerProductLastYearChart"></div>
+                      <div id="doorLocksLastYearChart"></div>
+                      <div id="triadLastYearChart"></div>
+                      <!--<div id="thirdPartyLastYearChart"></div>-->
+                      <div id="cardAccessLastYearChart"></div>
+
+                  </div>
+                </div>
+
+
+            <!-- DY -->
+                  </apex:pageBlock>
+                  </div>
+
+
+                  <div class="fullSection">
+                  <apex:pageBlock title="Open Design Reviews and Adoption Opportunities" rendered="{!NULLVALUE(relatedOpportunityList.size,0)!=0}">
+                  <div class="pageSection">
+                      <apex:pageBlockSection title="" columns="1">
+                      <apex:outputPanel layout="block">
+                          <apex:pageBlockTable value="{!relatedOpportunityList}" var="objOpp" styleClass="tableContainer">
+                              <apex:column value="{!objOpp.Name}"/>
+                              <apex:column value="{!objOpp.RecordType.Name}" headerValue="Type"/>
+                              <apex:column value="{!objOpp.StageName}"/>
+                              <apex:column value="{!objOpp.Product_Segment__c}"/>
+                              <apex:column value="{!objOpp.CloseDate}"/>
+                              <apex:column value="{!objOpp.NextStep}"/>
+                          </apex:pageBlockTable>
+                      </apex:outputPanel>
+                      </apex:pageBlockSection>
+                      </div>
+                  </apex:pageBlock>
+                  </div>
+
+                    <div class="fullSection">
+                      <apex:pageBlock title="Open Activities">
+                          <div class="pageSection">
+                      <apex:outputPanel rendered="{!NULLVALUE(openActivities.size,0)!=0}">
+                      <table class="tableContainer">
+                        <thead>
+                          <tr>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <apex:repeat value="{!openActivities}" var="activity" id="repeatActivities">
+                            <tr id="products">
+                                <td width="42%">{!activity.Subject}</td>
+                                <td width="10%">
+                                    <apex:outputText value="{0,date,MM/dd/yyyy}">
+                                        <apex:param value="{!activity.ActivityDate}"/>
+                                    </apex:outputText>
+                                </td>
+                                <td>{!activity.Description}</td>
+                             </tr>
+                        </apex:repeat>
+                        </tbody>
+                      </table>
+                     </apex:outputPanel>
+                          </div></apex:pageBlock>
+                          </div>
+
+                  <div class="fullSection">
+                  <apex:pageBlock title="Related Contacts" rendered="{!NULLVALUE(contactsRelatedToAccountList.size,0)!=0}">
+                  <div class="pageSection">
+                    <apex:pageBlockSection title="" columns="1" >
+                    <apex:outputPanel >
+                        <apex:pageBlockTable value="{!contactsRelatedToAccountList}" var="objContact" styleClass="tableContainer">
+                            <apex:column value="{!objContact.Name}" />
+                            <apex:column value="{!objContact.Title}" />
+                            <apex:column value="{!objContact.Email}"/>
+                            <apex:column value="{!objContact.Associate_Installer__c}" />
+                            <apex:column headerValue="Control4 Certified" value="{!objContact.Cert_Count__c}" />
+                            <apex:column value="{!objContact.Tech_II_Certified__c}" />
+                            <apex:column value="{!objContact.Centralized_Lighting_Certified__c}" />
+                        </apex:pageBlockTable>
+                      </apex:outputPanel>
+                    </apex:pageBlockSection>
+                    </div>
+                  </apex:pageBlock>
+                  </div>
+
+            <div style="clear:both;"></div>
+            </div>
+
+            <!-- ------------------------------------------------------------------- -->
+
+            <div class="tabBody" id="tabMeet">
+            
+                <!-- Start changes by Sudeep -->
+                
+                <apex:commandButton id="SaveAndProceed" value="{!$Label.DealerVisit_Save}" action="{!Proceed}"
+                                    styleClass="closeButton" rerender="followUpTab" status="actStatusId"
+                                    onComplete="redirectToFollowUp();assignValueToList();"/>
+                <!-- End changes by Sudeep -->
+                
+            <div> <br/><br/> <br/> <br/>  
+                <div class="oneThirdSection">
+                
+                  
+                  <!-- Updated by Sudeep to remove static referce of id i.e. j_id added pageblock id-->
+                  <apex:pageBlock title="Meeting Information" id="depPageBlock">
+
+                  <div class="pageSection">
+                    <div class="boxedForm">
+                        <div class="formSection">
+                          <span class="formLabel">Date:</span>
+                            <apex:inputField styleClass="cssbody" value="{!taskObj.ActivityDate}" required="true"/>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="formSection">
+                          
+                          <span class="formLabel">Sales Note Type :</span>
+                          <apex:selectList size="1" value="{!selectedValue1}" styleClass="parentPicklist" onchange="dependent();">
+                              <apex:selectOptions value="{!type1}"/>
+                              <apex:actionSupport event="onchange" action="{!setDealerType}" rerender="optionsDealer"/>
+                          </apex:selectList>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="formSection">
+                        
+                          <span class="formLabel">Dealer Engagement Type:</span>
+                          <apex:outputPanel id="optionsDealer">
+                          <apex:selectList size="1" value="{!selectedValue}" id="dealerType">
+                              <apex:selectOptions value="{!type}"/>
+                              <apex:actionSupport event="onchange" action="{!setDealerType}" rerender="nothing"/>
+                          </apex:selectList>
+                          </apex:outputPanel>
+                            <div style="clear:both;"></div>
+                        </div>
+                    <div style="clear:both;"></div>
+                    <span class="formLabel">Talked With:</span>
+                    <apex:pageBlock >
+                      <apex:outputText id="displayHere"/>
+                      <apex:inputTextArea id="textbox" value="{!selectedList}" disabled="true"/>
+                      <apex:commandButton value="Select Contacts" action="{!showPopup}" rerender="popup" status="actStatusId" />
+                      <apex:outputPanel id="popup">
+                        <apex:outputPanel id="popInnerOutputPnl" styleClass="customPopup" layout="block" rendered="{!displayPopUp}" style="overflow:scroll;height:340px">
+                            <!--<apex:commandButton value="Close" title="Close the popup" action="{!closePopup}" styleClass="closeButton" rerender="popup"/>-->
+                            <apex:commandButton value="Ok" action="{!selectedContactList}" styleClass="closeButton" rerender="popup,displayHere,textbox"/>
+                            <apex:variable value="{!0}" var="count"/>
+                            <apex:pageBlockTable value="{!contacts}" var="c" styleClass="table" >
+                              <apex:column id="selectCon" headerValue="Select" style="text-align:center;">
+                                  <div class="checkContainer">
+                                      <div class="styleCheck">
+                                        <apex:inputCheckbox value="{!c.selected}" styleClass="checkboxSelect" id="ContactCheck" />
+                                        
+                                          <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                          <label for="{!$Component.ContactCheck}"></label>
+                                          
+                                      </div>
+                                  </div>
+                                  <apex:variable var="count" value="{!count+ 1}"/>
+                              </apex:column>
+                              <apex:column value="{!c.con.Name}" styleClass="con"/>
+                              <apex:column headerValue="Primary Contact" style="text-align:center;">
+                                  <div class="checkContainer">
+                                      <div class="styleCheck">
+                                        <apex:inputCheckbox onclick="markPrimary('{!c.con.Id}')" value="{!c.primaryContact}" disabled="{!IF(c.primaryContact==true,true,false)}" id="ContactPrimary" />
+                                        
+                                          <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                          <label for="{!$Component.ContactPrimary}"></label>
+                                          
+                                      </div>
+                                  </div>
+                              </apex:column>
+
+                            </apex:pageBlockTable>
+                            <apex:outputLabel value="Select a Primary Contact to be added to the Sales Note" styleClass="requiredField"/>
+                            <apex:commandButton value="Ok" action="{!selectedContactList}" styleClass="closeButton" rerender="popup,displayHere,textbox"/>
+                        </apex:outputPanel>
+                      </apex:outputPanel>
+                    <apex:actionFunction name="markPrimary" action="{!disableCheckbox}"  rerender="popup">
+                      <apex:param name="selectItemId" value="" assignTo="{!idSelected}"/>
+                    </apex:actionFunction>
+                    </apex:pageBlock>
+                      </div>
+                      </div>
+                    </apex:pageBlock>
+                  </div>
+
+                <div class="twoThirdsSection">
+                  
+                  <!-- Id added by Sudeep to remove j_id -->
+                  <apex:pageBlock title="Dealer Engagement Notes" id="dealerEngageNotesPB">
+                  <div class="pageSection">
+
+                      <div id="tabs2">
+                        <div class="tabHeader" id="tabHeader">
+                          <ul>
+                            <li><a href="#tabPlans">Note 1</a></li>
+                            <li><a href="#tabProblems">Note 2</a></li>
+                            <li><a href="#tabProposal">Note 3</a></li>
+                            <li><a href="#tabProgress">Note 4</a></li>
+                          </ul>
+                        </div>
+                        <div style="clear:both;"></div>
+    
+                        <div class="tabBody" id="tabPlans" >
+                            <div><apex:inputText style="width: 100%;" id="Note1Subject" value="{!note1Subject}"
+                                                 html-placeholder="Subject"
+                                                 onChange="setValuesToAnother(this,'{!$Component.openActivitiesPB.Note1Subject}');"/></div>
+                            <apex:inputTextArea id="plan" value="{!planValue}" html-placeholder="Note 1"
+                                                onChange="setValuesToAnother(this,
+                                                          '{!$Component.openActivitiesPB.Note1Description}');"/>
+                                <div class="oneHalf">
+                                  <div class="styleCheck" style="margin: 20px 0 0 5px;">
+                                    <apex:inputCheckbox value="{!followUp1}" id="followup1" onclick="createActivities()" />
+                                    
+                                      <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                      <label for="{!$Component.followup1}"></label>
+                                      
+                                  </div>
+                                  <p class="checkLabel" style="margin: 20px 0 0 0;">Create Follow up Task</p>
+                                </div>
+                                <div class="checkLabel" style="font-size: 16px;">
+                                   Flag for P4
+                                    <apex:selectList id="FlagForPFOURnotes" value="{!selectedFlag}" size="1" style="width:150px;" >
+                                      <apex:selectOptions value="{!FlagForPFOURnotes}" />
+                                    </apex:selectList>  
+                                                               
+                                </div>
+                            
+                            <div style="clear:both;"></div><br/><br/>
+                         </div>
+                         
+                         <div class="tabBody" id="tabProblems">
+                         <apex:inputText style="width: 100%;" id="Note2Subject" value="{!note2Subject}" html-placeholder="Subject" size="84"
+                                         onChange="setValuesToAnother(this,'{!$Component.openActivitiesPB.Note2Subject}');"/>
+                             <apex:inputTextArea id="problem" value="{!problem}" html-placeholder="Note 2"
+                                                 onChange="setValuesToAnother(this,
+                                                          '{!$Component.openActivitiesPB.Note2Description}');"/>
+                                 <div class="oneHalf">
+                                  <div class="styleCheck" style="margin: 20px 0 0 5px;">
+                                    <apex:inputCheckbox value="{!followUp2}" id="followup2" onclick="createActivities()" />
+                                    
+                                      <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                      <label for="{!$Component.followup2}"></label>
+                                      
+                                  </div>
+                                  <p class="checkLabel" style="margin: 20px 0 0 0;">Create Follow up Task</p>
+                                </div>
+                                <div class="checkLabel" style="font-size: 16px;">
+                                   Flag for P4
+                                   
+                                    <apex:selectList id="FlagForPFOURnotes2" value="{!selectedFlag2}" size="1" style="width:150px;">
+                                      <apex:selectOptions value="{!FlagForPFOURnotes}" />
+                                    </apex:selectList>  
+                                                                  
+                                </div>
+                            
+                            <div style="clear:both;"></div><br/><br/>
+                         </div>
+
+                          <div class="tabBody" id="tabProposal">
+                          <apex:inputText style="width: 100%;" id="Note3Subject" value="{!note3Subject}" html-placeholder="Subject"
+                                          size="84"
+                                          onChange="setValuesToAnother(this,'{!$Component.openActivitiesPB.Note3Subject}');"/>
+                              <apex:inputTextArea id="proposal" value="{!proposal}" html-placeholder="Note 3"
+                                                  onChange="setValuesToAnother(this,
+                                                          '{!$Component.openActivitiesPB.Note3Description}');"/>
+                                <div class="oneHalf">
+                                  <div class="styleCheck" style="margin: 20px 0 0 5px;">
+                                    <apex:inputCheckbox value="{!followUp3}" id="followup3" onclick="createActivities()" />
+                                    
+                                      <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                      <label for="{!$Component.followup3}"></label>
+                                      
+                                  </div>
+                                  <p class="checkLabel" style="margin: 20px 0 0 0;">Create Follow up Task</p>
+                                </div>
+                                   <div class="checkLabel" style="font-size: 16px;">
+                                   Flag for P4
+                                    <apex:selectList id="FlagForPFOURnotes3" value="{!selectedFlag3}" size="1" style="width:150px;" >
+                                      <apex:selectOptions value="{!FlagForPFOURnotes}" />
+                                    </apex:selectList>                              
+                                </div>
+                            
+                            <div style="clear:both;"></div><br/><br/>
+                         </div>
+                          <div class="tabBody" id="tabProgress">
+                          <apex:inputText style="width: 100%;" id="Note4Subject" value="{!note4Subject}" html-placeholder="Subject"
+                                          size="84"
+                                          onChange="setValuesToAnother(this,'{!$Component.openActivitiesPB.Note4Subject}');"/>
+                            <apex:inputTextArea id="progress" value="{!progress}" html-placeholder="Note 4"
+                                                onChange="setValuesToAnother(this,
+                                                          '{!$Component.openActivitiesPB.Note4Description}');"/>
+                                <div class="oneHalf">
+                                  <div class="styleCheck" style="margin: 20px 0 0 5px;">
+                                    <apex:inputCheckbox value="{!followUp4}" id="followup4" onclick="createActivities()" />
+                                    
+                                      <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                      <label for="{!$Component.followup4}"></label>
+                                      
+                                  </div>
+                                  <p class="checkLabel" style="margin: 20px 0 0 0;">Create Follow up Task</p>
+                                </div>
+                                <div class="checkLabel" style="font-size: 16px;">
+                                   Flag for P4
+                                    <apex:selectList id="FlagForPFOURnotes4" value="{!selectedFlag4}" size="1" style="width:150px;">
+                                      <apex:selectOptions value="{!FlagForPFOURnotes}" />
+                                    </apex:selectList>  
+                                    </div>
+                                    <div style="clear:both;"></div><br/><br/>
+                                    </div>
+                                                           
+                                
+                                
+                    </div>
+                    </div>
+                  </apex:pageBlock>
+                </div>
+
+                  <div style="clear:both;"></div>
+              </div>
+                
+                <!--Added for follow up section -->
+                
+                 <div class="fullSection container" style="display:none" id="createActivity">
+                     
+                     <!-- Updated Page Block with id to remove j_id -->
+                      <apex:pageBlock title="Open Activities" id="openActivitiesPB">                          
+                          <div class="pageSection content" >
+                              <apex:outputPanel >
+                              <table class="tableContainer" id="activityList" >
+                                <thead>
+                                  <tr>
+                                    <th>Subject</th>
+                                    <th>Due Date</th>
+                                    <th>Description</th>
+                                    <th>Assigned To</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="display:none" id="task1">
+                                        <td width="20%"> <apex:inputText id="Note1Subject" value="{!subjectTask1}"
+                                                                         html-placeholder="Subject" 
+                                                                         onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.Note1Subject}');"/> </td>
+                                        <td width="20%"> <apex:input type="text" id="Note1DueDate" value="{!dueDateTask1}"
+                                                                     html-placeholder="Due Date"   onfocus="DatePicker.pickDate(false, this, false);"/> </td>
+                                        <td width="20%"> <apex:inputTextarea id="Note1Description"
+                                                                             value="{!descriptionTask1}"
+                                                                             html-placeholder="Description"
+                                                                             onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.plan}');"/> </td>
+                                        <td width="20%"> <apex:inputField id="Note1Contact" value="{!contactTask1.ownerid}" html-placeholder="Assigned To"  required="false"/> </td>
+                                    </tr>
+                                    <tr style="display:none" id="task2">
+                                        <td width="20%"> <apex:inputText id="Note2Subject" value="{!subjectTask2}"
+                                                                         html-placeholder="Subject" 
+                                                                         onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.Note2Subject}');"/> </td>
+                                        <td width="20%"> <apex:input type="text" id="Note2DueDate" value="{!dueDateTask2}"
+                                                                     html-placeholder="Due Date" onfocus="DatePicker.pickDate(false, this, false);"/> </td>
+                                        <td width="20%"> <apex:inputTextarea id="Note2Description"
+                                                                             value="{!descriptionTask2}"
+                                                                             html-placeholder="Description"
+                                                                             onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.problem}');"/> </td>
+                                        <td width="20%"> <apex:inputField id="Note2Contact" value="{!contactTask2.ownerid}" html-placeholder="Assigned To"  required="false"/> </td>
+                                    </tr>
+                                    <tr style="display:none" id="task3">
+                                        <td width="20%"> <apex:inputText id="Note3Subject" value="{!subjectTask3}"
+                                                                         html-placeholder="Subject" 
+                                                                         onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.Note3Subject}');"/> </td>
+                                        <td width="20%"> <apex:input type="text" id="Note3DueDate" value="{!dueDateTask3}" html-placeholder="Due Date"  onfocus="DatePicker.pickDate(false, this, false);"/> </td>
+                                        <td width="20%"> <apex:inputTextarea id="Note3Description"
+                                                                             value="{!descriptionTask3}"
+                                                                             html-placeholder="Description"
+                                                                             onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.proposal}');"/> </td>
+                                        <td width="20%"> <apex:inputField id="Note3Contact" value="{!contactTask3.ownerid}" html-placeholder="Assigned To" required="false"/> </td>
+                                    </tr>
+                                    <tr style="display:none" id="task4">
+                                        <td width="20%"> <apex:inputText id="Note4Subject" value="{!subjectTask4}"
+                                                                         html-placeholder="Subject" 
+                                                                         onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.Note4Subject}');"/> </td>
+                                        <td width="20%"> <apex:input type="text" id="Note4DueDate" value="{!dueDateTask4}" html-placeholder="Due Date" onfocus="DatePicker.pickDate(false, this, false);"/> </td>
+                                        <td width="20%"> <apex:inputTextarea id="Note4Description"
+                                                                             value="{!descriptionTask4}"
+                                                                             html-placeholder="Description"
+                                                                             onChange="setValuesToAnother(this,
+                                                          '{!$Component.dealerEngageNotesPB.progress}');"/> </td>
+                                        <td width="20%"> <apex:inputField id="Note4Contact" value="{!contactTask4.ownerid}" html-placeholder="Assigned To" required="false"/> </td>
+                                    </tr>
+                                    
+                                </tbody>
+                              </table>
+                             </apex:outputPanel>
+                          </div>
+                      </apex:pageBlock>
+                 </div>
+                
+                <div class="fullSection">
+                  <apex:pageBlock title="Product Discussion">
+                  <div class="pageSection">
+                      <div id="tabs3">
+                        <div class="tabHeader" id="tabHeader">
+                          <ul>
+                              <apex:repeat value="{!discussionItemWrapperList}" var="family" id="repeatFamily2">
+                                  <li><a href="#tab{!family.uniqueProduct}">{!family.product}</a></li>
+                              </apex:repeat>
+                          </ul>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <apex:variable value="{!0}" var="countProduct"/>
+                        <apex:repeat value="{!discussionItemWrapperList}" var="family" id="repeatFamily">
+                            <div class="tabBody" id="tab{!family.uniqueProduct}">
+                            <div class="oneHalf">
+                                <apex:inputTextarea html-placeholder="NOTES" id="notesId" value="{!family.notes}"
+                                                    onchange="setValues(this,'{!family.product}');"/>
+                                <div class="oneHalf">
+                                    <p class="formLabel">Create Opportunity</p>
+                                    <div class="checkContainer" style="float:left; clear:inherit; margin:-6px 0px 0px 0px;">
+                                        <div class="styleCheck">
+                                             <!-- Start Updated Code Sudeep Chirag -->
+                                            <input type="checkbox" id="{!family.uniqueProduct}Create" 
+                                            class="oppCreation" name="oppCreation[]"  
+                                            onclick="createOpp(this,'{!family.product}','{!family.uniqueProduct}',
+                                                            '{!$Component.notesId}');"/>
+                                            <!-- End Updated Code Sudeep Chirag -->
+                                            <label for="{!family.uniqueProduct}Create"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oneHalf">
+                                <p class="formLabel formLabelSelect">Flag for P4</p>
+                                  <apex:selectList id="flagP4" value="{!family.flagForP4}" size="1">
+                                      <apex:selectOptions value="{!selectP4Type}"  />
+                                  </apex:selectList>
+                                </div>
+                            </div>
+                            <div class="oneHalf">
+                                <div class="oneHalf" style="background:#eeeeee; box-sizing:border-box; padding:15px;">
+                                    <h4>Products Discussed</h4>
+                                    <apex:variable var="subProductCount" value="{!0}"/>
+                                    <apex:repeat value="{!family.productSubProductsWrapperList}" var="subFamily" id="repeatSubFamily" >
+                                      <tr>
+                                        <td align="center">
+                                            <div class="checkContainer">
+                                                <div class="styleCheck">
+                                                    <apex:inputCheckbox value="{!subFamily.selectedSubProduct}" styleClass="checkboxSelect" id="SubProductCheck"/>
+                                                    
+                                                    <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                                    <label for="{!$Component.SubProductCheck}"></label>
+                                                    
+                                                    <apex:variable var="subProductCount" value="{!subProductCount+ 1}"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td width="20%">{!subFamily.subProductString}</td>
+                                      </tr>
+                                    </apex:repeat>
+                                </div>
+                                <div class="oneHalf" style="background:#eeeeee; box-sizing:border-box; padding:15px;">
+                                    <h4>Competitors Discussed</h4>
+                                      <apex:variable value="{!0}" var="count"/>
+
+                                        <apex:repeat value="{!family.productCompetitorWrapperList}" var="competitor" id="repeatCompetitor" >
+                                        <tr>
+                                          <td align="center">
+                                              <div class="checkContainer">
+                                                  <div class="styleCheck">
+                                                      
+                                                      <!-- Start added by Sudeep for changes suggest on 27 Nov 2017 -->
+                                                      <apex:inputCheckbox value="{!competitor.selectedCompetitor}"
+                                                                          styleClass="checkboxSelect" id="CompetitorCheck"
+                                                                          onchange="addRemoveRequired(
+                                                                                    this,
+                                                                                    '{!competitor.competitorString}',
+                                                                                    '{!$Component.otherText}'
+                                                                                    );"/>
+                                                      <!-- End added by Sudeep for changes suggest on 27 Nov 2017 -->
+                                                      
+                                                      <!-- Updated by Sudeep to remove static referce of id i.e. j_id -->
+                                                      <label for="{!$Component.CompetitorCheck}"></label>
+                                                      
+                                                      <apex:variable var="count" value="{!count+ 1}"/>
+                                                  </div>
+                                              </div>
+                                          </td>
+                                          <td width="20%">{!competitor.competitorString}</td>
+                                        </tr>
+
+                                      </apex:repeat>
+                                      <br/><br/>
+
+                                        <tr>
+                                          Other Competitor
+                                            <td width="20%">
+                                                
+                                                <!-- Start added by Sudeep for changes suggest on 27 Nov 2017 -->  
+                                                <div>
+                                                    <apex:inputText value="{!family.competitor}" id="otherText"/>  
+                                                </div>
+                                                <!-- End added by Sudeep for changes suggest on 27 Nov 2017 -->
+                                            </td>
+                                        </tr>
+
+                                  <apex:inputHidden id="hiddenCompetitorsValues" value="{!selectedCompetitors}"/>
+                                  <apex:variable var="countProduct" value="{!countProduct+ 1}"/>
+
+                                </div>
+
+                            </div>
+                            <div style="clear:both;"></div>
+                            </div>
+                          </apex:repeat>
+
+                      </div>
+
+                      </div>
+                    </apex:pageBlock>
+                </div>
+
+                <!-- Chirag's Change -->
+                <div class="fullSection" id="oppSection">
+                    
+                    <apex:pageBlock title="Opportunities" id="createOppPB">
+                        
+                        
+                        <div id="createOppSectId" class="pageSection content">
+                            <div  style="display:block" id="createOppDiv">
+                                
+                                <table class="tableContainer" id="createOppDiv:createOppTable">
+                                    <tr>
+                                        <th width="15%">Name</th>
+                                        <th width="15%">Stage</th>
+                                        <th width="15%">Close Date</th>
+                                        <th width="15%">Amount</th>
+                                        <th width="15%">Description</th>
+                                        <th width="15%">Next Step</th>
+                                    </tr>
+                                    
+                                    <tbody id="createOppTable:createOppTbody">                        
+                                    </tbody>
+                                    
+                                </table>
+                                
+                            </div>
+                        </div>
+                        
+                    </apex:pageBlock>
+                    
+                </div> 
+                <!-- End Chirag's Change -->
+                
+                <apex:actionStatus id="proceeding" >
+                  <apex:facet name="start" >
+                    <center>
+                      <img src="/img/loading.gif" />
+                    </center>
+                  </apex:facet>
+                </apex:actionStatus>
+
+
+                <!-- Start changes by Sudeep -->
+                
+                <apex:commandButton value="{!$Label.DealerVisit_Save}" action="{!Proceed}"  styleClass="closeButton"
+                                    rerender="followUpTab" status="actStatusId"
+                                    onComplete="redirectToFollowUp();assignValueToList();"/>
+                <!-- End changes by Sudeep -->
+                  
+                  <apex:inputHidden id="opportunitiesToCreate" value="{!opportunities}"/>
+
+                    <div style="clear:both;"></div>
+                  </div>
+              <div class="tabBody" id="tabFollow">
+              <apex:outputPanel id="followUpTab">
+                <center>
+                  <apex:outputText value="Records were inserted successfully" id="recordSaved" rendered="{!recordsSaved}"  styleClass="recordsCreated"/>
+                </center>
+
+               <div id="tabs4">
+                <!-- <div class="tabHeader" id="tabHeader">
+                  <ul>
+                      <li><a href="#tabFollowUp">Complete Your Follow Ups</a></li>
+                      <li><a href="#tabUpdates">Make Updates</a></li>
+                  </ul>
+                </div>
+                <div style="clear:both;"></div> -->
+
+               <!-- <div class="tabBody" id="tabFollowUp"> -->
+
+                  <div class="fullSection">
+                  <apex:commandButton value="Save All" action="{!saveAll}" styleClass="closeButton" oncomplete="redirectBack()" rerender="savingRecords" status="actStatusId"/>
+                      <apex:pageBlock title="Activities">
+                      <div class="pageSection">
+                      <apex:outputPanel rendered="{!NULLVALUE(taskFromFollowUpList.size,0)!=0}">
+                      <table class="tableContainer">
+                        <thead>
+                          <tr>
+                            <th>Subject</th>
+                            <th>Due Date</th>
+                            <th>Description</th>
+                            <th>Assigned To</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <apex:repeat value="{!taskFromFollowUpList}" var="followUpData" id="followUpTable">
+                            <tr>
+                                <td width="20%">{!followUpData.subject}</td>
+                                <td width="20%">
+                                    <apex:inputField value="{!followUpData.ActivityDate}" style="width: 150px;" />
+                                </td>
+                                <td width="20%">
+                                    <apex:inputTextarea value="{!followUpData.Description}" />
+                                </td>
+                                <td width="20%">
+                                  <apex:inputField value="{!followUpData.OwnerId}"/>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        </tbody>
+                      </table>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="noFollowUpTask">
+                      <center>
+                        <apex:outputText value="You did not select any topics for Follow Up on the Meet Tab" id="noFollowUp" rendered="{!NULLVALUE(taskFromFollowUpList.size,0)==0}"  styleClass="requiredField"/>
+                      </center>
+                    </apex:outputPanel>
+                          </div>
+                      </apex:pageBlock>
+                  </div>
+                   <div style="clear:both;"></div>
+                  <div class="fullSection">
+                      <apex:pageBlock title="Opportunities">
+                          <div class="pageSection">
+                      <apex:outputPanel rendered="{!NULLVALUE(opportunityList.size,0)!=0}">
+                      <table class="tableContainer">
+                          <tr>
+                            <th width="15%">Name</th>
+                            <th width="15%">Stage</th>
+                            <th width="15%">Close Date</th>
+                            <th width="15%">Amount</th>
+                            <th width="15%">Description</th>
+                            <th width="15%">Next Step</th>
+                          </tr>
+                          <apex:repeat value="{!opportunityList}" var="opportunityTocreate" id="repeatOpprtunity">
+                            <tr id="products">
+                              <td width="15%">
+                                <apex:inputText html-placeholder="Notes About Next Step" value="{!opportunityTocreate.Name}" style="width: 145px;"/>
+                              </td>
+                              <td width="15%">
+                                  <apex:selectList id="stageId" value="{!opportunityTocreate.stageName}" size="1">
+                                    <apex:selectOption itemValue="0-Engaged" itemLabel="0-Engaged"/>
+                                    <apex:selectOption itemValue="1-Trying to Convert" itemLabel="1-Trying to Convert"/>
+                                    <apex:selectOption itemValue="2-Purchased" itemLabel="2-Purchased"/>
+                                    <apex:selectOption itemValue="3-Converted the Business" itemLabel="3-Converted the Business"/>
+                                    <apex:selectOption itemValue="Closed Won" itemLabel="Closed Won"/>
+                                    <apex:selectOption itemValue="Closed Lost" itemLabel="Closed Lost"/>
+                                  </apex:selectList>
+                              </td>
+                              <td width="15%">
+                                  <apex:inputField value="{!opportunityTocreate.closeDate}" required="true" style="width: 135px;"/>
+                              </td>
+                              <td width="15%">
+                                  <apex:inputField value="{!opportunityTocreate.Amount}" style="width: 145px;"/>
+                              </td>
+                              <td width="15%">
+                                <apex:inputTextarea html-placeholder="Description" style="width: 170px;" value="{!opportunityTocreate.Description}"/>
+                              </td>
+                              <td width="15%">
+                                <apex:inputTextarea html-placeholder="Next Step Notes" style="width: 190px;" value="{!opportunityTocreate.NextStep}"/>
+                              </td>
+                            </tr>
+                          </apex:repeat>
+                      </table>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="noOpp">
+                      <center>
+                        <apex:outputText value="You did not select to create any Opportunities on the Meet Tab" id="noOpportunity" rendered="{!NULLVALUE(opportunityList.size,0)==0}"  styleClass="requiredField"/>
+                      </center>
+                    </apex:outputPanel>
+                          </div>
+                      </apex:pageBlock>
+                  </div>
+                   <div style="clear:both;"></div>
+               <!-- </div>
+               <div class="tabBody" id="tabUpdates"> -->
+                  <div class="fullSection">
+                      <apex:pageBlock title="Open Activities">
+                          <div class="pageSection">
+                      <apex:outputPanel rendered="{!NULLVALUE(openActivities.size,0)!=0}">
+                      <table class="tableContainer">
+                        <thead>
+                          <tr>
+                            <th>Complete</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <apex:repeat value="{!openActivities}" var="activity" id="repeatActivities">
+                            <tr id="products">
+                                <td align="center" width="15%">
+                                    <div class="checkContainer">
+                                      <div class="styleCheck">
+                                        <input type="checkbox" id="{!activity}" class="activityComplete" name="activityComplete[]" onclick="completeActivity(this,'{!activity.Id}');"/>
+                                        <label for="{!activity}"></label>
+                                      </div>
+                                    </div>
+                                </td>
+                                <td>{!activity.Subject}</td>
+                                <td width="20%">
+                                    <apex:outputText value="{0,date,MM/dd/yyyy}">
+                                        <apex:param value="{!activity.ActivityDate}"/>
+                                    </apex:outputText>
+                                </td>
+                                <td>{!activity.Description}</td>
+                             </tr>
+                        </apex:repeat>
+                        </tbody>
+                      </table>
+                     </apex:outputPanel>
+                    <apex:outputPanel id="activity">
+                      <center>
+                        <apex:outputText value="You have no open Activities on this Account" id="noAvtivity" rendered="{!NULLVALUE(openActivities.size,0)==0}"  styleClass="requiredField"/>
+                      </center>
+                    </apex:outputPanel>
+                          </div>
+                      </apex:pageBlock>
+                  </div>
+                  
+                  <div style="clear:both;"></div>
+                   <div class="fullSection">
+                   <apex:pageBlock title="Open Opportunities">
+                       <div class="pageSection">
+                    <apex:outputPanel rendered="{!NULLVALUE(relatedOpportunityList.size,0)!=0}">
+                    <table class="tableContainer">
+                          <tr>
+                            <th width="14%">Opportunity Name</th>
+                            <th>Record Type Name</th>
+                            <th width="20%">Stage Name</th>
+                            <th width="8%">Close Date</th>
+                            <th>Product Segment</th>
+                            <th width="20%">Next Step</th>
+                            <th width="10%">Amount</th>
+                          </tr>
+                          <apex:repeat value="{!relatedOpportunityList}" var="openOpps" id="repeatOpenOpprtunity">
+                            <tr id="openOpp">
+                              <td>
+                                  <apex:outputText ><strong>{!openOpps.Name}</strong></apex:outputText>
+                              </td>
+                              <td>
+                                  <apex:outputText >{!openOpps.RecordType.Name}</apex:outputText>
+                              </td>
+                              <td>
+                                  <apex:inputField value="{!openOpps.StageName}"/>
+                              </td>
+                              <td>
+                                  <apex:inputField value="{!openOpps.closeDate}" required="true" style="width:135px;"/>
+                              </td>
+                              <td>
+                                  <apex:outputText >{!openOpps.Product_Segment__c}</apex:outputText>
+                              </td>
+                              <td>
+                                  <apex:inputTextArea value="{!openOpps.NextStep}"></apex:inputTextArea>
+                              </td>
+                              <td>
+                                  <apex:inputText value="{!openOpps.Amount}" style="width:120px; text-align:right;"></apex:inputText>
+                              </td>
+                            </tr>
+                      </apex:repeat>
+                      </table>
+                      </apex:outputPanel>
+                    <apex:outputPanel id="openOpportunities">
+                      <center>
+                        <apex:outputText value="You have no open Opportunities on this Account" id="noOpenOpp" rendered="{!NULLVALUE(relatedOpportunityList.size,0)==0}"  styleClass="requiredField"/>
+                      </center>
+                    </apex:outputPanel>
+                    
+                       </div>
+                   </apex:pageBlock>
+                   </div>
+                   <div style="clear:both;"></div>
+                  <!-- </div> -->
+               </div>
+                  </apex:outputPanel>
+
+                <apex:actionStatus id="saving" >
+                  <apex:facet name="start" >
+                    <center>
+                      <img src="/img/loading.gif" />
+                    </center>
+                  </apex:facet>
+                </apex:actionStatus>
+                <div style="clear:both;"></div>
+                
+                
+                
+
+                
+                <apex:inputHidden id="hiddenCompleteActivity" value="{!completedActivity}"/>
+                <apex:commandButton value="Save All" action="{!saveAll}" styleClass="closeButton" oncomplete="redirectBack()" rerender="savingRecords" status="actStatusId"/>
+                <div style="clear:both;"></div>
+                </div>
+
+              </div>
+            </div>
+          
+          <!-- Start Added by Sudeep -->
+          
+          <!-- Function to save new Opportunities created using Product Discussion -->
+          <apex:actionFunction name="assignOpp" action="{!assignOpportunities}" reRender="none" oncomplete="checkForErrors('{!strMessage}');"
+                               status="actStatusId">
+              <apex:param name="strOpportunities" value=""/>
+          </apex:actionFunction>
+          
+          <!-- Function to redirect to Account's Standard Detail Page -->
+          <apex:actionFunction name="redirectToAcc" action="{!redirectToAccount}" reRender="none"/>
+          
+          <apex:inputHidden id="errorMessages" value="{!strMessage}"/>
+          
+          <!-- End Added by Sudeep -->
+
+          <script>
+            $( "#tabs" ).tabs();
+
+            var returnURL;
+            var oppToCreate;
+            var activity;
+              window.onload =  function(){
+              returnURL = gup('retURL');
+              $("#tabFollow").hide();
+              //alert('Set retURL = ' + returnURL);
+              oppToCreate = new Array();
+              activity = new Array();
+              };
+
+              function gup( name ){  //this function just grabs HTTP params by name
+
+              name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+              var regexS = "[\\?&]"+name+"=([^&#]*)";
+              var regex = new RegExp( regexS );
+              var results = regex.exec( window.location.href );
+               if( results == null )    return "";
+              else    return results[1];}
+
+              function redirectBack(){
+              //alert('Sending you back to ' + returnURL);
+              window.location.href = '/' + returnURL;
+              }
+
+          /* Start updated function Sudeep Chirag */
+          
+          /* Start added by Sudeep for changes suggest on 27 Nov 2017 */
+          /* Function adds or removes required for 'Other Competitor' under 'Competitors Discussed' when 'Other' is checked or unchecked */
+          function addRemoveRequired(event, competitorLabel, setRequiredEleId){              
+              if(competitorLabel == 'Other'){                  
+                  if(event.checked){
+                      document.getElementById(setRequiredEleId).required = true;
+                      document.getElementById(setRequiredEleId).parentElement.style.borderLeft = 'solid #c00'; // Set indicator that field is required
+                  }else{
+                      document.getElementById(setRequiredEleId).required = false;
+                      document.getElementById(setRequiredEleId).parentElement.style.borderLeft = ''; // Remove indicator that field is required
+                  }
+              }
+          }
+          /* End added by Sudeep for changes suggest on 27 Nov 2017 */
+          
+          /* Start added by Sudeep for updates */
+          // Function checks if there are errors related to save
+          function checkForErrors(errorMessage){
+              //$("[id$='errorMessages']").val;
+              console.log('hiddenvalue ::: '+ $("[id$='errorMessages']").val());
+              console.log('error message as param:: ' + errorMessage);
+              
+              // Function to redirect to Account
+              redirectToAcc();
+          }
+          /* End added by Sudeep for updates */
+          
+          // Call apex method to pass list of new Opportunities
+          function assignValueToList(){
+              var arryOpp = [];              
+              
+              // Get array of new Opportunities
+              arryOpp = getNewOpportunitiesArray();
+              
+              // Set string variable by converting array to string
+              strOpportunities = JSON.stringify(arryOpp);
+              
+              // Call action function method to set Opportunities
+              assignOpp(strOpportunities);
+          }
+          
+          // Get new Opportunities from table of Opportunities
+          function getNewOpportunitiesArray() {
+              
+              var tableRows = document.getElementById("createOppTable:createOppTbody").rows;
+              var arrayOfRowData = [];
+              
+              for(var i = 0; i < tableRows.length; i++){
+                  
+                  // Temporary object to save data
+                  var cellsData = {}; 
+                  
+                  cellsData.strName = tableRows[i].cells[0].childNodes[0].value;
+                  cellsData.strStage = tableRows[i].cells[1].childNodes[0].value;
+                  cellsData.closedDate = tableRows[i].cells[2].childNodes[0].childNodes[0].value;
+                  
+                  /* Start logic for mm/dd/yyyy change */
+                  /* Split the date acquired in mm/dd/yyyy format to convert it to JSON exceptable format i.e. yyyy-mm-dd */
+                  var dateArray = cellsData.closedDate.split("/");
+                  
+                  cellsData.closedDate = (dateArray != undefined && dateArray.length == 3) ? dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1] : null;
+                  
+                  console.log('closed date after manipulation ' + cellsData.closedDate);
+                                    
+                  /* End logic for mm/dd/yyyy change */
+                  
+                  cellsData.doubAmount = tableRows[i].cells[3].childNodes[0].value;
+                  cellsData.strDescription = tableRows[i].cells[4].childNodes[0].value;
+                  cellsData.strNextStep = tableRows[i].cells[5].childNodes[0].value;
+                  
+                  arrayOfRowData.push(cellsData);                  
+              }
+              
+              return arrayOfRowData;
+          }
+            
+          function createOpp(ele, familyId, uniqueProduct, notesId) {
+              
+              var tableBody = document.getElementById('createOppTable:createOppTbody');
+              
+              if(ele.checked){
+                  
+                  /* Create row in which contents need to be displayed */
+                  var tableRow = document.createElement("tr");
+                  tableRow.id = 'createOppTable:createOppTbody:createOppTr:'+familyId;
+                  
+                  /* Start create input field for name */
+                  
+                  var tableData1 = document.createElement("td");
+                  var nameField = document.createElement("input");
+                  nameField.style = 'width: 130px;';
+                  nameField.placeholder = 'Notes About Next Step';
+                  nameField.id = 'createOppTable:createOppTbody:createOppTr:'+familyId+':createOppName';
+                  nameField.value = familyId;
+                  nameField.readOnly = true; // Set the field read only added by Sudeep for changes suggest on 27 Nov 2017
+                  
+                  tableBody.appendChild(tableRow).appendChild(tableData1).appendChild(nameField);
+                  
+                  /* End create input field for name */
+                  
+                  /* Start create select field for name */
+                  
+                  var optionAry = ['0-Engaged', '1-Trying to Convert','2-Purchased','3-Converted the Business',
+                                   'Closed Won', 'Closed Lost'];
+                  
+                  var tableData2 = document.createElement("td");                      
+                  var selectTag = document.createElement("select");
+                  selectTag.size = 1;
+                  selectTag.id = 'createOppTable:createOppTbody:createOppTr:'+familyId+':createOppTd:createOppSelect';
+                  
+                  //Chirag Code
+                  selectTag.style.width = '120px';
+                  
+                  optionAry.forEach(function(optionElement){
+                      
+                      var optionTag1 = document.createElement("option");
+                      optionTag1.value = optionElement;
+                      optionTag1.label = optionElement;                      
+                      selectTag.add(optionTag1);
+                      
+                  });
+                  
+                  
+                  tableRow.appendChild(tableData2).appendChild(selectTag);                      
+                  /* End create select field for name */
+                  
+                  /* Start create date field */
+                  var tableData3 = document.createElement("td");
+                  var requiredDiv = document.createElement("div");
+                  requiredDiv.class = 'requiredBlock';
+                  
+                  var date = new Date();
+                  
+                  if((uniqueProduct == familyId)
+                     || (uniqueProduct == 'Climate_Control' && familyId == 'Climate Control')
+                     || (uniqueProduct == 'Card_Access' && familyId == 'Card Access')
+                     || (uniqueProduct == '3rd_Party' && familyId == '3rd Party')
+                     || (uniqueProduct == 'Interfaces' && familyId == 'Interfaces')){
+                      
+                      date.setDate(date.getDate() + 90);
+                  }
+                  
+                  var day = date.getDate(),
+                      month = (date.getMonth() + 1) > 12 ? 1 : (date.getMonth() + 1) ,
+                      year = date.getFullYear();
+                  
+                  
+                  month = (month < 10 ? "0" : "") + month;
+                  day = (day < 10 ? "0" : "") + day;
+                  
+                 var today = month + "/" + day + "/" + year;
+                  
+                  var inputDate = document.createElement("input");
+                  inputDate.id = 'createOppTable:createOppTbody:createOppTr:'+familyId+'createOppTd:createOppDate';
+                  inputDate.type = 'text';
+                  inputDate.required = 'required';
+                  inputDate.size = 12;
+                  inputDate.value = today;
+                  
+                  //Chirag Code
+                  //inputDate.style.width = '170px';
+                  
+                  // Added for enhancement removed type date added Salesforce's Datepicker
+                  inputDate.addEventListener(
+                      "focus",
+                      function(event){
+                          DatePicker.pickDate(true, 
+                                              'createOppTable:createOppTbody:createOppTr:'
+                                              +familyId+'createOppTd:createOppDate', 
+                                              false);
+                      });
+                  
+                  inputDate.addEventListener(
+                      "click",
+                      function(event){
+                          DatePicker.pickDate(true, 
+                                              'createOppTable:createOppTbody:createOppTr:'
+                                              +familyId+'createOppTd:createOppDate', 
+                                              false);
+                      });
+                  
+                  
+                  tableRow.appendChild(tableData3).appendChild(requiredDiv).appendChild(inputDate);                  
+                  
+                  /* End create date field */
+                  
+                  /* Start Amount field */
+                  var tableData4 = document.createElement("td");
+                  var amountField = document.createElement("input");
+                  amountField.type = 'number';
+                  //amountField.value = '0.00';
+                  amountField.id = 'createOppTable:createOppTbody:createOppTr:'+familyId+'createOppTd:createOppAmt';
+                  amountField.required = 'true';
+                  //Chirag Code
+                  amountField.style.width = '150px';
+                  
+                  tableRow.appendChild(tableData4).appendChild(amountField);
+                  /* End Amount field */
+                  
+                  /* Start Description field */
+                  var tableData5 = document.createElement("td");
+                  var descField = document.createElement("textarea");                      
+                  descField.placeholder = 'Description';                  
+                  descField.value = document.getElementById(notesId).value;
+                  descField.id = 'createOppTable:createOppTbody:createOppTr:'+familyId+'createOppTd:createOppDesc';
+                  
+                  //Chirag Code
+                  //descField.style = 'width: 150px;';
+                  
+                  descField.addEventListener("change",
+                                             function(event){
+                                                 setDescriptionChildToParent(event, notesId);
+                                             }
+                                            );
+                  
+                  tableRow.appendChild(tableData5).appendChild(descField);
+                  
+                  /* End Description field */
+                  
+                  /* Start Next Step Notes field */
+                  var tableData6 = document.createElement("td");
+                  var nextStepNoteField = document.createElement("textarea");                      
+                  nextStepNoteField.placeholder = 'Next Step Notes';                  
+                  nextStepNoteField.id = 'createOppTable:createOppTbody:createOppTr:'+familyId
+                  +'createOppTd:createOppNextSepNote';
+                  
+                  //Chirag Code
+                  nextStepNoteField.style = 'width: 100px;';
+                  
+                  tableRow.appendChild(tableData6).appendChild(nextStepNoteField);
+                  /* End Next Step Notes field */
+                  
+                  oppToCreate.push(familyId);
+                  
+              }else{
+                  
+                  var index = oppToCreate.indexOf(familyId);
+                  oppToCreate.splice(index,1);
+                  
+                  var checkTr = document.getElementById('createOppTable:createOppTbody:createOppTr:'+familyId);
+                  
+                  if(checkTr){                      
+                      document.getElementById('createOppTable:createOppTbody:createOppTr:'+familyId).remove();
+                  }
+              }
+              
+              // Show or hide section for Opportunities based on array size of new opportunities to be created
+              if(oppToCreate.length > 0){
+                  jQuery('div#oppSection').show();
+              }else{
+                  jQuery('div#oppSection').hide();
+              }              
+              
+              // Add array to hidden field
+              $("[id$='opportunitiesToCreate']").val(oppToCreate);
+              
+          }
+          
+          // Set Description changed from Product Description section to its associated Opportunities section
+          function setValues(event, childProd){
+              
+              // Check if id is received and the dom element to be updated exists
+              if(event.id && document.getElementById('createOppTable:createOppTbody:createOppTr:' + childProd 
+                                          + 'createOppTd:createOppDesc')){
+                  
+                  document.getElementById('createOppTable:createOppTbody:createOppTr:' + childProd 
+                                          + 'createOppTd:createOppDesc').value = event.value;
+                                          
+              }   
+              
+          }
+          
+          // Set Description from Opportunities section to Notes on Product Description
+          function setDescriptionChildToParent(event, notesId){
+              
+              if(event.target.id && document.getElementById(notesId)){
+                  document.getElementById(notesId).value = event.target.value;
+              }
+              
+              
+          }
+          
+          // Set values of Subject or Notes to Open Activities Subject or Description or vice versa
+          function setValuesToAnother(event, assignTo){
+              console.log('assignTo >> '+assignTo);            
+              if(event.id && document.getElementById(assignTo)){
+                  document.getElementById(assignTo).value = event.value;
+              }
+          } 
+          
+          /* End updated function Sudeep Chirag */
+
+              function completeActivity(ele,Id) {
+                if ($("#"+Id).is(':checked')) {
+                  activity.push(Id);
+                }
+                else {
+                  activity.splice(activity.indexOf(Id), 1);
+                }
+                        $("[id$='hiddenCompleteActivity']").val(activity);
+                    }
+
+
+
+              function redirectToFollowUp () {
+                var counter = 0;
+                console.log('button clicked');
+                console.log('button clicked');
+                  if ($("[id$='flag1']").is(':checked') == true &&   $("[id$='plan']").val() == '')
+                 {
+                  alert("Please enter value for Note 1");
+                  counter ++;
+                  return false;
+                }
+                if ($("[id$='flag2']").is(':checked') == true &&  $("[id$='problem']").val() == '')
+                 {
+                  alert("Please enter value for Note 2");
+                  counter ++;
+                  return false;
+                }
+                if ($("[id$='flag3']").is(':checked') == true &&   $("[id$='proposal']").val() == '')
+                 {
+                  alert("Please enter value for Note 3");
+                  counter ++;
+                  return false;
+                }
+                if ($("[id$='flag4']").is(':checked') == true &&   $("[id$='progress']").val() == '')
+                 {
+                  alert("Please enter value for Note 4");
+                  counter ++;
+                  return false;
+                }
+                if(counter == 0) {
+                   $( "#tabs" ).tabs({ active: 2 });
+                }
+              }
+              
+             
+
+          google.load("visualization", "1", {
+            packages: ["corechart"]
+          });
+          google.setOnLoadCallback(drawChart);
+          function drawChart() {
+
+            var audioArray = new Array();
+            <apex:repeat value="{!audioBarDataThisYearList}" var="arrayItem">
+            audioArray.push(parseFloat('{!arrayItem}'));
+            </apex:repeat>
+
+            var audioData = google.visualization.arrayToDataTable([
+            ['', '70 Volt Amplifiers', {role:'annotation'}, 'Audio Accessories', {role:'annotation'}, 'Audio Switches',{ role: 'annotation'}, 'Matrix Amplifiers', {role:'annotation'}, 'Power Amplifiers', {role:'annotation'}, {role: 'style'}],
+            ['Audio', audioArray[0], '', audioArray[1], '', audioArray[2],'', audioArray[3], '', audioArray[4],'', '']
+            ]);
+            var audioOptions = {
+              isStacked: true,
+              height: 80, 
+              legend: 'none',
+              hAxis: {
+                maxValue: {!IF(AudioLastYear!=NULL,IF(AudioThisYear !=  NULL, IF(AudioThisYear > AudioLastYear ,AudioThisYear*0.3+AudioThisYear,AudioLastYear*0.3+AudioLastYear), AudioLastYear*0.3+AudioLastYear ),IF(AudioThisYear !=NULL ,AudioThisYear*0.3+AudioThisYear,0))},
+             
+              },
+              series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('audioChart'));
+            chart.draw(audioData, audioOptions);
+
+            var controllersArray = new Array();
+            <apex:repeat value="{!controllersBarDataList}" var="arrayItem">
+            controllersArray.push(parseFloat('{!arrayItem}'));
+            </apex:repeat>
+            var controllersData = google.visualization.arrayToDataTable([
+            ['', 'Controller Accessories', {role:'annotation'}, 'EA1', {role:'annotation'}, 'EA3',{ role: 'annotation'}, 'EA5', {role:'annotation'}, 'IO Extenders', {role:'annotation'}, 'HC Controllers', {role:'annotation'}, 'Controllers', {role:'annotation'},{role: 'style'}],
+            ['Controllers', controllersArray[0], '', controllersArray[1], '', controllersArray[2],'', controllersArray[3], '', controllersArray[4], '',controllersArray[5],'',controllersArray[6],'', '']
+            ]);
+            var controllersOptions = {
+              isStacked: true,
+              height: 80,
+              legend: 'none',
+              hAxis: {
+                maxValue: {!IF(ControlLastYear!=NULL,IF(ControlThisYear !=  NULL, IF(ControlThisYear > ControlLastYear ,ControlThisYear*0.3+ControlThisYear,ControlLastYear*0.3+ControlLastYear), ControlLastYear*0.3+ControlLastYear ),IF(ControlThisYear !=NULL ,ControlThisYear*0.3+ControlThisYear,0))},
+                    
+              },
+              series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'},
+                6:{color:'#216b82'}
+              }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('controllersChart'));
+            chart.draw(controllersData, controllersOptions);
+
+            var videoArray = new Array();
+            <apex:repeat value="{!videoBarDataList}" var="arrayItem">
+            videoArray.push(parseFloat('{!arrayItem}'));
+            </apex:repeat>
+            var videoData = google.visualization.arrayToDataTable([
+            ['', 'HDMI', {role:'annotation'}, 'HDMI Accessories', {role:'annotation'}, 'HDMI Extenders',{ role: 'annotation'}, {role: 'style'}],
+            ['Video', videoArray[0], '', videoArray[1], '', videoArray[2], '', '']
+            ]);
+            var videoOptions = {
+              isStacked: true,
+              height: 80,
+              legend: 'none',
+              hAxis: {
+                maxValue: {!IF(VideoLastYear!=NULL,IF(VideoThisYear !=  NULL, IF(VideoThisYear > VideoLastYear ,VideoThisYear*0.3+VideoThisYear,VideoLastYear*0.3+VideoLastYear), VideoLastYear*0.3+VideoLastYear ),IF(VideoThisYear !=NULL ,VideoThisYear*0.3+VideoThisYear,0))},
+              },
+              series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+            };
+
+          var chart = new google.visualization.BarChart(document.getElementById('videoChart'));
+          chart.draw(videoData, videoOptions);
+
+          var lightingArray1 = new Array();
+          <apex:repeat value="{!lightingBarDataList}" var="arrayItem">
+          lightingArray1.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var lighting1Data = google.visualization.arrayToDataTable([
+          ['', 'Centralized Lighting', {role:'annotation'}, 'Engraving', {role:'annotation'}, 'Faceplates',{ role: 'annotation'}, 'Lighting Accessories', {role:'annotation'}, 'Wireless Gen3', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Lighting', lightingArray1[0], '', lightingArray1[1], '', lightingArray1[2],'', lightingArray1[3], '', lightingArray1[4], '',lightingArray1[5],'', '']
+          ]);
+          var lighting1Options = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(LightingLastYear!=NULL,IF(LightingThisYear !=  NULL, IF(LightingThisYear > LightingLastYear ,LightingThisYear*0.3+LightingThisYear,LightingLastYear*0.3+LightingLastYear), LightingLastYear*0.3+LightingLastYear ),IF(LightingThisYear !=NULL ,LightingThisYear*0.3+LightingThisYear,0))},
+                 
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl1 = new google.visualization.BarChart(document.getElementById('lightingChart1'));
+          chartl1.draw(lighting1Data, lighting1Options);
+
+          var climateArray = new Array();
+          <apex:repeat value="{!climateBarDataList}" var="arrayItem">
+          climateArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var climateData = google.visualization.arrayToDataTable([
+          ['', 'Climate Accessories', {role:'annotation'}, 'Thermostat', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Climate', climateArray[0], '', climateArray[1], '', climateArray[2],'', '']
+          ]);
+          var climateOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(ClimateLastYear!=NULL,IF(ClimateThisYear !=  NULL, IF(ClimateThisYear > ClimateLastYear ,ClimateThisYear*0.3+ClimateThisYear,ClimateLastYear*0.3+ClimateLastYear), ClimateLastYear*0.3+ClimateLastYear ),IF(ClimateThisYear !=NULL ,ClimateThisYear*0.3+ClimateThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl = new google.visualization.BarChart(document.getElementById('climateChart'));
+          chartl.draw(climateData, climateOptions);
+
+
+
+
+          var interfacesArray = new Array();
+          <apex:repeat value="{!InterfacesBarDataList}" var="arrayItem">
+          interfacesArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var interfaceData = google.visualization.arrayToDataTable([
+          ['', 'Door Station', {role:'annotation'}, 'Interface Accessories', {role:'annotation'}, 'MDU Servers', {role:'annotation'}, 'Remotes', {role:'annotation'},'Touch Screens', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Interfaces', interfacesArray[0], '', interfacesArray[1], '', interfacesArray[2],'',interfacesArray[3],'',interfacesArray[4],'',interfacesArray[5],'', '']
+          ]);
+          var interfaceOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(InterfaceLastYear!=NULL,IF(InterfaceThisYear !=  NULL, IF(InterfaceThisYear > InterfaceLastYear ,InterfaceThisYear*0.3+InterfaceThisYear,InterfaceLastYear*0.3+InterfaceLastYear), InterfaceLastYear*0.3+InterfaceLastYear ),IF(InterfaceThisYear !=NULL ,InterfaceThisYear*0.3+InterfaceThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl = new google.visualization.BarChart(document.getElementById('interfaceChart'));
+          chartl.draw(interfaceData, interfaceOptions);
+
+
+
+          var pakedgeArray = new Array();
+          <apex:repeat value="{!pakedgeBarDataList}" var="arrayItem">
+          pakedgeArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          // var pakedgeData = google.visualization.arrayToDataTable([
+          // ['', 'Pakedge Accessories', {role:'annotation'}, 'PDUs', {role:'annotation'}, 'Routers', {role:'annotation'}, 'Switches', {role:'annotation'},'WAPs', {role:'annotation'}, 'Wireless Controllers', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          // ['Pakedge', pakedgeArray[0], '', pakedgeArray[1], '', pakedgeArray[2],'',pakedgeArray[3],'',pakedgeArray[4],'',pakedgeArray[5],'',pakedgeArray[6],'', '']
+          // ]);
+          // var pakedgeOptions = {
+          //   isStacked: true,
+          //   height: 80,
+          //   legend: 'none',
+          //   hAxis: {
+          //     minValue: 0
+          //   },
+          //   series: {
+          //       0:{color:'#16325c'},
+          //       1:{color:'#00a1e0'},
+          //       2:{color:'#76ded9'},
+          //       3:{color:'#08a69e'},
+          //       4:{color:'#ede683'},
+          //       5:{color:'#e59c00'},
+          //       6:{color:'#216b82'}
+          //     }
+          // };
+          //
+          // var chartl = new google.visualization.BarChart(document.getElementById('pakedgeChart'));
+          // chartl.draw(pakedgeData, pakedgeOptions);
+          var triadArray = new Array();
+          <apex:repeat value="{!triadBarDataList}" var="arrayItem">
+          triadArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var triadData = google.visualization.arrayToDataTable([
+
+          ['', 'Accessories', {role:'annotation'},'InCeiling', {role:'annotation'},'Outdoor', {role:'annotation'}, {role: 'style'}],
+          ['Triad', triadArray[0], '',triadArray[1], '',triadArray[2], '', '']
+          
+          ]);
+          var triadOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(triadLastYear!=NULL ,IF(triadThisYear !=  NULL, IF( triadThisYear > triadLastYear ,triadThisYear*0.3+triadThisYear,triadLastYear*0.3+triadLastYear), triadLastYear*0.3+triadLastYear ),IF(triadThisYear != NULL,triadThisYear*0.3+triadThisYear,0))},
+              },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('triadChart'));
+          chartl.draw(triadData, triadOptions);
+
+          var thirdPartyArray = new Array();
+          <apex:repeat value="{!thirdPartyBarDataList}" var="arrayItem">
+          thirdPartyArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var thirdPartyData = google.visualization.arrayToDataTable([
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Third Party', thirdPartyArray[0], '', '']
+          ]);
+          var thirdPartyOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              minValue: 0
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          //var chartl = new google.visualization.BarChart(document.getElementById('thirdPartyChart'));
+          //chartl.draw(thirdPartyData, thirdPartyOptions);
+
+          var cardAccessArray = new Array();
+          <apex:repeat value="{!cardAccessBarDataList}" var="arrayItem">
+          cardAccessArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var cardAccessData = google.visualization.arrayToDataTable([
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Card Access', cardAccessArray[0], '', '']
+          ]);
+          var cardAccessOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(CardaccessLastYear!=NULL,IF(CardaccessThisYear !=  NULL, IF(CardaccessThisYear > CardaccessLastYear ,CardaccessThisYear*0.3+CardaccessThisYear,CardaccessLastYear*0.3+CardaccessLastYear), CardaccessLastYear*0.3+CardaccessLastYear ),IF(CardaccessThisYear !=NULL ,CardaccessThisYear*0.3+CardaccessThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('cardAccessChart'));
+          chartl.draw(cardAccessData, cardAccessOptions);
+
+
+          var doorLocksArray = new Array();
+          <apex:repeat value="{!doorLocksBarDataList}" var="arrayItem">
+          doorLocksArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var doorLocksData = google.visualization.arrayToDataTable([
+          ['', 'Baldwin', {role:'annotation'},' Kwikset', {role:'annotation'},'Yale', {role:'annotation'}, {role: 'style'}],
+          ['Door Locks', doorLocksArray[0], '' , doorLocksArray[1], '', doorLocksArray[2], '', '']
+          ]);
+          var doorLocksOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(DoorlocksLastYear!=NULL,IF(DoorlocksThisYear !=  NULL, IF(DoorlocksThisYear > DoorlocksLastYear ,DoorlocksThisYear*0.3+DoorlocksThisYear,DoorlocksLastYear*0.3+DoorlocksLastYear), DoorlocksLastYear*0.3+DoorlocksLastYear ),IF(DoorlocksThisYear !=NULL ,DoorlocksThisYear*0.3+DoorlocksThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('doorLocksChart'));
+          chartl.draw(doorLocksData, doorLocksOptions);
+
+          var networkingArray = new Array();
+          <apex:repeat value="{!networkingBarDataList}" var="arrayItem">
+          networkingArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var networkingData = google.visualization.arrayToDataTable([
+          ['', 'Networking Accessories', {role:'annotation'}, 'Network Switches', {role:'annotation'}, 'PDUs', {role:'annotation'}, 'Routers', {role:'annotation'},'Wireless Access Points', {role:'annotation'},'Wireless Controllers', {role:'annotation'}, {role: 'style'}],
+          ['Networking', networkingArray[0],'',networkingArray[1], '',networkingArray[2], '',networkingArray[3], '',networkingArray[4],'',networkingArray[5], '', '']
+          ]);
+          var networkingOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(NetworkingLastYear!=NULL,IF(NetworkingThisYear !=  NULL, IF(NetworkingThisYear > NetworkingLastYear ,NetworkingThisYear*0.3+NetworkingThisYear,NetworkingLastYear*0.3+NetworkingLastYear), NetworkingLastYear*0.3+NetworkingLastYear ),IF(NetworkingThisYear !=NULL ,NetworkingThisYear*0.3+NetworkingThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('networkingChart'));
+          chartl.draw(networkingData, networkingOptions);
+
+          var partnerProductArray = new Array();
+          <apex:repeat value="{!partnerProductBarDataList}" var="arrayItem">
+          partnerProductArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var partnerProductData = google.visualization.arrayToDataTable([
+          
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Partner Product', partnerProductArray[0], '', '']
+          ]);
+          var partnerProductOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+             maxValue: {!IF(partnerLastYear!=NULL,IF(partnerThisYear !=  NULL, IF(partnerThisYear > partnerLastYear ,partnerThisYear*0.3+partnerThisYear,partnerLastYear*0.3+partnerLastYear), partnerLastYear*0.3+partnerLastYear ),IF(partnerThisYear !=NULL ,partnerThisYear*0.3+partnerThisYear,0))},
+ },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('partnerProductChart'));
+          chartl.draw(partnerProductData, partnerProductOptions);
+
+          var audioLastYearArray = new Array();
+          <apex:repeat value="{!audioBarDataLastYearList}" var="arrayItem">
+          audioLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var audioLastYearData = google.visualization.arrayToDataTable([
+          ['', '70 Volt Amplifiers', {role:'annotation'}, 'Audio Accessories', {role:'annotation'}, 'Audio Switches',{ role: 'annotation'}, 'Matrix Amplifiers', {role:'annotation'}, 'Power Amplifiers', {role:'annotation'}, {role: 'style'}],
+          ['Audio', audioLastYearArray[0], '', audioLastYearArray[1], '', audioLastYearArray[2],'', audioLastYearArray[3], '', audioLastYearArray[4],'', '']
+          ]);
+          var audioLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+                maxValue: {!IF(AudioLastYear!=NULL,IF(AudioThisYear !=  NULL, IF(AudioThisYear > AudioLastYear ,AudioThisYear*0.3+AudioThisYear,AudioLastYear*0.3+AudioLastYear), AudioLastYear*0.3+AudioLastYear ),IF(AudioThisYear !=NULL ,AudioThisYear*0.3+AudioThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('audioLastYearChart'));
+          chart.draw(audioLastYearData, audioLastYearOptions);
+
+            var controllersLastYearArray = new Array();
+            <apex:repeat value="{!controllersBarLastYearDataList}" var="arrayItem">
+            controllersLastYearArray.push(parseFloat('{!arrayItem}'));
+            console.log('----',controllersLastYearArray);
+            </apex:repeat>
+            var controllersLastYearData = google.visualization.arrayToDataTable([
+            ['', 'Controller Accessories', {role:'annotation'}, 'EA1', {role:'annotation'}, 'EA3',{ role: 'annotation'}, 'EA5', {role:'annotation'}, 'IO Extenders', {role:'annotation'}, 'HC Controllers', {role:'annotation'}, 'Controllers', {role:'annotation'},{role: 'style'}],
+            ['Controllers', controllersLastYearArray[0], '', controllersLastYearArray[1], '', controllersLastYearArray[2],'', controllersLastYearArray[3], '', controllersLastYearArray[4], '',controllersLastYearArray[5],'',controllersLastYearArray[6],'', '']
+            ]);
+            var controllersLastYearOptions = {
+              isStacked: true,
+              height: 80,
+              legend: 'none',
+              hAxis: {
+                  maxValue: {!IF(ControlLastYear!=NULL,IF(ControlThisYear !=  NULL, IF(ControlThisYear > ControlLastYear ,ControlThisYear*0.3+ControlThisYear,ControlLastYear*0.3+ControlLastYear), ControlLastYear*0.3+ControlLastYear ),IF(ControlThisYear !=NULL ,ControlThisYear*0.3+ControlThisYear,0))},                   
+              },
+              series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'},
+                6:{color:'#216b82'}
+              }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('controllersLastYearChart'));
+            chart.draw(controllersLastYearData, controllersLastYearOptions);
+
+            var videoLastYearArray = new Array();
+            <apex:repeat value="{!videoBarLastYearDataList}" var="arrayItem">
+            videoLastYearArray.push(parseFloat('{!arrayItem}'));
+            </apex:repeat>
+            var videoLastYearData = google.visualization.arrayToDataTable([            
+            ['', 'HDMI', {role:'annotation'}, 'HDMI Accessories', {role:'annotation'}, 'HDMI Extenders',{ role: 'annotation'}, {role: 'style'}],
+            ['Video', videoLastYearArray[0], '', videoLastYearArray[1], '', videoLastYearArray[2],'', '']
+            ]);
+            var videoLastYearOptions = {
+              isStacked: true,
+              height: 80,
+              legend: 'none',
+              hAxis: {
+                maxValue: {!IF(VideoLastYear!=NULL,IF(VideoThisYear !=  NULL, IF(VideoThisYear > VideoLastYear ,VideoThisYear*0.3+VideoThisYear,VideoLastYear*0.3+VideoLastYear), VideoLastYear*0.3+VideoLastYear ),IF(VideoThisYear !=NULL ,VideoThisYear*0.3+VideoThisYear,0))},
+              },
+              series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+            };
+
+          var chart = new google.visualization.BarChart(document.getElementById('videoLastYearChart'));
+          chart.draw(videoLastYearData, videoLastYearOptions);
+
+          var lightingLastYearArray = new Array();
+          <apex:repeat value="{!lightingBarLastYearDataList}" var="arrayItem">
+          lightingLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var lightingLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Centralized Lighting', {role:'annotation'}, 'Engraving', {role:'annotation'}, 'Faceplates',{ role: 'annotation'}, 'Lighting Accessories', {role:'annotation'}, 'Wireless Gen3', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Lighting', lightingLastYearArray[0], '', lightingLastYearArray[1], '', lightingLastYearArray[2],'', lightingLastYearArray[3], '', lightingLastYearArray[4], '',lightingLastYearArray[5],'', '']
+          ]);
+          var lightingLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(LightingLastYear!=NULL,IF(LightingThisYear !=  NULL, IF(LightingThisYear > LightingLastYear ,LightingThisYear*0.3+LightingThisYear,LightingLastYear*0.3+LightingLastYear), LightingLastYear*0.3+LightingLastYear ),IF(LightingThisYear !=NULL ,LightingThisYear*0.3+LightingThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl1 = new google.visualization.BarChart(document.getElementById('lightingLastYearChart1'));
+          chartl1.draw(lightingLastYearData, lightingLastYearOptions);
+
+          var climateLastYearArray = new Array();
+          <apex:repeat value="{!climateBarLastYearDataList}" var="arrayItem">
+          climateLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var climateLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Climate Accessories', {role:'annotation'}, 'Thermostat', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Climate', climateLastYearArray[0], '', climateLastYearArray[1], '', climateLastYearArray[2],'', '']
+          ]);
+          var climateLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(ClimateLastYear!=NULL,IF(ClimateThisYear !=  NULL, IF(ClimateThisYear > ClimateLastYear ,ClimateThisYear*0.3+ClimateThisYear,ClimateLastYear*0.3+ClimateLastYear), ClimateLastYear*0.3+ClimateLastYear ),IF(ClimateThisYear !=NULL ,ClimateThisYear*0.3+ClimateThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl = new google.visualization.BarChart(document.getElementById('climateLastYearChart'));
+          chartl.draw(climateLastYearData, climateLastYearOptions);
+
+
+          var interfacesLastYearArray = new Array();
+          <apex:repeat value="{!InterfacesBarLastYearDataList}" var="arrayItem">
+          interfacesLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+
+          var interfaceLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Door Station', {role:'annotation'}, 'Interface Accessories', {role:'annotation'}, 'MDU Servers', {role:'annotation'}, 'Remotes', {role:'annotation'},'Touch Screens', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          ['Interfaces', interfacesLastYearArray[0], '', interfacesLastYearArray[1], '', interfacesLastYearArray[2],'',interfacesLastYearArray[3],'',interfacesLastYearArray[4],'',interfacesLastYearArray[5],'', '']
+          ]);
+          var interfaceLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(InterfaceLastYear!=NULL,IF(InterfaceThisYear !=  NULL, IF(InterfaceThisYear > InterfaceLastYear ,InterfaceThisYear*0.3+InterfaceThisYear,InterfaceLastYear*0.3+InterfaceLastYear), InterfaceLastYear*0.3+InterfaceLastYear ),IF(InterfaceThisYear !=NULL ,InterfaceThisYear*0.3+InterfaceThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+
+          var chartl = new google.visualization.BarChart(document.getElementById('interfaceLastYearChart'));
+          chartl.draw(interfaceLastYearData, interfaceLastYearOptions);
+
+
+
+          // var pakedgeLastYearArray = new Array();
+          // <apex:repeat value="{!pakedgeBarLastYearDataList}" var="arrayItem">
+          // pakedgeLastYearArray.push(parseFloat('{!arrayItem}'));
+          // </apex:repeat>
+          //
+          // var pakedgeLastYearData = google.visualization.arrayToDataTable([
+          // ['', 'Pakedge Accessories', {role:'annotation'}, 'PDUs', {role:'annotation'}, 'Routers', {role:'annotation'}, 'Switches', {role:'annotation'},'WAPs', {role:'annotation'}, 'Wireless Controllers', {role:'annotation'}, 'None', {role:'annotation'}, {role: 'style'}],
+          // ['Pakedge', pakedgeLastYearArray[0], '', pakedgeLastYearArray[1], '', pakedgeLastYearArray[2],'',pakedgeLastYearArray[3],'',pakedgeLastYearArray[4],'',pakedgeLastYearArray[5],'',pakedgeLastYearArray[6],'', '']
+          // ]);
+          // var pakedgeLastYearOptions = {
+          //   isStacked: true,
+          //   height: 80,
+          //   legend: 'none',
+          //   hAxis: {
+          //     minValue: 0
+          //   },
+          //   series: {
+          //       0:{color:'#16325c'},
+          //       1:{color:'#00a1e0'},
+          //       2:{color:'#76ded9'},
+          //       3:{color:'#08a69e'},
+          //       4:{color:'#ede683'},
+          //       5:{color:'#e59c00'},
+          //       6:{color:'#216b82'}
+          //     }
+          // };
+          //
+          // var chartl = new google.visualization.BarChart(document.getElementById('pakedgeLastYearChart'));
+          // chartl.draw(pakedgeLastYearData, pakedgeLastYearOptions);
+
+          var triadLastYearArray = new Array();
+          <apex:repeat value="{!triadBarLastYearDataList}" var="arrayItem">
+          triadLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var triadLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Accessories', {role:'annotation'},'InCeiling', {role:'annotation'},'Outdoor', {role:'annotation'}, {role: 'style'}],
+          ['Triad', triadLastYearArray[0], '',triadLastYearArray[1], '',triadLastYearArray[2], '', '']
+          ]);
+          var triadLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+             maxValue: {!IF(triadLastYear!=NULL ,IF(triadThisYear !=  NULL, IF( triadThisYear > triadLastYear ,triadThisYear*0.3+triadThisYear,triadLastYear*0.3+triadLastYear), triadLastYear*0.3+triadLastYear ),IF(triadThisYear != NULL,triadThisYear*0.3+triadThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var charttriadLastYear = new google.visualization.BarChart(document.getElementById('triadLastYearChart'));
+          charttriadLastYear.draw(triadLastYearData, triadLastYearOptions);
+
+          var thirdPartyLastYearArray = new Array();
+          <apex:repeat value="{!thirdPartyBarLastYearDataList}" var="arrayItem">
+          thirdPartyLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var thirdPartyLastYearData = google.visualization.arrayToDataTable([
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Third Party', thirdPartyLastYearArray[0], '', '']
+          ]);
+          var thirdPartyLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+               maxValue: {!IF(triadLastYear!=NULL ,IF(triadThisYear !=  NULL, IF( triadThisYear > triadLastYear ,triadThisYear*0.3+triadThisYear,triadLastYear*0.3+triadLastYear), triadLastYear*0.3+triadLastYear ),IF(triadThisYear != NULL,triadThisYear*0.3+triadThisYear,0))},},
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          //var chartl = new google.visualization.BarChart(document.getElementById('thirdPartyLastYearChart'));
+          //chartl.draw(thirdPartyLastYearData, thirdPartyLastYearOptions);
+
+          var cardAccessLastYearArray = new Array();
+          <apex:repeat value="{!cardAccessBarLastYearDataList}" var="arrayItem">
+          cardAccessLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var cardAccessLastYearData = google.visualization.arrayToDataTable([
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Card Access', cardAccessLastYearArray[0], '', '']
+          ]);
+          var cardAccessLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(CardaccessLastYear!=NULL,IF(CardaccessThisYear !=  NULL, IF(CardaccessThisYear > CardaccessLastYear ,CardaccessThisYear*0.3+CardaccessThisYear,CardaccessLastYear*0.3+CardaccessLastYear), CardaccessLastYear*0.3+CardaccessLastYear ),IF(CardaccessThisYear !=NULL ,CardaccessThisYear*0.3+CardaccessThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('cardAccessLastYearChart'));
+          chartl.draw(cardAccessLastYearData, cardAccessLastYearOptions);
+
+
+          var doorLocksLastYearArray = new Array();
+          <apex:repeat value="{!doorLocksBarLastYearDataList}" var="arrayItem">
+          doorLocksLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var doorLocksLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Baldwin', {role:'annotation'},' Kwikset', {role:'annotation'},'Yale', {role:'annotation'}, {role: 'style'}],
+          ['Door Locks', doorLocksLastYearArray[0], '' , doorLocksLastYearArray[1], '', doorLocksLastYearArray[2], '', '']
+          
+          ]);
+          var doorLocksLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(DoorlocksLastYear!=NULL,IF(DoorlocksThisYear !=  NULL, IF(DoorlocksThisYear > DoorlocksLastYear ,DoorlocksThisYear*0.3+DoorlocksThisYear,DoorlocksLastYear*0.3+DoorlocksLastYear), DoorlocksLastYear*0.3+DoorlocksLastYear ),IF(DoorlocksThisYear !=NULL ,DoorlocksThisYear*0.3+DoorlocksThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('doorLocksLastYearChart'));
+          chartl.draw(doorLocksLastYearData, doorLocksLastYearOptions);
+
+         var networkingLastYearArray = new Array();
+          <apex:repeat value="{!networkingBarLastYearDataList}" var="arrayItem">
+          networkingLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var networkingLastYearData = google.visualization.arrayToDataTable([
+          ['', 'Networking Accessories', {role:'annotation'}, 'Network Switches', {role:'annotation'}, 'PDUs', {role:'annotation'}, 'Routers', {role:'annotation'},'Wireless Access Points', {role:'annotation'},'Wireless Controllers', {role:'annotation'}, {role: 'style'}],
+          ['Networking', networkingLastYearArray[0],'',networkingLastYearArray[1], '',networkingLastYearArray[2], '',networkingLastYearArray[3], '',networkingLastYearArray[4],'',networkingLastYearArray[5], '', '']
+          ]);
+          var networkingLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+              maxValue: {!IF(NetworkingLastYear!=NULL,IF(NetworkingThisYear !=  NULL, IF(NetworkingThisYear > NetworkingLastYear ,NetworkingThisYear*0.3+NetworkingThisYear,NetworkingLastYear*0.3+NetworkingLastYear), NetworkingLastYear*0.3+NetworkingLastYear ),IF(NetworkingThisYear !=NULL ,NetworkingThisYear*0.3+NetworkingThisYear,0))},
+            },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('networkingLastYearChart'));
+          chartl.draw(networkingLastYearData, networkingLastYearOptions);
+
+          var partnerProductLastYearArray = new Array();
+          <apex:repeat value="{!partnerProductBarLastYearDataList}" var="arrayItem">
+          partnerProductLastYearArray.push(parseFloat('{!arrayItem}'));
+          </apex:repeat>
+          var partnerProductLastYearData = google.visualization.arrayToDataTable([
+          ['', 'None', {role:'annotation'}, {role: 'style'}],
+          ['Partner Product', partnerProductLastYearArray[0], '', '']
+          ]);
+          var partnerProductLastYearOptions = {
+            isStacked: true,
+            height: 80,
+            legend: 'none',
+            hAxis: {
+             maxValue: {!IF(partnerLastYear!=NULL,IF(partnerThisYear !=  NULL, IF(partnerThisYear > partnerLastYear ,partnerThisYear*0.3+partnerThisYear,partnerLastYear*0.3+partnerLastYear), partnerLastYear*0.3+partnerLastYear ),IF(partnerThisYear !=NULL ,partnerThisYear*0.3+partnerThisYear,0))},
+ },
+            series: {
+                0:{color:'#16325c'},
+                1:{color:'#00a1e0'},
+                2:{color:'#76ded9'},
+                3:{color:'#08a69e'},
+                4:{color:'#ede683'},
+                5:{color:'#e59c00'}
+              }
+          };
+          var chartl = new google.visualization.BarChart(document.getElementById('partnerProductLastYearChart'));
+          chartl.draw(partnerProductLastYearData, partnerProductLastYearOptions);
+
+
+          }
+
+          </script>
+          <div style="clear:both;"></div>
+      </body>
+    </html>
+
+
+    <apex:actionStatus id="actStatusId" layout="block" >
+        <apex:facet name="start">
+            <div id="assign-action-spinner-main">
+                <div id="assign-action-spinner-content">
+                    <img src="/img/analytics/reportbuilder/icons/spinner32.gif"
+                    alt="Processing..." title="Processing..." />
+                    <p>Processing...</p>
+                </div>
+            </div>
+        </apex:facet>
+    </apex:actionStatus>
+  </apex:form>
+</apex:page>

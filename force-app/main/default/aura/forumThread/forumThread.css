@@ -1,0 +1,105 @@
+.THIS .icnColor svg{
+    fill:green;
+}
+
+.THIS .icnLock svg{
+    fill:red;
+}
+
+.THIS .icnUnlock svg{
+    fill:blue;
+}
+
+.THIS .threadPost {
+    color:#303030;
+    font-family:Montserrat!important;
+    font-size:10px;
+    font-weight:regular;
+    letter-spacing:0;
+    line-height:13px;
+}
+.THIS .myUniqueTable th {
+    text-align:'right' !important;
+    
+}
+.THIS .parentFeed {
+    color:#303030;
+    font-weight:600!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+}
+
+.THIS .nameColor {
+    color:#8a2432;
+}
+
+.THIS .labelColor {
+    opacity:0.6;
+    color:#303030;
+    font-family:Montserrat!important;
+    font-size:10px;
+    letter-spacing:0;
+    line-height:13px;
+}
+
+.THIS .subjectName{
+    color:#303030;
+    font-weight:600!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+}
+
+.THIS .lastPost{
+    color:#6D6D6D;
+    font-weight:500!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+    padding-left:11%;
+}
+
+.THIS .topicsCSS{
+    color:#8a2432;
+    font-weight:500!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+    padding-left:7%;
+}
+
+.THIS .reviewsCSS{
+    color:#303030;
+    font-weight:500!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+    padding-left:11%;
+}
+
+.THIS .pagination-currentpage {
+    font-weight: bolder;
+    font-size: 14px;
+    color: var(--lwc-brandTextLink);
+}
+
+.THIS .pagination-notcurrentpage {
+    font-weight: lighter;
+}
+        
+.THIS .forumThread-button {
+    height: 32px;
+    color: black;
+}
+        
+.THIS .forumThread-button-active {
+    background-color: gray;
+    height: 32px;
+    color: white;
+}

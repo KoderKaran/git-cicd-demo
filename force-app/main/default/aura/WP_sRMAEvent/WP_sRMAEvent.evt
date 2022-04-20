@@ -1,0 +1,10 @@
+<aura:event type="APPLICATION" description="sRMA returns" >
+    <aura:attribute name="ActionType" type="String" access="global"/>
+	<aura:attribute name="KeyField" type="String" access="global"/>
+    <aura:attribute name="SalesNumber" type="String" access="global"/>
+    <aura:attribute name="SalesDate" type="String" access="global"/>
+    <aura:attribute name="SKU" type="String" access="global"/>
+    <aura:attribute name="Quantity" type="String" access="global"/>
+    <aura:attribute name="MaxQuantity" type="String" access="global"/>
+    <aura:attribute name="Price" type="String" access="global"/>
+</aura:event>

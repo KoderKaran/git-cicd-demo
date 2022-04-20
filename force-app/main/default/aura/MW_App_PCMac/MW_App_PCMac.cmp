@@ -1,0 +1,35 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large text-red">Control4 App for PC/Mac</h1>
+
+    <p class="slds-p-top_large text-paragraph">The Control4 app for PC or Mac is an optional, licensed app that
+        allows you to use your laptop or desktop computer to manage a Control4 system. Use your Control4 account email address and password to connect the app to your system. <b>This Control4 app is not supported on OS&nbsp;3 or macOS Catalina 10.15.</b></p>
+   
+    <div class="slds-grid slds-p-top_large">
+        <div class="slds-col slds-size_1-of-8">
+            <span style="cursor: pointer;" onclick="{!c.Con403_21Click}">
+                <img src="https://res.cloudinary.com/control4/image/upload/e_trim/c_pad,w_80,h_100,f_auto,q_auto/customer-support/Required_Prior_To_Install_Icon.svg"/>
+            </span>
+        </div>
+        <div class="slds-col slds-size_7-of-8">
+            <p class="slds-p-top_medium text-paragraph bold">Required Prior To Install:</p>
+            <ul class="slds-list--dotted">
+                <li><a href="https://get.adobe.com/air/" class="slds-text-link text-paragraph" target="_blank"><u>Adobe Air</u></a></li>
+                <li><a href="https://www.adobe.com/go/getflashplayer/" class="slds-text-link text-paragraph" target="_blank"><u>Adobe Flash Player</u></a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+	            <lightning:button aura:id="installButton" class="slds-button style1button" label="Install" onclick="{!c.InstallButtonClick}"/>
+	            <lightning:button aura:id="troubleshootButton" class="slds-button style1button" label="Troubleshoot" onclick="{!c.TroubleshootButtonClick}"/>
+            </div>
+        </div>
+    </div>    
+</aura:component>

@@ -1,0 +1,19 @@
+.THIS {
+}
+
+.THIS .slds-section__title{
+    background-color: YellowGreen;
+    color: white
+}
+
+.THIS .slds-modal__header{
+    background-color: #1B5399;
+    color: white;
+    font-weight: bold;
+}
+
+.THIS .slds-modal__errorheader{
+    background-color: #e02c2c;
+    color: white;
+    font-weight: bold;
+}

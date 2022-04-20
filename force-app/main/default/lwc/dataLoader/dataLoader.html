@@ -1,0 +1,47 @@
+<template>
+    <lightning-card variant="narrow" title="Data Loader">
+        <lightning-combobox
+            name="Data Loader Procedures"
+            label="Data Loader Procedures"
+            value={chosenDataLoaderProcedureName}
+            placeholder="Select Procedure"
+            options={dataLoaderProcedureNames}
+            onchange={handleProcedureSelected} >
+        </lightning-combobox>
+        <template if:true={chosenDataLoaderProcedure}>
+            <div class="flexContainer">
+                <template for:each={csvList} for:item="csv">
+                    <div class={csv.requiredClass} key={csv.name}>
+                        <template if:true={csv.file}>
+                            <img src={csvImage} style="padding-left: 12px; padding-top: 17px; padding-right: 5px">
+                        </template>
+                        {csv.uploadedFileName}
+                    </div>
+                </template>
+            </div>
+            <lightning-input label="" name="File Upload" onchange={handleFilesChange} type="file" multiple></lightning-input>
+            <template if:true={dataLoadInProgress}>
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </template>
+            <template if:false={dataLoadInProgress}>
+                <template if:true={lastDataLoadTables}>
+                    <div class="resultsFlexContainer">
+                        <template for:each={lastDataLoadTables} for:item="tableKey">
+                            <c-data-loader-result-table 
+                                class="dataLoadResult"
+                                key={tableKey.key} 
+                                table-rows={lastDataLoadResult} 
+                                table-name={tableKey.key} 
+                                table-columns={tableKey.value}>
+                            </c-data-loader-result-table>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </template>
+        <div slot="footer">
+            <lightning-button label="Perform Data Load" onclick={performDataLoad} disabled={disablePerformDataLoad}></lightning-button>
+        </div>
+        <!-- <p slot="footer">Card Footer</p> -->
+    </lightning-card>
+</template>

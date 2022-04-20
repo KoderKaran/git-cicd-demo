@@ -1,0 +1,51 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 tabindex="0"></h1>
+    <h1 class="slds-text-heading_large">Products</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.NeeoClick}" onmouseover="{!c.HoverNeeoImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Neeo','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-neeo.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Neeo','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-neeo.svg" /></div>
+					<p class="slds-p-top_medium slds-align_absolute-center text-navigation">Neeo Remote</p>              
+                </span>                
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.WatchClick}" onmouseover="{!c.HoverWatchImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Watch','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Watch.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Watch','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-watch.svg"/></div>
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Watch</p>
+                </span>                
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ListenClick}" onmouseover="{!c.HoverListenImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Listen','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Listen.svg"/></div>
+                    <div class="{!if(v.ImageToggle == 'Listen','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-listen.svg"/></div>
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Listen</p>
+                </span>           
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.LightingClick}" onmouseover="{!c.HoverLightingImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Lighting','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Lighting.svg"/></div>
+                    <div class="{!if(v.ImageToggle == 'Lighting','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-lighting.svg"/></div>
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Lighting</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ComfortClick}" onmouseover="{!c.HoverComfortImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Comfort','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Thermostat-V2.svg"/></div>
+                    <div class="{!if(v.ImageToggle == 'Comfort','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-thermostat-v2.svg"/></div>
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Comfort</p>
+                </span>
+            </div> 
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>
+</aura:component>

@@ -1,0 +1,19 @@
+<aura:component implements="forceCommunity:layout" description="Home page content layout" access="global">
+  <aura:attribute name="header" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="content" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="footer" type="Aura.Component[]" required="false"></aura:attribute>
+
+    <div class="siteforceContentArea homePageLayout">
+      <div class="slds-col--padded comm-content-header comm-layout-column">
+        {!v.header}
+      </div>
+        <div class="slds-grid slds-wrap slds-nowrap--large">
+            <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--12-of-12 slds-medium-order--2 slds-large-size--12-of-12 slds-large-order--1 comm-layout-column">
+                {!v.content}
+            </div>
+        </div>
+        <div class="slds-col--padded comm-content-footer comm-layout-column">
+          {!v.footer}
+        </div>
+    </div>
+</aura:component>

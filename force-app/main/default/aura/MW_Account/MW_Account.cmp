@@ -1,0 +1,33 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+    
+    <lightning:overlayLibrary aura:id="overlayLib2"/>
+    
+    <aura:attribute name="PreviousScreen" type="String" default="" /><!--This is seldom used. It is used when different flow paths share the same success or result screen -->    
+
+    <div aura:id="AccountBegin_Div">
+        <c:MW_Account_Begin aura:id="AccountBegin_Screen"/>   
+    </div> 
+    <div aura:id="AccountForgotPassword_Div">
+        <c:MW_Account_Forgot_Password />   
+    </div> 
+    <div aura:id="AccountDealerOfRecord_Div">
+        <c:MW_Account_DealerOfRecord />   
+    </div>
+    <div aura:id="Account4Sight_Div">
+        <c:MW_Account_4Sight />   
+    </div>
+    <div aura:id="Account4SightGetNow_Div">
+        <c:MW_Account_4Sight_GetNow />   
+    </div>
+    <div aura:id="Account4SightTaxError_Div">
+        <c:MW_Account_4Sight_TaxError />   
+    </div>
+    <div aura:id="Account4SightCancel_Div">
+        <c:MW_Account_4Sight_Cancel />   
+    </div>
+    <div aura:id="Account4SightCreditCard_Div">
+        <c:MW_Account_4Sight_CreditCard />   
+    </div>  
+</aura:component>

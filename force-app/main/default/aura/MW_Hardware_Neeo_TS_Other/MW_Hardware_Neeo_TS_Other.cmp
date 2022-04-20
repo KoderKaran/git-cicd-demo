@@ -1,0 +1,26 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />   	
+    
+    <h1 class="slds-text-heading_large text-red">Other</h1>
+    
+    <div class="slds-p-top_large">
+        <p class="text-paragraph">Contact Your Smart Home Pro</p>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <p class="text-paragraph bold">We are sorry you're having a Neeo Remote issue. If you need technical support, contact your authorized Control4 Pro.</p>
+    </div>
+    
+    <div class="slds-p-top_large">        
+        <p class="text-paragraph">Your system was designed and implemented with customizations just for you. 
+            Your authorized Control4 Pro knows your system and the best approach to resolving any questions relating 
+            to your specific implementation. If you don’t have their contact information, 
+            <a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><u>log in</u></a>
+            to your Control4 account to get it. If you don’t have a pro, 
+            <a href="https://www.control4.com/dealer_locator" class="slds-text-link text-paragraph" target="_blank"><u>Find a Smart Home Pro.</u></a></p>     
+    </div>
+    
+    <div class="slds-p-top_x-large">  
+    	<lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>
+</aura:component>

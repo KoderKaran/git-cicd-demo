@@ -1,0 +1,29 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="AnnouncementBarController">
+    <aura:attribute name="Announcement" type="sObject"/>
+    <aura:attribute name="DisplayButton" type="string"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:handler event="force:navigateToSObject" action="{!c.navigate}"/> -->
+    
+
+    <div class="slds-grid">
+        <div class="bangsymbol">     
+            <p>&#x21;</p>  
+        </div>
+        <div class="alertcontent">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1">
+                    <aura:unescapedHtml value="{!v.Announcement.Banner_Text__c}" />
+                </div>
+            </div>
+            <div class="slds-grid slds-p-top_medium">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="{!v.DisplayButton == 'false' ? 'slds-hide' : 'slds-show'}">
+                        <button class="slds-button customstyle" onclick="{!c.navigate}">View Full Announcement</button>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

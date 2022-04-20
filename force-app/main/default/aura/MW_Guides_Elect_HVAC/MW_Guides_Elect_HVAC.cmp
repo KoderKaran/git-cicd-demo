@@ -1,0 +1,31 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large">Guides</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ElectricianClick}" onmouseover="{!c.HoverElectricianImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Electrician','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Electrician.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Electrician','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-electrician.svg" /></div>
+      
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Electrician</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.HVACClick}" onmouseover="{!c.HoverHVACImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'HVAC','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_HVAC-Pros.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'HVAC','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-hvac-pros.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">HVAC Pros</p>
+                </span>
+            </div>        
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>	
+</aura:component>

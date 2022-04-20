@@ -1,0 +1,12 @@
+<aura:event type="APPLICATION" >
+	<aura:attribute name="ProductId" type="Id"/>
+    <aura:attribute name="StockType" type="String"/>
+    <aura:attribute name="StockTypeReason" type="String"/>
+    <aura:attribute name="ItemSKU" type="String"/>
+    <aura:attribute name="ItemName" type="String"/>
+    <aura:attribute name="WarrantyStart" type="String"/>
+    <aura:attribute name="WarrantyEnd" type="String"/>
+    <aura:attribute name="InWarranty" type="Integer"/>
+    <aura:attribute name="SerialCode" type="String"/>
+    <aura:attribute name="ShowWarrantyPanal" type="Boolean"/>
+</aura:event>

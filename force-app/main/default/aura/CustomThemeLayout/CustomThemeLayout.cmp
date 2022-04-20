@@ -1,0 +1,55 @@
+<aura:component implements="forceCommunity:themeLayout" access="global" description="Custom Theme Layout">
+    <aura:attribute name="search" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="navBar" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="newHeader" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="newFooter" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="blueBackground" type="Boolean" default="false"/> 
+    <aura:attribute name="smallLogo" type="Boolean" default="false" />
+
+  	<div class="navMenuHeader slds-grid slds-wrap">
+        <div class="slds-col slds-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12">
+        	<div class="logoContainer" onclick="{!c.goToHome}">
+		    </div>
+        </div>
+        <div class="slds-col slds-size_7-of-12 slds-small-size_7-of-12 slds-medium-size_7-of-12 slds-large-size_7-of-12">
+          <div class="slds-grid slds-grid_align-center">
+                <!-- <div class="slds-col slds-size_1-of-1 slds-p-horizontal_medium">
+                 {!v.search}
+                </div> -->
+          </div>
+        </div>
+        <div class="notificationProfilePanel slds-col slds-size_3-of-12 slds-small-size_3-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+          <div class="rightPanel slds-grid slds-grid_align-end">
+            <!-- <div class="notifications">
+                <forceCommunity:notifications />
+            </div> -->
+            <div class="profileMenuRegion">
+                <!-- {!v.profileMenu} -->
+                <c:CustomProfileMenu />
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- <div class="newHeader slds-grid_align-center">
+        {!v.newHeader}
+    </div> -->
+    <div class="mainContentArea slds-container_x-large slds-container_center">
+        <!-- <div class="slds-col innerMainContent"> -->
+            {!v.body}
+        <!-- </div> -->
+    </div>
+    <!-- <div class="newFooter">
+        {!v.newFooter}
+    </div> -->
+
+    <div class="navMenuFooter">
+        <ul class="copyright slds-list_horizontal">
+            <li class="copyrightOption">&copy; <a href="http://www.control4.com" class="text-grey hidden-xs hidden-sm slds-text-link_reset" target="_blank">Control4 Corporation</a></li>
+            <li class="copyrightOption"><a href="http://dealer.control4.com" class="text-grey slds-text-link_reset" target="_blank">Control4</a></li>
+            <li class="copyrightOption"><a href="http://dealer.pakedge.com" class="text-grey slds-text-link_reset" target="_blank">Pakedge</a></li>
+            <li class="copyrightOption"><a href="http://dealer.triadspeakers.com" class="text-grey slds-text-link_reset" target="_blank">Triad</a></li>
+        </ul>
+    </div>
+</aura:component>

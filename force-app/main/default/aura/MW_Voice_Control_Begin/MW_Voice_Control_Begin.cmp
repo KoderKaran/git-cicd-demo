@@ -1,0 +1,32 @@
+<aura:component >    
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />   
+    
+    <h1 tabIndex="0"></h1>
+    <h1 class="slds-text-heading_large">Voice Control</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.AlexaClick}" onmouseover="{!c.AlexaSolidImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Alexa','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Voice-Control.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Alexa','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-solid-alexa.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">Alexa</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.GoogleAssistantClick}" onmouseover="{!c.GoogleAssistantSolidImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'googleAssistant','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-google-home.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'googleAssistant','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-google-home.svg"/></div>
+
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">Google Assistant</p>
+                </span>
+            </div>          
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div> 
+</aura:component>

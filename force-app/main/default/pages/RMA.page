@@ -1,0 +1,69 @@
+<apex:page standardController="Case" showHeader="false" renderAs="pdf">
+<apex:detail relatedList="true"></apex:detail>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo)}' title="logo" />
+    </td>
+    <td  align="right"><font face="Arial" >
+    <b>{!Case.Account.Name}</b></font><br/>
+    </td>
+    
+    
+</tr>
+
+<hr/>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
+    <td align="center"><center><font face="Arial" color="#000080">Return Material Authorization <br/></font></center></td>
+</tr>
+<tr>
+    <td align="center"><font face="Arial" color="#000080">Notice <br/></font></td>
+</tr> 
+<tr>
+    <td align="center"><font face="Arial" color="#000080">Return RMA to the Following Address: <br/></font></td>
+</tr>
+<tr>
+    <td align="center"><font face="Arial" color="#000080">Control4 3612 West 1820 South Salt Lake City UT, 84104 <br/></font></td>
+</tr>     
+
+</table>
+<br/>
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+<tr>    <td><font face="Arial" >
+        {!$Organization.Name}<br/>
+        {!$Organization.Street}<br/>
+        {!$Organization.PostalCode} {!$Organization.City}<br/>
+        {!$Organization.Country}<br/>
+        </font></td> 
+        <td width="60%">&nbsp;</td>
+   <td ><font face="Arial">Quote number: {!Case.CaseNumber}<br/>
+        <br/>
+        Offer valid Through:&nbsp;<apex:OutputField value="{!Case.ClosedDate}"/><br/>    
+        Proposed by: {!Case.Owner.LastName} {!Case.Owner.FirstName}</font>
+     </td>
+</tr>
+</table>
+<br/>
+<table border="0" width="100%" id="table4">
+<tr>
+       <td bgcolor="#C0C0C0"><font face="Arial">Product</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Description</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Image</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Quantity</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Unit Price</font></td>
+       <td bgcolor="#C0C0C0"><font face="Arial">Total Price</font></td>
+</tr>
+<tr>
+
+</tr>
+<tr>
+       <td bgcolor="#C0C0C0" align="right" colspan="6">
+       <font face="Arial"><b>Total:</b>&nbsp;</font></td>
+</tr>
+</table>
+
+public class sampleDetailPageCon {    private List<Opportunity> oppz;    private Contact cntact;     public sampleDetailPageCon(ApexPages.StandardController controller) {        this.cntact= (Contact)controller.getRecord();    }    public List<Opportunity> getOppz()    {        Contact con = [Select id, Account.id FROM Contact where id = :cntact.id];        if (con.Account == null)         return null;        oppz = [Select id, Name, Account.Name, CloseDate, Amount, Type from Opportunity where Account.id = :con.Account.id];        return oppz;    }}
+</apex:page>

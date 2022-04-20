@@ -1,0 +1,64 @@
+<apex:page id="communitiesLandingPage" showHeader="false" sidebar="false" controller="CommunitiesLandingController"  title="{!$Label.site.site_login}">
+    <apex:slds /> 
+
+    <style>
+        hr {
+            margin-top: 0rem !important;
+            margin-bottom: 2rem !important;
+        }
+        .slds-spinner_container {
+            position: fixed !important;
+        }
+        /*.terms {
+            white-space: pre-line;
+        }*/
+    </style>
+
+    <apex:actionStatus id="status">
+        <apex:facet name="start">
+            <div class="demo-only demo--inverse">
+              <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                  <span class="slds-assistive-text">Loading</span>
+                  <div class="slds-spinner__dot-a"></div>
+                  <div class="slds-spinner__dot-b"></div>
+                </div>
+              </div>
+            </div>
+        </apex:facet>
+    </apex:actionStatus> 
+
+    <apex:form id="form">
+        <div class="slds-grid_align-center slds-grid slds-wrap" style="margin-top: 2rem;">
+            <div class="slds-size_8-of-12">
+                <div class="slds-box_x-small slds-m-around_x-small">
+                    <p style="font-size: 2rem;" class="slds-text-align_center">Terms and Conditions</p>
+                    <hr/>
+                    <p>
+                    1.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed rutrum velit, vitae iaculis orci. Vivamus eu nunc eu augue rutrum laoreet. Phasellus efficitur enim ut urna ullamcorper, faucibus vehicula ipsum ultrices. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sit amet vulputate urna. Cras ornare hendrerit euismod.
+                    </p>
+                    <br/>
+                    <p>
+                    Phasellus ut massa at nunc vulputate tempor vel sed ipsum. Duis pharetra tellus tortor, id mattis metus volutpat et. Mauris faucibus leo in eros interdum facilisis. Integer vehicula urna vitae euismod laoreet. Nunc quis dui volutpat, dapibus ligula at, molestie quam. In lacinia, augue sit amet suscipit pharetra, magna odio tristique velit, id dictum orci libero sit amet orci. Etiam quis pharetra sem. Nam blandit ipsum sodales eleifend maximus. Cras imperdiet diam nulla, in vestibulum arcu faucibus ut. Aenean iaculis consequat ligula, et placerat nulla viverra in. Phasellus bibendum interdum erat, mollis maximus ipsum molestie a. Quisque ultricies nisi sed finibus auctor. Integer porttitor sapien nunc, et vehicula magna viverra at. Aliquam eget nisl ipsum. Integer accumsan finibus mattis. Duis pulvinar erat nec porttitor egestas.
+                    </p>
+                    <br/>
+                    <div class="terms">
+                    </div>
+                    <br/> <br/>
+                    <div class="slds-form-element__row">
+                        <div class="slds-form-element">
+                            <label class="slds-checkbox">
+                                <apex:inputcheckbox id="isinstance" styleclass="slds-input" onchange="forwardToStartPage()" />
+                                   <span class="slds-checkbox--faux"></span>
+                                   <span class="slds-form-element__label">I agree</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <apex:actionFunction action="{!forwardToStartPage}" name="forwardToStartPage" reRender="" status="status" />
+
+    </apex:form>
+</apex:page>

@@ -1,0 +1,326 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="CAPL_EmailNotificationsClass">
+<!--implements="forceCommunity:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasSObjectName,force:appHostable"-->
+
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="member" type="object" access="public"/>
+    <aura:attribute name="isShowSection" type="boolean" default="false" />
+    
+    <aura:attribute name="title" type="String" access="public" default="EMAIL NOTIFICATIONS"/>
+
+    <aura:attribute name="endorseForTopic" type="String" access="public" default="Endorses me on a topic"/>
+    <aura:attribute name="follow" type="String" access="public" default="Follows me"/>
+    <aura:attribute name="commentOnYourChange" type="String" access="public" default="Comments on my posts"/>
+    <aura:attribute name="commentAfterMyComment" type="String" access="public" default="Comments after me"/>
+    <aura:attribute name="commentPostILiked" type="String" access="public" default="Comments an item I like"/>
+    <aura:attribute name="mentioInComment" type="String" access="public" default="Mentions me in a comment"/>
+    <aura:attribute name="commentOnBookmarkedItem" type="String" access="public" default="Comments on an item I bookmarked"/>    
+    <aura:attribute name="mentionInAPost" type="String" access="public" default="Mentions me in a post"/>
+    <aura:attribute name="flagItem" type="String" access="public" default="Flags an item as inappropriate"/>
+    <!--<aura:attribute name="directMessage" type="String" access="public" default="Email me when someone sends me a direct message"/>-->
+    <!--<aura:attribute name="postInProfile" type="String" access="public" default="Post to my profile"/>-->
+    <!--<aura:attribute name="postIsShared" type="String" access="public" default="Share my post"/>-->
+    <!--<aura:attribute name="commentInPostInMyProfile" type="String" access="public" default="Comments on a posts on my profile"/>-->
+
+    <aura:if isTrue="{!v.isShowSection}">
+	    <div class="slds-grid_align-center slds-grid slds-wrap emailNotifications slds-p-top_large">
+	    	<div class="slds-size--2-of-2">
+				<div id="commentContainer">
+					<div class="centerContent">
+						<p style="font-size: 16px; margin-bottom: .5rem; color:#626769; text-transform: uppercase;">{!v.title}</p>                        
+                        <div class="slds-p-top_medium">
+                        
+                        <p style="font-size: 16px; margin-bottom: .5rem; color:#626769; slds-p-bottom_large">Email me when someone:</p>
+                            
+					    <div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox checkbox" checked="{!!v.member.PreferencesDisableBookmarkEmail}" id="PreferencesDisableBookmarkEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableBookmarkEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.commentOnBookmarkedItem}</div>
+						</div>
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableChangeCommentEmail}" id="PreferencesDisableChangeCommentEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableChangeCommentEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.commentOnYourChange}</div>
+						</div>
+
+					 	<!--<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableDirectMessageEmail}" id="PreferencesDisableDirectMessageEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableDirectMessageEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.directMessage}</div>
+						</div>--> 
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableEndorsementEmail}" id="PreferencesDisableEndorsementEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableEndorsementEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.endorseForTopic}</div>
+						</div>
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableFollowersEmail}" id="PreferencesDisableFollowersEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableFollowersEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.follow}</div>
+						</div>
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableItemFlaggedEmail}" id="PreferencesDisableItemFlaggedEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableItemFlaggedEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.flagItem}</div>
+						</div> 
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableLaterCommentEmail}" id="PreferencesDisableLaterCommentEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableLaterCommentEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.commentAfterMyComment}</div>
+						</div>
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableLikeEmail}" id="PreferencesDisableLikeEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableLikeEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.commentPostILiked}</div>
+						</div> 
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableMentionsPostEmail}" id="PreferencesDisableMentionsPostEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableMentionsPostEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.mentionInAPost}</div>
+						</div>
+
+						<!--<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableProfilePostEmail}" id="PreferencesDisableProfilePostEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableProfilePostEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.postInProfile}</div>
+						</div>-->
+
+						<!--<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableSharePostEmail}" id="PreferencesDisableSharePostEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableSharePostEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.postIsShared}</div>
+						</div>-->
+
+						<!--<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisableSharePostEmail}" id="PreferencesDisableSharePostEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisableSharePostEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.postIsShared}</div>
+						</div>--> 
+
+						<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisMentionsCommentEmail}" id="PreferencesDisMentionsCommentEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisMentionsCommentEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.mentioInComment}</div>
+						</div>
+
+						<!--<div class="emailNotificationItem">
+					    	<div class="emailNotificationItemSwitcher">
+								<div class="onoffswitch">
+								    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" checked="{!!v.member.PreferencesDisProfPostCommentEmail}" id="PreferencesDisProfPostCommentEmail" onchange="{!c.changeEmailNotification}" />
+								    <label class="onoffswitch-label" for="PreferencesDisProfPostCommentEmail">
+								        <span class="onoffswitch-inner"></span>
+								        <span class="onoffswitch-switch"></span>
+								    </label>
+								</div>
+							</div>
+							<div class="emailNotificationItemText">{!v.commentInPostInMyProfile}</div>
+						</div>-->
+
+
+                        <div class="slds-p-top_x-large emailNotificationItemText slds-align_absolute-center">
+                        	Official email communications from Control4 are managed from your <a href="https://dealer.control4.com/" class="slds-text-link" target="_blank"><b><u>User Profile</u></b></a> page. 
+                        </div>
+                        </div>
+						<!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableBookmarkEmail}" id="PreferencesDisableBookmarkEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableBookmarkEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentOnBookmarkedItem}</span>
+					      </label>
+					    </span> -->
+						<!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableBookmarkEmail}" id="PreferencesDisableBookmarkEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableBookmarkEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentOnBookmarkedItem}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableChangeCommentEmail}" id="PreferencesDisableChangeCommentEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableChangeCommentEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentOnYourChange}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableDirectMessageEmail}" id="PreferencesDisableDirectMessageEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableDirectMessageEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.directMessage}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableEndorsementEmail}" id="PreferencesDisableEndorsementEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableEndorsementEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.endorseForTopic}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableFollowersEmail}" id="PreferencesDisableFollowersEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableFollowersEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.follow}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableItemFlaggedEmail}" id="PreferencesDisableItemFlaggedEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableItemFlaggedEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.flagItem}</span>
+					      </label>
+					    </span> -->
+					   <!--  <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableLaterCommentEmail}" id="PreferencesDisableLaterCommentEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableLaterCommentEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentAfterMyComment}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableLikeEmail}" id="PreferencesDisableLikeEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableLikeEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentPostILiked}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableMentionsPostEmail}" id="PreferencesDisableMentionsPostEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableMentionsPostEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.mentionInAPost}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableProfilePostEmail}" id="PreferencesDisableProfilePostEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableProfilePostEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.postInProfile}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisableSharePostEmail}" id="PreferencesDisableSharePostEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisableSharePostEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.postIsShared}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisMentionsCommentEmail}" id="PreferencesDisMentionsCommentEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisMentionsCommentEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.mentioInComment}</span>
+					      </label>
+					    </span> -->
+					    <!-- <span class="slds-checkbox">
+					      <input type="checkbox" name="options" checked="{!!v.member.PreferencesDisProfPostCommentEmail}" id="PreferencesDisProfPostCommentEmail" onchange="{!c.changeEmailNotification}" />
+					      <label class="slds-checkbox__label" for="PreferencesDisProfPostCommentEmail">
+					        <span class="slds-checkbox_faux"></span>
+					        <span class="slds-form-element__label">{!v.commentInPostInMyProfile}</span>
+					      </label>
+					    </span> -->
+	        		</div>
+				</div>
+			</div>
+		</div>
+	</aura:if>
+</aura:component>

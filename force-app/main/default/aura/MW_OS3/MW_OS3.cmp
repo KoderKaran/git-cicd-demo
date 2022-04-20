@@ -1,0 +1,117 @@
+<aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+    
+    <aura:attribute name="title" type="String" default="Unable to Connect - Step 3"></aura:attribute>
+    <aura:attribute name="PreviousScreens" type="List" default="OS3Begin_Div"/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib2"/>    
+    
+    <div aura:id="OS3Begin_Div">
+        <c:MW_OS3_Begin aura:id="OS3Begin"/>  
+    </div> 
+    <div aura:id="OS3Videos_Div">
+        <c:MW_OS3_HowToVideos aura:id="OS3Videos" />   
+    </div>
+    <div aura:id="OS3Guides_Div">
+        <c:MW_OS3_Guides aura:id="OS3Guides" />   
+    </div>
+    <div aura:id="OS3App_Div">
+        <c:MW_OS3_App aura:id="OS3Guides" />   
+    </div>
+    <div aura:id="OS3ConnectionIssues_Div">
+        <c:MW_OS3_ConnectionIssues aura:id="OS3Connections" />   
+    </div>
+    <div aura:id="OS3Wifi_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_JoinNetwork aura:id="OS3Wifi" />   
+    </div>
+    <div aura:id="OS3WifiHome_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Home aura:id="OS3WifiHome" />   
+    </div>
+    <div aura:id="OS3WifiAway_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Away aura:id="OS3WifiAway" />   
+    </div>
+    <div aura:id="OS3WifiStep1_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Home_Step1 aura:id="OS3WifiStep1" />   
+    </div>
+    <div aura:id="OS3Connected_Div">
+        <c:MW_OS3_UnableToConnect_Connected aura:id="OS3Connected" />   
+    </div>
+    <div aura:id="OS3WifiStep2No_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2No aura:id="OS3Connected" />   
+    </div>
+  
+    <div aura:id="OS3WifiIOS_Div">
+    <c:MW_OS3_UnableToConnect_Wifi_Step2_IOS aura:id="OS3Power1" />   
+    </div>
+    <div aura:id="OS3WifiPowerIOS1_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerIOS aura:id="OS3Power1" />   
+    </div>   
+    <div aura:id="OS3WifiPowerIOS2_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerIOS2 aura:id="OS3Power2" />   
+    </div>   
+    <div aura:id="OS3WifiPowerIOS3_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerIOS3 aura:id="OS3Power3" />   
+    </div>   
+    <div aura:id="OS3WifiPowerIOS4_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerIOS4 aura:id="OS3Power4" />   
+    </div>   
+    <div aura:id="OS3WifiPowerIOS5_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerIOS5 aura:id="OS3Power5" />   
+    </div>
+    <div aura:id="OS3ChooseController_Div">
+        <h1 class="slds-text-heading_large text-red" name="mytitle">{!v.title}</h1>
+        <c:MW_OS3_UnableToConnect_ChooseController aura:id="OS3Controller" />   
+    </div>    
+    <div aura:id="OS3WifiAndroid_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_Android aura:id="OS3Android" />   
+    </div>    
+    <div aura:id="OS3WifiPowerAndroid1_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerAndroid aura:id="OS3APower1" />   
+    </div>     
+    <div aura:id="OS3WifiPowerAndroid2_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerAndroid2 aura:id="OS3APower2" />   
+    </div>    
+    <div aura:id="OS3WifiPowerAndroid3_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerAndroid3 aura:id="OS3APower3" />   
+    </div>   
+    <div aura:id="OS3WifiPowerAndroid4_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerAndroid4 aura:id="OS3APower4" />   
+    </div>   
+    <div aura:id="OS3WifiPowerAndroid5_Div">
+        <c:MW_OS3_UnableToConnect_Wifi_Step2_PowerAndroid5 aura:id="OS3APower5" />   
+    </div>  
+    <div aura:id="OS3EA5_Div">
+        <c:MW_OS3_UnableToConnect_EA5 aura:id="OS3EA5"/>
+    </div>  
+    <div aura:id="OS3EA3_Div">
+        <c:MW_OS3_UnableToConnect_EA3 aura:id="OS3EA3"/>
+    </div>    
+    <div aura:id="OS3EA1_Div">
+        <c:MW_OS3_UnableToConnect_EA1 aura:id="OS3EA1"/>
+    </div>  
+    <div aura:id="OS3CA10_Div">
+        <c:MW_OS3_UnableToConnect_CA10 aura:id="OS3CA10"/>
+    </div>
+    <div aura:id="OS3CA1_Div">
+        <c:MW_OS3_UnableToConnect_CA1 aura:id="OS3CA1"/>
+    </div>  
+    <div aura:id="OS3HC800_Div">
+        <c:MW_OS3_UnableToConnect_HC800 aura:id="OS3HC800"/>
+    </div>    
+    <div aura:id="OS3IDK_Div">
+        <c:MW_OS3_UnableToConnect_IDK aura:id="OS3IDK"/>
+    </div>
+    <div aura:id="OS3ContactDealer_Div">
+        <c:MW_OS3_UnableToConnect_ContactDealer aura:id="OS3ContactDealer"/>
+    </div>
+    <div aura:id="OS3SystemRestart_Div">
+        <c:MW_OS3_UnableToConnect_System_RestartC4 aura:id="OS3SystemRestart"/>
+    </div>
+    <div aura:id="OS3C4SystemRestart_Div">
+        <c:MW_OS3_UnableToConnect_C4System_RestartC4 aura:id="OS3C4SystemRestart"/>
+    </div>
+    
+    
+    
+</aura:component>

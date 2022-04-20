@@ -1,0 +1,22 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />
+    
+    <h1 class="slds-text-heading_large text-red">Success</h1>
+       
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+              <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--5-of-8 slds-order_2 slds-medium-order_1 slds-p-bottom_large">
+            	<p class="text-paragraph bold">Congratulations! Your thermostat is working!</p>             
+                <p class="slds-p-top_large text-paragraph">If this happens again, follow the same steps to resolve your issue. If you followed all of the steps and still can’t access your system, contact our 
+                    <a href="https://www.control4.com/company/contact-us/support" class="slds-text-link text-paragraph" target="_blank">Customer Advocacy</a> team for more assistance.</p>
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-8 slds-order_1 slds-medium-order_2 slds-align_absolute-center slds-p-bottom_medium"  >
+                    <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_220,h_320,f_auto,q_auto/customer-support/Success_Graphic.png"/>
+                </div>
+            </div>           
+		</div>       
+    </div>
+    
+    <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+</aura:component>

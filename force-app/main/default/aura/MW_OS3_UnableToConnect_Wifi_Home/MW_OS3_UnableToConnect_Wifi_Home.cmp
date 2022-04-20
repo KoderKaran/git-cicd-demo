@@ -1,0 +1,25 @@
+<aura:component >
+      <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" /> 
+		<h1 class="slds-text-heading_large text-red">Unable to Connect</h1>
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+        	<p class="text-paragraph"><b>To resolve your connectivity issue:</b></p>
+        </div>
+    	<div class="slds-p-top_large text-paragraph">
+            <ol class="slds-list--ordered">
+                <li>Ensure you're on the same WiFi as your Control4 system.</li>
+                <li>Remove your system from theControl4 app. <a onclick="{!c.Skip2ButtonClick}" class="slds-text-link">(Skip to Step 2)</a></li>
+                <li>Reboot your Control4 system. <a onclick="{!c.Skip3ButtonClick}" class="slds-text-link">(Skip to Step 3)</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="step1Button" class="slds-button style1button" label="Next" onclick="{!c.Step1ButtonClick}"/>
+            </div>
+        </div>
+    </div> </aura:component>

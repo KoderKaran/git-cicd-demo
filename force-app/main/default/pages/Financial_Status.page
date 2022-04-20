@@ -1,0 +1,43 @@
+<apex:page standardController="Account" extensions="AccountStylingClass" >
+    <style type="text/css">
+        .red{
+            color:red;
+            font-weight:bold;
+        }
+        .green{
+            color:green;
+            font-weight:bold;
+        }
+    </style>
+    <apex:form >
+        <apex:pageBlock mode="maindetail" >
+            <apex:pageBlockSection showHeader="False" columns="2" title="Financial Status">
+                    <apex:outputField value="{!Account.Projected_Status__c}"/>
+                    <apex:outputField value="{!Account.Past_Due_Invoices__c}"/>
+                    <apex:outputField value="{!Account.Projected_Status_Revenue_To_Goal__c}"/>
+                    <apex:outputField value="{!Account.Open_Orders_Dollars__c}"/>
+                    <apex:outputField value="{!Account.QTD_Revenue_Comparison__c}"/>
+                <apex:pageBlockSectionItem helpText="{!$ObjectType.Account.Fields.QTD_Revenue__c.inlineHelpText}">
+                    <apex:outputLabel value="{!$ObjectType.Account.Fields.QTD_Revenue__c.label}"/>
+                    <apex:outputText styleClass="{!qtdRevenue}" value="{0,number,currency}">
+                        <apex:param value="{!Account.QTD_Revenue__c}"/>
+                    </apex:outputText>                        
+                </apex:pageBlockSectionItem>
+                    <apex:outputField value="{!Account.YTD_Revenue_Comparison__c}"/>
+                <apex:pageBlockSectionItem helpText="{!$ObjectType.Account.Fields.YTD_Revenue__c.inlineHelpText}">
+                    <apex:outputLabel value="{!$ObjectType.Account.Fields.YTD_Revenue__c.label}" />
+                    <apex:outputText styleClass="{!ytdRevenue}" value="{0,number,currency}">
+                        <apex:param value="{!Account.YTD_Revenue__c}"/>
+                    </apex:outputText>
+                </apex:pageBlockSectionItem>
+                    <apex:outputField value="{!Account.Previous_12_Months__c}"/>
+                <apex:pageBlockSectionItem helpText="{!$ObjectType.Account.Fields.Rolling_12_Months__c.inlineHelpText}">
+                    <apex:outputLabel value="{!$ObjectType.Account.Fields.Rolling_12_Months__c.label}"/>
+                    <apex:outputText styleClass="{!rollingTwelveMonths}" value="{0, number, currency}">
+                        <apex:param value="{!Account.Rolling_12_Months__c}" />
+                    </apex:outputText>
+                </apex:pageBlockSectionItem>    
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

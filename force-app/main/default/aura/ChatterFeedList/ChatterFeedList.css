@@ -1,0 +1,353 @@
+.THIS {
+	color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    padding: 25px;
+}
+
+.THIS.row [class^="col-"] {
+    padding-right: 12.5px;
+    margin-bottom: 0px;
+    /*padding-left: 12.5px;*/
+}
+.THIS.row [class*=" col-"]  {
+    padding-right: 12.5px;
+    /*padding-left: 12.5px;*/
+}
+
+.THIS .col-md-8 {
+	position: relative;
+    min-height: 1px;
+    /*padding-left: 15px;*/
+    padding-right: 15px;
+}
+
+.THIS .uppercase {
+    text-transform: uppercase !important;
+    /*margin-top: px;*/
+}
+
+.THIS h2 {
+	display: block;
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+	margin: 0px 0px 25px 0px;
+    padding: 0px;
+    color: inherit;
+    font-weight: 300;
+    line-height: 1.1em;
+}
+
+.THIS h3 {
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 12px 0px 0px 0px;
+    line-height: 25px;
+    font-size: 16px;
+    color: #000;
+}
+
+.THIS h3:hover {
+    color: #000;
+}
+
+.THIS strong {
+    font-weight: 600 !important;
+}
+
+.THIS .margin-bottom {
+    margin-bottom: 25px;
+}
+
+.THIS .flex {
+    display: flex;
+    width: 100%;
+}
+
+.THIS .flex .flex-75 {
+    width: 75px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.THIS .text-light-grey {
+    color: #cecccc;
+}
+
+.THIS i {
+    position: relative;
+    margin: 0 5px;
+    font-size: 100%;
+    line-height: 16px;
+}
+
+.THIS .count {
+    margin: 0 5px 2px 5px;
+    width: 28px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+}
+
+.THIS .userimg {
+    display: block;
+    height: 60px;
+    width: 60px;
+    background-color: #f0eeee;
+    background-size: cover;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+}
+
+.THIS .flex .flex-stretch {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.THIS .text-dark {
+    color: #000;
+}
+
+.THIS * a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.THIS a {
+    background-color: transparent;
+    color: #8a2432;
+}
+
+.THIS small {
+    display: inline-block;
+    color: #8a878a;
+    font-size: 12.30769px;
+    font-style: italic;
+    line-height: 18px;
+}
+
+.THIS .clip-7-lines {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 175px;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+}
+
+.THIS p:last-child {
+    margin: 0px 0px 0px 0px;
+}
+
+.THIS p {
+	display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    margin: 0px 0px 25px 0px;
+    padding: 0px;
+}
+
+.THIS a.c4btn.light-grey {
+    color: #000;
+    background-color: #cecccc;
+}
+
+.THIS a.c4btn {
+	display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    line-height: 18px;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    background-color: #8a2432;
+    border-color: transparent;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+.THIS .c4btn {
+    width: 100%;
+    max-width: 350px;
+}
+
+.THIS a.c4btn i {
+    position: relative;
+    margin: 0 10px;
+    font-size: 150%;
+    line-height: 16px;
+}
+
+.THIS .fal {
+	-webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-size: 2rem;
+    font-variant: normal;
+    text-rendering: auto;
+    font-family: "Font Awesome\ 5 Pro";
+    font-weight: 300;
+}
+
+.THIS * a:hover {
+    color: #c32032;
+}
+
+.THIS a:hover {
+    outline: 0;
+}
+
+.THIS a.c4btn:not([disabled]):hover {
+    color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+}
+
+.THIS  *:before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.THIS  *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*.THIS div {
+    display: block;
+}*/
+
+.THIS * {
+    position: relative;
+}
+.THIS .forceContentFileCard{
+    width: 14rem;
+}
+.THIS.cChatterFeedList {
+    margin-bottom: 0px;
+}
+.THIS .answered {
+    color: #c5b92f !important;
+    font-weight: 600 !important;
+}
+.THIS .fal {
+    /*font-family: Font Awesome\ 5 Pro;
+    font-weight: 300;*/
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+.THIS .size {
+    font-size: 1em;
+}
+.THIS i {
+    position: relative;
+    margin: 0 5px;
+    font-size: 100%;
+}
+
+.THIS .fa-check:before {
+    content: "\f00c";
+}
+
+.THIS ul.inline {
+    list-style: none;
+    width: auto;
+    font-size: 0;
+    padding: 0;
+}
+
+.THIS ul.inline li {
+    display: inline-block;
+    list-style: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.THIS li button.active:not(:hover) {
+    background-color: #cecccc !important;
+}
+
+.THIS li button:hover {
+    color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+}
+
+.THIS .clip-3-lines {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 75px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.THIS .inputPage {
+    max-width: 4%;
+    display: inline-block;
+}
+
+.THIS .pageLeft {
+   display: inline-block;
+   margin-right: 5px;
+}
+
+.THIS .pageRight {
+   display: inline-block;
+   margin-left: 5px;
+}
+
+.THIS .paginationBlock {
+   display: block;
+   text-align: center;
+}
+
+.THIS input { 
+    text-align: center; 
+}
+
+.THIS .disabledIcon { 
+    color: #CECCCC; 
+}
+
+.THIS .activeIcon:hover { 
+    color: #C32032; 
+    cursor: pointer;
+}

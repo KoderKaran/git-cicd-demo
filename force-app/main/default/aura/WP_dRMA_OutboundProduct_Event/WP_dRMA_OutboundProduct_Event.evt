@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Sends product information from WP_dRMA_Assistant to WP_dRMA_Create" >
+	<aura:attribute name="ProductId" type="Id"/>
+    <aura:attribute name="ProductCode" type="String"/>
+    <aura:attribute name="ProductName" type="String"/>
+</aura:event>

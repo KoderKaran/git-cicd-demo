@@ -1,0 +1,129 @@
+.THIS {
+    padding-right: 15px;
+    border-left: 1px solid #e2e0e0;
+    height: 265px;
+}
+
+.THIS .main{
+    border-left-style: groove;
+    border-left-width: 2px;
+    padding-left: 30px;
+    height: 642px;
+}
+.THIS .uppercase{
+	 text-transform:uppercase !important;
+	     margin-top: 72px;
+    padding:0px;
+    color:inherit;
+
+     margin-bottom: 30px;
+    font-weight:300;
+    line-height:1.1em;
+    font-size: 24px;
+    padding-left: 30px;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+.THIS .content {
+	display: inline-block;
+    width: 100%;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    float: right;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    
+     /*padding-top: 10px;*/
+}
+.THIS input {
+        padding: 0 25px 0 12.5px;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-overflow: clip;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 70%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    color: #000;
+    line-height: 18px;
+    background-color: #e8e8e8;
+    border-width: 0;
+    border-color: transparent;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    float: right;
+}
+.THIS select {
+        padding: 0 25px 0 12.5px;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right 10px center #ddd;
+    text-overflow: clip;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 70%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    color: #000;
+    line-height: 18px;
+    background-color: #e8e8e8;
+    border-width: 0;
+    border-color: transparent;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    float: right;
+}
+.THIS select option {
+    margin: 0;
+    height: 1em;
+    line-height: normal;
+    text-transform: capitalize;
+    text-align: left;
+    justify-content: left;
+}
+.THIS select:focus {
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    z-index: 1;
+}
+.THIS .ui-widget {
+    border-left: 1px solid ;
+    height: 657px;
+}

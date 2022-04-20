@@ -1,0 +1,36 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+ 
+    <h1 class="slds-text-heading_large text-red">Remote Troubleshoot</h1>
+    
+    <p class="slds-p-top_large text-paragraph bold">Do you see any of the following on your Control4 remote?</p>
+   
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium ">
+          <div class="slds-col slds-p-bottom_large">
+                <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_150,h_160,f_auto,q_auto/customer-support/Remote_Icons_Error-1.png"/>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            	<img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_150,h_160,f_auto,q_auto/customer-support/Remote_Icons_Error-2.png"/>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            	<img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_150,h_160,f_auto,q_auto/customer-support/Remote_Icons_Error-3.png"/>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            	<img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_150,h_160,f_auto,q_auto/customer-support/Remote_Icons_Error-4.png"/>
+          </div> 
+        </div>
+    </div>    
+
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="yesButton" class="slds-button style1button" label="Yes" onclick="{!c.YesButtonClick}"/>
+                <lightning:button aura:id="noButton" class="slds-button style1button" label="No" onclick="{!c.NoButtonClick}"/>
+            </div>
+        </div>
+    </div> 
+</aura:component>

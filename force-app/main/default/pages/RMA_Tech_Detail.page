@@ -1,0 +1,95 @@
+<apex:page standardController="CaseProduct__c" tabStyle="CaseProduct__c" >        
+   
+    <apex:sectionHeader title="{!$ObjectType.CaseProduct__c.label}" subtitle="{!CaseProduct__c.name}"/> 
+	<apex:messages />    
+    <apex:form >        
+    <apex:pageBlock Mode="edit" title="{!$ObjectType.CaseProduct__c.label} Edit" >          
+        <apex:pageBlockButtons location="top">
+            <apex:commandButton action="{!save}" Value="Save" id="iSave"/>
+            <apex:commandbutton action="{!cancel}" value="Cancel" id="cancel"/>
+        </apex:pageBlockButtons> 
+        <apex:pageBlockSection showHeader="false" columns="2" >
+            <apex:pageBlockSection showHeader="false" columns="1">
+            	<apex:inputField value="{!CaseProduct__c.Case__c}"/>
+            	<apex:inputField value="{!CaseProduct__c.Quantity__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection showHeader="false" columns="1">
+            </apex:pageBlockSection>    
+        </apex:pageBlockSection> 
+       
+        <apex:actionRegion >
+        <apex:pageBlockSection Rendered="True" Id="Product" showHeader="true" title="Issues" columns="2">
+            <apex:pageBlockSection showHeader="False" columns="1">
+                <apex:inputField value="{!CaseProduct__c.Type__c}" required="true" />
+                <apex:inputField value="{!CaseProduct__c.Product_Type__c}" required="true"/>
+                <apex:inputField value="{!CaseProduct__c.Product__c}" required="true"/>
+                <apex:inputField value="{!CaseProduct__c.Issue__c}" required="true"/>
+            </apex:pageBlockSection>
+           
+            <!--This section calls the Driver page -->
+            <apex:pageBlockSection showHeader="False" columns="1">
+                <apex:inputField value="{!CaseProduct__c.Version__c}" required="true">
+                         			    <apex:actionSupport event="onchange" rerender="Driver"/>
+                </apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.PreviousVersion__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlockSection> 
+         </apex:actionRegion>    
+        
+        <!-- Subject/ detail section of the RMA -->
+         <apex:pageBlockSection showHeader="true" title="Case Details" columns="1">
+            <apex:inputText value="{!CaseProduct__c.Subject__c}" style="width: 504px; height: 15px;"/>
+            <apex:inputField value="{!CaseProduct__c.Detail__c}" style="width: 500px; height: 150px;"/>
+            <apex:inputField value="{!CaseProduct__c.Symptom_Other_Detail__c}" style="width: 500px; height: 30px;"/>
+        </apex:pageBlockSection> 
+        <apex:actionRegion >
+        <apex:pageBlockSection Rendered="True" Id="RMA" showHeader="true" title="RMA Details" columns="2">
+            <apex:pageBlockSection Id="RMA1" Rendered="True" showHeader="false" columns="1">
+                <apex:inputField value="{!CaseProduct__c.RMA__c}">
+                						<apex:actionSupport event="onchange" rerender="RMA"/>
+                </apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.Item__c}" required="{!IF(CaseProduct__c.Troubleshooting__c = "Yes",True,False)}"/>
+                <apex:inputField value="{!CaseProduct__c.MacID__c}" required="{!IF(CaseProduct__c.Troubleshooting__c = "Yes",True,False)}"/>
+                <apex:inputField value="{!CaseProduct__c.Troubleshooting__c}" required="true"   rendered="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+                <apex:inputField value="{!CaseProduct__c.RMA_Type__c}"/>
+                <apex:inputField value="{!CaseProduct__c.RMA_Outcome__c}">
+                    					<apex:actionSupport event="onchange" rerender="RMA"/>
+                </apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.Shipment_Priority__c}" rendered="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}" required="true" />
+                <apex:inputField value="{!CaseProduct__c.Return_Shipment_Priority__c}" rendered="{!IF(CaseProduct__c.RMA_Outcome__c = 'Repair - Out of Warranty' || CaseProduct__c.RMA_Outcome__c = 'Repair - In Warranty',True,False)}" required="true" />
+            </apex:pageBlockSection>
+            <apex:pageBlockSection Id="RMA2" Rendered="True" showHeader="false" columns="1">
+                <apex:inputField value="{!CaseProduct__c.Symptom_Type__c}"  required="{!IF(CaseProduct__c.RMA_Outcome__c != Null,True,False)}"   rendered="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}">
+            							<apex:actionSupport event="onchange" rerender="RMA"/>
+            	</apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.Symptom_Detail__c}"  required="true"   rendered="{!IF(CaseProduct__c.Symptom_Type__c != Null,True,False)}">
+                    					<apex:actionSupport event="onchange" rerender="RMA"/>
+            	</apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.Other__c}" required="true"   rendered="{!IF(CaseProduct__c.Symptom_Detail__c = 'Analog - IN'  || CaseProduct__c.Symptom_Detail__c == 'Analog - OUT'  || CaseProduct__c.Symptom_Detail__c = 'Digital Coax'  || CaseProduct__c.Symptom_Detail__c = 'HDMI'  || CaseProduct__c.Symptom_Detail__c = 'RJ45' || CaseProduct__c.Symptom_Detail__c = 'Contact' || CaseProduct__c.Symptom_Detail__c = 'Ethernet' || CaseProduct__c.Symptom_Detail__c = 'IR - IN' || CaseProduct__c.Symptom_Detail__c = 'IR - OUT' || CaseProduct__c.Symptom_Detail__c = 'Relay' || CaseProduct__c.Symptom_Detail__c = 'Serial (any architecture)' || CaseProduct__c.Symptom_Detail__c = 'WiFi' || CaseProduct__c.Symptom_Detail__c = 'ZigBee' || CaseProduct__c.Symptom_Detail__c = 'Z-Wave' || CaseProduct__c.Symptom_Detail__c = 'Component' || CaseProduct__c.Symptom_Detail__c = 'Composite' || CaseProduct__c.Symptom_Detail__c = 'HDMI - IN' || CaseProduct__c.Symptom_Detail__c = 'Button Response (no/poor haptic feedback)',True,False)}"/>            
+				                <apex:inputField value="{!CaseProduct__c.Special_Shipping__c}" rendered="{!IF(AND(CaseProduct__c.RMA__c = 'Yes', CaseProduct__c.Case__r.Alternate_Ship_Address__c = False),True,False)}" >
+                						<apex:actionSupport event="onchange" rerender="RMA"/>
+                </apex:inputField>
+                <apex:inputField value="{!CaseProduct__c.Dropship_Special_Shipping__c}" rendered="{!IF(CaseProduct__c.Special_Shipping__c = True,True,False)}" style="width: 500px; height: 45px;" />
+            </apex:pageBlockSection>
+        </apex:pageBlockSection> 
+        </apex:actionRegion>
+        
+        <!--driver page validation -->
+        <apex:actionRegion >
+        <apex:pageBlockSection Rendered="True" Id="Driver" showHeader="true" title="Driver Information" columns="2">    
+            <apex:inputField value="{!CaseProduct__c.Third_Party_Make__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}"  required="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+            <apex:inputField value="{!CaseProduct__c.Third_Party_Type__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}"   required="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+            <apex:inputField value="{!CaseProduct__c.Third_Party_Model__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}"   required="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+            <apex:inputField value="{!CaseProduct__c.Reason_for_Call__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}"  required="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+            <apex:inputField value="{!CaseProduct__c.Inform_Driver_Team__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}" />
+            <apex:inputField value="{!CaseProduct__c.Control_Method_Used__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}"   required="{!IF(CaseProduct__c.RMA__c = 'Yes',True,False)}"/>
+            <apex:inputField value="{!CaseProduct__c.Interop_Review_Driver_Team_Use_Only__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}" />
+            <apex:inputField value="{!CaseProduct__c.Certified_Driver__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}" />
+            <apex:inputField value="{!CaseProduct__c.Driver_Creator_Driver_Team_Use_Only__c}" rendered="{!IF(CaseProduct__c.Product_Type__c = '3rd Party',True,False)}" />
+            <apex:pageBlockSectionItem />
+        </apex:pageBlockSection>
+        </apex:actionRegion>
+    </apex:pageBlock>
+    </apex:form>            
+    <apex:relatedList list="Cases__r"/>     
+</apex:page>

@@ -1,0 +1,36 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+       
+    <h1 class="slds-text-heading_large text-red ">Restart Keypad</h1>
+       
+    <div class="slds-scrollable_none">        
+    	<div class="slds-grid">
+            <div class="slds-col">
+                <p class="slds-p-top_large text-paragraph">Does your keypad not control your light?</p>           
+                <p class="slds-p-top_large text-paragraph bold">Quickly tap the top button 15 times to restart your device.</p>             
+                <p class="slds-p-top_large text-paragraph">              
+                    <ul class="slds-list--dotted">
+                        <li>The dimmer LEDs will turn off</li>
+                        <li>The dimmer LEDs will flash green</li>
+                        <li>The dimmer LEDs will return to their normal color</li>
+                    </ul></p>           
+                <p class="slds-p-top_large text-paragraph">Are you now able to turn on/off your light?</p>
+            </div>
+            <div class="slds-col slds-align_absolute-center">
+                <img src="https://res.cloudinary.com/control4/image/upload/e_trim/c_pad,w_200,h_250,f_auto,q_auto/customer-support/Lighting_Keypads_Keypad-1.png"/>  	           
+            </div>
+        </div>
+    </div> 
+    
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="yesButton" class="slds-button style1button" label="Yes" onclick="{!c.YesButtonClick}"/>
+                <lightning:button aura:id="noButton" class="slds-button style1button" label="No" onclick="{!c.NoButtonClick}"/>
+            </div>
+        </div>
+    </div>  
+</aura:component>

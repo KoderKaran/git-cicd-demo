@@ -1,0 +1,21 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />
+    
+    <div aura:id="Main_Div">    
+        <h1 class="slds-text-heading_large text-red">Remote Reset</h1>
+
+       <p class="slds-p-top_large text-paragraph">To disconnect the remote from your Control4 system and start over.</p>
+        
+        <div class="slds-p-top_large">
+            <ol class="slds-list_ordered text-paragraph">
+                <li>Press and hold the physical <span class="bold">power</span> button for three seconds.</li>
+                <li>Tap <span class="bold">Restart</span>.</li>
+                <li>While the remote is restarting, hold down the physical <span class="bold">Back</span> button until you see the prompt,"Hi, nice to meet you."</li> 
+            </ol>
+        </div>        
+        
+        <div class="slds-p-top_x-large">
+                <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+	</div>         
+</aura:component>

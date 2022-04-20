@@ -1,0 +1,38 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large text-red">Install</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">      
+        <p class="text-paragraph bold">Required Prior To Install:</p>
+        <p class="text-paragraph">
+            <ul class="slds-list--dotted">
+                <li><a href="https://get.adobe.com/air/" class="slds-text-link text-paragraph" target="_blank"><u>Adobe Air</u></a></li>
+                <li><a href="https://www.adobe.com/go/getflashplayer/" class="slds-text-link text-paragraph" target="_blank"><u>Adobe Flash Player</u></a></li>
+            </ul>   
+        </p>           
+        
+        <p class="slds-p-top_large text-paragraph bold">Confirm the following are correct:</p>
+        <p class="text-paragraph">
+            <ul class="slds-list--dotted">
+                <li>Time zone</li>
+                <li>Time</li>
+                <li>Date</li>
+                <li>Your computer is connected to same network as your Control4 system</li>
+            </ul>    
+        </p>        
+        
+        <p class="slds-p-top_large text-paragraph bold">When you have confirmed the following:</p>    
+        <ol class="slds-list--ordered text-paragraph">
+            <li><a href="https://customer.control4.com/" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+            <li>Click <b>My Account</b>, then click <b>Users &amp; Devices</b>.</li>
+            <li>Scroll down and click <i>Download the Control4 App | PC/Mac.</i></li>                
+        </ol>            
+    </div>
+    
+    <div class="slds-p-top_small">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

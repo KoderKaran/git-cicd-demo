@@ -1,0 +1,21 @@
+<apex:page standardController="Lead" extensions="SmartHomeBuilderController">
+    <apex:includeLightning />
+    <div id="lightning"></div>
+
+    <script type="text/javascript">
+        $Lightning.use("c:SmartHomeBuilderApp", function() {
+            $Lightning.createComponent("c:SmartHomeBuilder", 
+            {leadId:'{!Lead.Id}',
+            leadName:'{!Lead.Name}',
+            leadCity:'{!Lead.City}',
+            leadStreet:'{!Lead.Street}',
+            leadState:'{!Lead.State}',
+            leadCountry:'{!Lead.Country}',
+            leadPostalCode:'{!Lead.PostalCode}'
+            },
+            "lightning",
+            function(cmp) {
+            });
+        });
+    </script>
+</apex:page>

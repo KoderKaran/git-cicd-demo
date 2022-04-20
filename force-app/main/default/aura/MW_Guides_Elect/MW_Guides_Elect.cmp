@@ -1,0 +1,24 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Electrician</h1>
+             
+    <p class="slds-p-top_large text-paragraph">All Control4 lighting devices should be
+        installed by a licensed electrician, programmed by an authorized Control4
+        Pro, and are subject to the terms and conditions of Control4’s <a href="https://www.control4.com/legal/warranty/control4-warranty" class="slds-text-link text-paragraph" target="_blank"><u>product warranty</u></a>.</p>
+    
+    	<ul class="slds-p-top_large slds-list--dotted">
+          <li><a href="https://www.control4.com/docs/product/wireless-adaptive-phase-dimmer/installation-guide-120v277v/english/latest " class="slds-text-link text-paragraph" target="_blank"><u>C4-APD120 Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/wireless-switch-120v-277v/installation-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-SW120277 Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/wireless-keypad-dimmer/installation-guide-120v277v/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-KD120 Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/auxiliary-keypad/installation-guide-120v/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-KA Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/wireless-0-10v-dimmer/installation-guide-120v277v/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-TV120277 Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/wired-keypad/installation-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-KCB Installation Guide</u></a></li>
+        </ul>   
+
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

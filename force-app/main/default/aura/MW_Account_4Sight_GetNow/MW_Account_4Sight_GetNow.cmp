@@ -1,0 +1,42 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+       
+    <h1 class="slds-text-heading_large text-red">4Sight</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+            
+        <p class="text-paragraph bold">Features of 4Sight</p>
+        <p class="text-paragraph">
+        <ul class="slds-list--dotted">
+          <li>Remote Access </li>
+          <li>When >> Then Personalization</li>
+          <li>Intercom Anywhere</li>
+          <li>Voice Control</li>
+          <li>Notifications &amp; Alerts</li>
+          <li>Online Backups</li>
+        </ul>    
+   		</p>
+        </div>
+  
+    	<div class="slds-p-top_large">
+		<p class="text-paragraph bold">Steps to Purchase</p> 
+		<ol class="slds-list--ordered text-paragraph">
+          <li><a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+            <li>Click <b>My Automation</b>, then click <b>4Sight</b>.</li>
+          <li>Enter your credit card information, then click <b>Buy 4Sight</b>.</li>             
+        </ol>
+        <p class="slds-p-top_large text-paragraph">To automatically renew your 4Sight subscription each year; check the box.</p>
+        <div class="slds-p-top_large">    		
+            <a href="https://www.control4.com/o/4sight-services" class="slds-text-link text-paragraph" target="_blank"><u>Find out more at Control4.com</u></a>
+        </div>
+            
+    	</div>    
+    </div>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_small">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

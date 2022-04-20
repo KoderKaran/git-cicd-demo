@@ -1,0 +1,90 @@
+<apex:page controller="RMAReceivedLabelController" renderAs="pdf" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false"> 
+    <HEAD>
+        <STYLE type="text/css">
+            @page
+            {    
+            	size: 8in 4in;    
+            	margin: 5px;
+            }			            
+            body {font-size: small;}
+            .smlbold {font-weight: bold; font-size: 12px;}
+            .mdmbold {font-weight: bold; font-size: 16px;}
+            .lrgbold {font-weight: bold; font-size: 20px;}
+            .sml {font-size: 12px;}
+            .mdm {font-size: 16px;}
+            .lrg {font-size: 20px;}            
+            
+            }
+.divTable{
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {	
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+            /*border: 1px solid #999999;*/
+	display: table-cell;
+	padding: 3px 50px 3px 2px;
+    font-size: 12px;
+}
+.divTableHeading {	
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+        </STYLE>
+    </HEAD>
+	
+
+    
+    <div class="divTable" style="width: 95%;">
+        <div class="divTableHeading">
+            <p><u>Service Call</u></p>
+        </div>
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell">Quantity</div>
+                <div class="divTableCell">{!caseProduct.Quantity__c}</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">Received Date</div>
+                <div class="divTableCell">{!receivedDate}</div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell">Created On</div>
+                <div class="divTableCell">{!createdDate}</div>
+            </div> 
+            <div class="divTableRow">
+                <div class="divTableCell">Status</div>
+                <div class="divTableCell">{!caseInfo.Status}</div>
+            </div> 
+            <div class="divTableRow">
+                <div class="divTableCell"><b>Item No.</b></div>
+                <div class="divTableCell"><b>{!caseProduct.Item_Code__c}</b></div>
+            </div> 
+            <div class="divTableRow">
+                <div class="divTableCell"><b>Case No.</b></div>
+                <div class="divTableCell"><b>{!caseInfo.CaseNumber}</b></div>
+            </div> 
+            <div class="divTableRow">
+                <div class="divTableCell">Customer Name</div>
+                <div class="divTableCell">{!caseInfo.Account.Name}</div>
+            </div> 
+        </div>
+    </div>
+    <div class="divTable" style="width: 95%;">
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell"><apex:image value="{!imageUrl}" /></div>                
+            </div>       
+        </div>
+    </div>
+    
+   
+</apex:page>

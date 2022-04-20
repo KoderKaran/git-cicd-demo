@@ -1,0 +1,37 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Remote Troubleshoot</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">        
+        <div class="slds-grid slds-p-top_large">
+          <div class="slds-col">
+            <p class="text-paragraph bold">Restart the remote</p>
+           
+            <ol class="slds-list--ordered slds-p-top_large">
+                <li>Remove battery cover from the back of the remote.</li>
+                <li>Remove one AA battery or the rechargeable battery.</li>
+                <li>Re-insert battery.</li>
+                <li>Wait for the remote to reconnect.</li>
+            </ol>
+        
+            <p class="slds-p-top_large text-paragraph bold">Does this resolve your remote issue?</p>
+          </div>
+          <div class="slds-col slds-align_absolute-center">
+              <img src="https://res.cloudinary.com/control4/image/upload/e_trim/c_pad,w_180,h_225,f_auto,q_auto/customer-support/SR-260-Back_Off.png"/>              
+          </div>
+        </div>
+    </div>   
+    
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="yesButton" class="slds-button style1button" label="Yes" onclick="{!c.YesButtonClick}"/>
+                <lightning:button aura:id="noButton" class="slds-button style1button" label="No" onclick="{!c.NoButtonClick}"/>
+            </div>
+        </div>
+    </div> 
+</aura:component>

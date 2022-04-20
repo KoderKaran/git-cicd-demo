@@ -1,0 +1,24 @@
+<aura:component controller="ProductRMA" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	  
+    <aura:attribute name="qty" type="Integer" default=""/>
+    <aura:attribute name="singqty" type="Boolean" default="true"/>
+    <aura:attribute name="isShowQuantity" type="Boolean" default="true"/>
+    <aura:attribute name="cloneProduct" type="Boolean" default="false"/>
+    <aura:attribute name="singleproduct" type="CaseProduct__c" default=""/>   
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>  
+    
+    <aura:if isTrue="{!v.isShowQuantity}">
+        <aura:if isTrue="{!v.singqty}">         
+            <c:Receive_RMA_One recid="{!v.recordId}"/>
+            <aura:set attribute="else">                
+                <lightning:input type="Integer" value="{!v.qty}" label="Quantity" required="true"/><br></br>
+                <center><lightning:button variant="brand" label="Next" name="edit" onclick="{!c.cloneProducts}" /></center>
+            </aura:set>
+        </aura:if>
+    </aura:if>     
+    <aura:if isTrue="{!v.cloneProduct}">
+        <c:Receive_RMA caseProdId="{!v.recordId}" qty="{!v.qty}"></c:Receive_RMA>
+    </aura:if>
+    
+</aura:component>

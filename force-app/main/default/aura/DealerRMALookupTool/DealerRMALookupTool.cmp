@@ -1,0 +1,95 @@
+<aura:component controller="WarrantyLookupToolController" implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens">
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>    
+    <aura:attribute name="IsSpinner" type="Boolean" default="false"/>
+    
+    <aura:attribute name="url" type="String" /> 
+    <aura:attribute name="ShowPanel" type="String" default=""/>
+    <aura:attribute name="WarrantyHeader" type="Object"/>
+    <aura:attribute name="WarrantyHistory" type="Object[]"/>
+    
+    <aura:attribute name="MacSerialServiceID" type="String" default=""/> <!-- default="000FFF92EFDA"-->
+    
+    <aura:attribute name="ServiceTag" type="string" default=""/> <!-- default="ST1637004100912A"-->
+    <aura:attribute name="ProductSKU" type="string" default=""/> <!-- default="LUM-500-DVR-16CH"-->
+    <aura:attribute name="DealerSCode" type="string" default=""/> <!-- default="S356416"-->   
+    <aura:attribute name="OutputMACId" type="string" default=""/>
+    <aura:attribute name="OutputSKU" type="string" default=""/>
+    <aura:attribute name="salesOrderNumber" type="string" default=""/> 
+	<aura:attribute name="SF_productCode" type="string" default=""/>
+    <aura:attribute name="OutputProductName" type="string" default=""/>
+    <aura:attribute name="WarrantyStartDate" type="string" default=""/>
+
+    
+	<div class="slds-form-element">
+     	<label class="slds-form-element__label" for="input-01"><b>Mac, Serial or Service Tag</b></label>
+      	 <div class="slds-form-element__control slds-p-right_medium">                                    
+       	     <input type="text" style="width:50%" id="text-input-productId" class="slds-input" value ="{!v.MacSerialServiceID}" onkeypress="{!c.MacSerialServiceIDKeyCheck}"/>  
+             <lightning:button class="slds-button slds-button_brand" label="Get Warranty Info" onclick="{!c.GetWarrantyMacSerial}"/> 
+         </div>                                
+   </div>
+    
+    <div class="slds-p-top_medium slds-p-bottom_medium slds-p-right_medium slds-p-left_medium">
+        
+        <div class="{!if(v.ShowPanel == 'ErrorMessage','slds-show','slds-hide')}">            
+            <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#32527B">
+                <b>The Search Query Timed Out</b>
+            </div>
+        </div>        
+        <div class="{!if(v.ShowPanel == 'NoWarrantyFound','slds-show','slds-hide')}">            
+            <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#32527B">
+                <b>No Warranty Found</b>
+            </div>
+        </div>     
+        
+        <div class="{!if(v.ShowPanel == 'ResultMessage','slds-show','slds-hide')}">           
+            <div class="slds-grid slds-grid_vertical slds-border_top slds-border_bottom slds-border_right slds-border_left">      
+                <div class="slds-grid slds-grid_vertical">                    
+                    <aura:if isTrue="{!v.WarrantyHeader.is_in_warranty_ind == '1'}">                        
+                        <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;background:#147d12">
+                            <b>In Warranty {!v.WarrantyHeader.replacement_product_stock_type_code} Stock Replacement </b>
+                        </div>                        
+                        <aura:set attribute="else">
+                            <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;background:#e3092f">
+                                <b>Out Of Warranty</b>
+                            </div>
+                        </aura:set>
+                    </aura:if>                   
+                    <div class="slds-grid slds-wrap slds-p-left_small slds-p-top_small slds-p-bottom_small slds-text-body_regular">    
+                        <div class="slds-col slds-size_1-of-3">
+                            <b>Product:</b> 
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <b>{!v.WarrantyHeader.product_sku_name}</b>
+                        </div>
+                 
+                        <div class="slds-col slds-size_1-of-3">
+                            <b>Product SKU:</b> 
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                           <b>{!v.WarrantyHeader.product_sku_id}</b>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <b>Warranty Start:</b> 
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <b>{!v.WarrantyHeader.warranty_start_date}</b>
+                        </div> 
+                        <div class="slds-col slds-size_1-of-3">
+                            <b>Warranty End:</b> 
+                        </div>
+                        <div class="slds-col slds-size_2-of-3">
+                            <b>{!v.WarrantyHeader.warranty_end_date}</b>
+                        </div> 
+                    </div>                            
+                </div>
+            </div>           
+      
+        </div>
+    </div>
+			
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" size="large" />
+    </aura:if>
+    
+</aura:component>

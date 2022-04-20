@@ -1,0 +1,131 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="PrivacyAndLanguageCtrl" access="global">
+	<aura:attribute name="userSetting" type="User" default="{sobjectType : 'User'}"/>
+
+	<aura:attribute name="options" type="List"/>
+    <aura:attribute name="photo" type="String"/>
+    <aura:attribute name="title" type="String"/>
+	<aura:attribute name="email" type="String"/>
+	<aura:attribute name="manager" type="String"/>
+	<aura:attribute name="phone" type="String"/>
+	<aura:attribute name="address" type="String"/>
+	<aura:attribute name="languageOption" type="List"/>
+	<aura:attribute name="localeOption" type="List"/>
+	<aura:attribute name="timeZoneOption" type="List"/>
+    <aura:attribute name="spinner" type="Boolean" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="main">
+        <div>
+            <lightning:spinner class="{!if(v.spinner, '','slds-hide')}"/>
+        </div>
+
+        <div >
+           <!--  <div class="uppercase">
+                Privacy
+            </div>
+            <div class="content">
+                <span>
+                    Photo
+                </span>
+                <select label="Photo" id="Photo" value="{!v.photo}" onchange="{!c.saveUserPreferences}"> 
+                     <aura:iteration items="{!v.options}" var="option"> 
+                        <option value="{!option}" text="{!option}"></option> 
+                    </aura:iteration> 
+                 </select> 
+         
+            </div>
+        	<div class="content">
+        		<span>
+        			Title
+        		</span>
+        		<select label="Title" id="Title" value="{!v.title}" onchange="{!c.saveUserPreferences}"> 
+                     <aura:iteration items="{!v.options}" var="option"> 
+                        <option value="{!option}" text="{!option}"></option> 
+                    </aura:iteration> 
+                 </select> 
+         
+         	</div>
+        	<div class="content">
+        		<span>
+        			Email
+        		</span>
+        		<select label="Email" id="Email" value="{!v.email}" onchange="{!c.saveUserPreferences}">
+                    <aura:iteration items="{!v.options}" var="option">
+                        <option value="{!option}" text="{!option}"></option>
+                    </aura:iteration>
+                </select>
+        	</div>
+        	<div class="content">
+        		<span>
+        			Manager
+        		</span>
+        		<select label="Manager" id="Manager" value="{!v.manager}" onchange="{!c.saveUserPreferences}">
+                    <aura:iteration items="{!v.options}" var="option">
+                        <option value="{!option}" text="{!option}"></option>
+                    </aura:iteration>
+                </select>
+        	</div>
+        	<div class="content">
+        		<span>
+        			Phone
+        		</span>
+        		<select label="Phone" id="Phone" value="{!v.phone}" onchange="{!c.saveUserPreferences}" >
+                    <aura:iteration items="{!v.options}" var="option">
+                        <option value="{!option}" text="{!option}"></option>
+                    </aura:iteration>
+                </select>
+        	</div>
+        	<div class="content">
+        		<span>
+        			Address
+        		</span>
+        		<select label="Title" id="Address" value="{!v.address}" onchange="{!c.saveUserPreferences}" >
+                    <aura:iteration items="{!v.options}" var="option">
+                        <option value="{!option}" text="{!option}"></option>
+                    </aura:iteration>
+                </select>
+        	</div> -->
+
+            <div class="uppercase">
+                Language &amp; Locale
+            </div>
+        	<div class="content">
+        		<span>
+        			Language 
+        		</span>
+        		<!-- <select label="Language" id="Language" value="{!v.userSetting.LanguageLocaleKey}" onchange="{!c.saveUserPreferences}" readonly="true">
+                    <aura:iteration items="{!v.languageOption}" var="lang">
+                        <option value="{!lang}" text="{!lang}" selected="true"></option>
+                    </aura:iteration>
+                </select> -->
+                <input label="Language" id="Language" value="{!v.userSetting.LanguageLocaleKey}" readonly="true">
+                </input>
+        	</div>
+        	<div class="content">
+        		<span>
+        			Locale
+        		</span>
+        		<!-- <select label="Locale" id="Locale" value="{!v.userSetting.LocaleSidKey}" onchange="{!c.saveUserPreferences}" readonly="true">
+                    <aura:iteration items="{!v.localeOption}" var="locale">
+                        <option value="{!locale}" text="{!locale}" selected="true"></option>
+                    </aura:iteration>
+                </select> -->
+                <input label="Locale" id="Locale" value="{!v.userSetting.LocaleSidKey}" readonly="true">
+                </input>
+        	</div>
+        	<div class="content">
+        		<span>
+        			Time Zone
+        		</span>
+        		<!-- <select label="Time Zone" id="TimeZone" value="{!v.userSetting.TimeZoneSidKey}" onchange="{!c.saveUserPreferences}">
+                    <aura:iteration items="{!v.timeZoneOption}" var="timeZone">
+                        <option value="{!timeZone}" text="{!timeZone}" selected="true"></option>
+                    </aura:iteration>
+                </select> -->
+                <input label="Time Zone" id="TimeZone" value="{!v.userSetting.TimeZoneSidKey}" readonly="true">
+                </input>
+        	</div> 
+        </div>
+    </div>
+	
+</aura:component>

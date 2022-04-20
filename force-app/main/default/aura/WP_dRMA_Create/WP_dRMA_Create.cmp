@@ -1,0 +1,292 @@
+<aura:component controller="WP_dRMA_Controller" Implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
+    <aura:handler name="change" value="{!v.outboundItem}" action="{!c.outboundChanged}"/>
+    <aura:handler name="change" value="{!v.item}" action="{!c.itemChanged}"/>
+    <aura:handler name="change" value="{!v.supportProd}" action="{!c.validateForm}" />    
+    <aura:handler name="change" value="{!v.issue}" action="{!c.validateForm}" />
+    <aura:handler name="change" value="{!v.isRMA}" action="{!c.validateForm}" />    
+    <aura:handler name="change" value="{!v.MacSerServ}" action="{!c.validateForm}" />   
+    <aura:handler name="change" value="{!v.SalesNumber}" action="{!c.validateForm}" />   
+    <aura:handler name="change" value="{!v.nsoReason}" action="{!c.validateForm}" />   
+    <aura:handler name="WP_dRMA_Warranty_Result_Event" event="c:WP_dRMA_Warranty_Result_Event" action="{!c.handle_Warranty_Result}"/>
+    <aura:handler event="c:WP_dRMA_OutboundProduct_Event" action="{!c.handleOutboundProdEvent}"/>
+    <aura:handler name="change" value="{!v.inWarrantyExceptionPicklistValue}" action="{!c.validateForm}" />   
+    <aura:attribute name="warrentyisDisabled" type="Boolean" default="false"/> 
+    
+    <aura:registerEvent name="ProductEvent" type="c:WP_dRMA_Product_Event"/>
+    <aura:registerEvent name="OutboundSectedEvent" type="c:WP_dRMA_OutboundSelected_Event"/>
+    
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="rmaList" type="List" access="public" default="[]"/>
+    <aura:attribute name="rmaListColumns" type="Object[]"/>    
+    <aura:attribute name="supportProd" type="List" access="public" default="[]" />    
+    <aura:attribute name="issue"  type="List" access="public" default="[]"/>
+    <aura:attribute name="outboundItem" type="List" access="public" default="[]"/>  
+    <aura:attribute name="item" type="List" access="public" default="[]"/> 
+    <aura:attribute name="outcomeList" type="List"/> 
+    <aura:attribute name="outcome" type="string" default="None - Out of Warranty"/> 
+    <aura:attribute name="notes" type="string"/> 
+    <aura:attribute name="miscPartReason" type="string"/> 
+    <aura:attribute name="shipmentList" type="List"/> 
+    <aura:attribute name="shipping" type="string"/> 
+    <aura:attribute name="ItemSKU" type="string"/> 
+    <aura:attribute name="ItemName" type="string"/> 
+    <aura:attribute name="MacSerServ" type="string" default=""/>
+    <aura:attribute name="SalesNumber" type="string" default=""/>
+    <aura:attribute name="WarrantyStart" type="Date"/>
+    <aura:attribute name="WarrantyEnd" type="Date"/>
+    <aura:attribute name="rmaId" type="string"/>
+    <aura:attribute name="rmaName" type="string"/>
+    <aura:attribute name="SerialCode" type="string"/>  
+    <aura:attribute name="errorMessage" type="string"/> 
+    <aura:attribute name="StockType" type="string"/>    
+    <aura:attribute name="StockTypeReason" type="string"/>    
+    <aura:attribute name="version" type="string" default=""/>
+    <aura:attribute name="quantity" type="Integer" default="1"/>
+    <aura:attribute name="SalesNumberViaAutomation" type="Boolean" default="false"/>
+    <aura:attribute name="InWarranty" type="Boolean" default="false"/>  
+    <aura:attribute name="IsCreditOnlyAccount" type="String" default="false"/>  
+    <aura:attribute name="mainPanel" type="Boolean" default="false"/>
+    <aura:attribute name="miscPartPanel" type="Boolean" default="false"/>
+    <aura:attribute name="clonePanel" type="Boolean" default="false"/>    
+    <aura:attribute name="isErrorModal" type="Boolean" default="false"/>    
+    <aura:attribute name="isRMA" type="Boolean" default="false"/>
+    <aura:attribute name="itemPanel" type="Boolean" default="false"/>
+    <aura:attribute name="warPanel" type="Boolean" default="false"/>
+    <aura:attribute name="warEdit" type="Boolean" default="true"/>
+    <aura:attribute name="nso" type="Boolean" default="false"/>
+    <aura:attribute name="nsoReason" type="string" default="- None -"/> 
+    <aura:attribute name="nsoSOisDisabled" type="Boolean" default="false"/> 
+    <aura:attribute name="InWarrantyReason" type="string" default=""/>   
+    <aura:attribute name="failUpdate" type="Boolean" default="false"/>
+    <aura:attribute name="damageTransit" type="Boolean" default="false"/>
+    <aura:attribute name="failBox" type="Boolean" default="false"/>
+    <aura:attribute name="ovrcIssue" type="Boolean" default="false"/> 
+    <aura:attribute name="noTroubleshoot" type="Boolean" default="false"/> 
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="saveDisabled" type="boolean" default="true"/>
+    <aura:attribute name="inWarrantyExceptionPicklistValue" type="string" default="None"/>
+
+
+    <lightning:card title="Add Product">
+        <div class="slds-p-horizontal_medium">        
+            <div class="{!if(! v.mainPanel,'slds-show','slds-hide')}"> 
+                <div style="height: 260px">             
+                    <lightning:datatable class="slds-table_header-fixed_container slds-scrollable_x slds-border_top"
+                                         data="{!v.rmaList }" 
+                                         columns="{!v.rmaListColumns }" 
+                                         keyField="id"
+                                         hideCheckboxColumn="true"             
+                                         onrowaction="{! c.handleRowAction }" />
+                </div>
+                
+                <div class="slds-grid slds-gutters_xx-small slds-grid_align-end slds-p-top_medium">
+                    <div class="slds-col slds-align-middle">                         
+                        <lightning:button variant="brand" label="New" onclick="{!c.New}" />
+                    </div>
+                </div>                
+            </div>
+            
+            <div class="{!if(v.mainPanel,'slds-show','slds-hide')}"> 
+                
+                <div class="{!if(v.clonePanel,'slds-show','slds-hide')}">  
+                    <div class="slds-p-vertical_medium">                        
+                        <div class="slds-text-heading_large slds-text-color_inverse slds-align_absolute-center" style="padding:0.5rem;background:#339900"><b>Clone of {!v.rmaName}</b></div>
+                    </div>
+                </div>
+                
+                <lightning:textarea name="notes" label="Notes" value="{!v.notes}" />            
+                <c:WP_dRMA_Lookup aura:id="lookupSupportProd" selection="{!v.supportProd}" onSearch="{!c.searchSupportProd}" label="Support Product" placeholder="Search..." isMultiEntry="false" />
+                <lightning:input type="string" value="{!v.version}" label="Product Version" style="width:97px" />                       
+                <c:WP_dRMA_Lookup aura:id="lookupIssue" selection="{!v.issue}" onSearch="{!c.searchIssue}" label="Issue Code" placeholder="Search..." isMultiEntry="false" />
+                
+                <div class="slds-grid slds-wrap slds-p-top_small">
+                    <div class="slds-col slds-size_1-of-3 slds-align-bottom">
+                        <lightning:input class="slds-align-bottom" type="toggle" name="RMAitem" label="RMA" checked="{!v.isRMA}" messageToggleActive="Yes" messageToggleInactive="No" />
+                    </div>
+                </div>   
+                
+                <div class="{!if(v.isRMA,'slds-show','slds-hide')}">               
+                    <div class="slds-p-top_large">                
+                        <lightning:input aura:id="ManualWarranty" type="checkbox" label="Manual Warranty Entry" checked="{!v.itemPanel}" onchange="{!c.ManualChanged}" />
+                    </div>                   
+                    
+                    <div class="slds-box slds-theme_shade">
+                        <div class="{!if(!v.itemPanel,'slds-show ','slds-hide')}">
+                            <c:WP_dRMA_Warranty_Tool aura:id="warrantyTool" />                            
+                        </div>                                           
+                        
+                        <div class="{!if(v.warPanel || v.itemPanel,'slds-show','slds-hide')}">                            
+                            <lightning:input aura:id="MacSerServ" type="string"  value="{!v.MacSerServ}" label="Mac, Serial or Service Tag" disabled= "{!v.warEdit}" required="true"/>            
+                            <c:WP_dRMA_Lookup aura:id="lookupItem" selection="{!v.item}" onSearch="{!c.searchItem}" label="Failed SKU" placeholder="Search..." isMultiEntry="false" disabled= "{!v.warEdit}" />
+                            <c:WP_dRMA_Lookup aura:id="lookupOutboundItem" selection="{!v.outboundItem}" onSearch="{!c.searchOutboundItem}" label="Outbound SKU" placeholder="Search..." isMultiEntry="false" />
+                            
+                            <div class="{!if(v.miscPartPanel,'slds-show slds-p-left_large','slds-hide')}">                           
+                                <lightning:textarea name="miscPartReason" label="Description for MISC-PART" value="{!v.miscPartReason}" />
+                            </div>
+                            <lightning:input type="string" name="SalesOrder" value="{!v.SalesNumber}" label="Sales Order" disabled="{!v.nsoSOisDisabled}" />                          
+                            
+                            <div class="{!if(v.itemPanel,'slds-show','slds-hide')}">                                
+                                <div class="slds-grid slds-wrap slds-gutters_small">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <lightning:input class="slds-p-left_medium slds-p-top_large" type="checkbox" label="No Sales Order" checked="{!v.nso}" onchange="{!c.nsoChanged}"/>                     
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-3" style="height: 60px" >
+                                        <div class="{!if(v.nso,'slds-show','slds-hide')}"> 
+                                            <lightning:select label="Reason" value="{!v.nsoReason}" required = "true">
+                                                <option value="- None -" text="- None -" />
+                                                <option value="Purchased from Local" text="Purchased from Local" />
+                                                <option value="Unable to find" text="Unable to find" />
+                                                <option value="Purchased from other dealer" text="Purchased from other dealer" />                                  
+                                            </lightning:select> 
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <!--10-03-22-->
+                                        <lightning:input class="slds-p-left_medium slds-p-top_medium" type="checkbox" label="In Warranty Override" checked="{!v.InWarranty}" />    
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-3" style="height: 60px">
+                                        <div class="{!if(v.InWarranty,'slds-show','slds-hide')}">
+                                            <lightning:select label="In Warranty Reason" value="{!v.inWarrantyExceptionPicklistValue}"   onchange="{!c.InWarrantyChanged}" required = "true">
+                                                <option value="None" text="- None -" />
+                                                <option value="Customer Invoice Provided" text="Customer Invoice Provided" />
+                                                <option value="Customer Satisfaction Exception" text="Customer Satisfaction Exception" />
+                                                <option value="Lifetime Warranty" text="Lifetime Warranty" />
+                                                <option value="Warranty Lookup Failure" text="Warranty Lookup Failure" />
+                                            </lightning:select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <lightning:select label="RMA Outcome" value="{!v.outcome}">
+                                <aura:iteration items="{!v.outcomeList}" var="ind">
+                                    <option text="{!ind}" value="{!ind}" />
+                                </aura:iteration>
+                            </lightning:select>                            
+                            
+                            <div class="{!if(v.InWarranty,'slds-show','slds-hide')}">
+                                <!--10-03-22-->
+                                <!--div class="{!if(v.outcome == 'Credit Only' || v.outcome == 'None - Out of Warranty','slds-hide','slds-show')}"--> 
+                                <div class="{!if(v.inWarrantyExceptionPicklistValue != 'None','slds-show','slds-hide')}">    
+                                    <div class="slds-p-top_x-small">
+                                        <lightning:select label="Shipping" value="{!v.shipping}">
+                                        <aura:iteration items="{!v.shipmentList}" var="ind">
+                                            <option text="{!ind}" value="{!ind}" />
+                                        </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>                   
+                    </div>  
+                    
+                    
+                    <!--<div class="{!if(v.isSerialized,'slds-show','slds-hide')}"> 
+                        <div class="slds-align_absolute-center slds-p-top_small" >
+                            <ui:outputText value="Quantity" />
+                        </div>
+                        <div class="slds-align_absolute-center" >
+                            <ui:outputText value="{!v.quantity}" />
+                        </div>
+                        <div class="slds-align_absolute-center" >
+                            <ui:outputText value="*This is a serialized product" />
+                        </div>                      
+                    </div>--> 
+                    
+                    <!-- Quantity works. Leave this here. It might be used in the future
+                    <div class="{!if(v.isSerialized, 'slds-hide', 'slds-show')}"> 
+                        <div class="slds-list_horizontal slds-align_absolute-center slds-p-top_small">
+                            <lightning:buttonIcon class="slds-align-bottom" iconName="utility:dash" variant="container" alternativeText="Settings" title="Settings" onclick="{!c.minus}" />    
+                            <lightning:input style="width:97px" type="number" name="Quantity" label="Quantity" step="1" value="{!v.quantity}" />
+                            <lightning:buttonIcon class="slds-align-bottom" iconName="utility:add" variant="container" alternativeText="Settings" title="Settings" onclick="{!c.plus}" />                    
+                        </div>
+                    </div>-->
+                    
+                    
+                    
+                    <div class="slds-p-top_medium">
+                        <div class="slds-box">  
+                            <div class="slds-grid slds-wrap slds-gutters_small">
+                                <div class="slds-col slds-size_2-of-2 slds-align_absolute-center slds-theme_shade slds-text-heading_small slds-border_top slds-border_bottom slds-border_left slds-border_right">
+                                    Check all that apply                     
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input type="checkbox" checked="{!v.failUpdate}" label="Failed on update" />                        
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input type="checkbox" checked="{!v.damageTransit}" label="Damaged In Transit" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input type="checkbox" checked="{!v.failBox}" label="Failed out of box" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input type="checkbox" checked="{!v.ovrcIssue}" label="Ovrc issue" />                                    
+                                </div>
+                                <div class="slds-col slds-size_2-of-2">
+                                    <lightning:input type="checkbox" checked="{!v.noTroubleshoot}" label="Dealer Refused Troubleshooting" />
+                                </div>                   
+                            </div>
+                        </div>                
+                    </div>
+                </div>
+                
+                <div class="slds-grid slds-gutters_xx-small slds-p-top_medium">  
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+                        <lightning:button class="slds-button_text-destructive" label="Cancel" onclick="{!c.cancel}" />
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+                        <div class="slds-float_right">
+                            <lightning:button class="slds-button_brand" label="Save and Clone" onclick="{!c.saveAndClone}" disabled="{!v.saveDisabled}" />
+                            <lightning:button class="slds-button_brand" label="Save and New" onclick="{!c.saveAndNew}" disabled="{!v.saveDisabled}"/>
+                            <lightning:button class="slds-button_brand" label="Save" onclick="{!c.save}" disabled="{!v.saveDisabled}"/>
+                        </div>
+                    </div>
+                </div> 
+            </div>           
+        </div>
+        
+        <!-- Modal/Popup-->
+        <aura:if isTrue="{!v.isErrorModal}">            
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Header -->
+                    <header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModel}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <div class="slds-text-heading_medium slds-text-title_bold">Error</div>
+                    </header>
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        {!v.errorMessage}
+                    </div>
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" label="Close" title="Close" onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <!-- End Modal/Popup-->        
+        
+        <!-- Modal/Popup-->
+        <aura:if isTrue="{!v.Spinner}">            
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Header -->
+                    <header class="slds-modal__header slds-theme_success slds-theme_alert-texture">
+                        <!--<lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModel}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>-->
+                        <div class="slds-text-heading_medium slds-text-title_bold">Saving RMA</div>                      
+                    </header>
+                    <div class="backgroundInverse theme_success">
+                        <lightning:spinner alternativeText="Saving" />
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <!-- End Modal/Popup-->
+        
+    </lightning:card>
+</aura:component>

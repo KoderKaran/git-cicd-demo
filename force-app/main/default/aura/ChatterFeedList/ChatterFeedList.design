@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="numOfRecords" label="Number Of Questions" />
+	<design:attribute name="isThisQuestionListPage" label="Is this QuestionList page ?" />
+</design:component>

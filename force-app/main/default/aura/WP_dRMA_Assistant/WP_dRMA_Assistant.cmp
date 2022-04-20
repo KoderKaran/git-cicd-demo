@@ -1,0 +1,208 @@
+<aura:component controller="WP_dRMA_Assistant_Controller" Implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:WP_dRMA_Product_Event" action="{!c.handleProdEvent}"/>
+    <aura:handler event="c:WP_dRMA_OutboundSelected_Event" action="{!c.handleOutboundSelectedEvent}"/>
+    
+    <aura:registerEvent name="ProductEvent" type="c:WP_dRMA_OutboundProduct_Event"/>
+    
+    <aura:attribute name="previous" type="string" />
+    <aura:attribute name="selectedRows" type="List" />
+    <aura:attribute name="product" type="Object"/> 
+    <aura:attribute name="productId" type="string"/>
+    <aura:attribute name="stockType" type="string"/>
+    <aura:attribute name="stockTypeReason" type="string"/>
+    <aura:attribute name="InWarranty" type="string"/>
+    <aura:attribute name="WarrantyStart" type="Date"/>
+    <aura:attribute name="SerialCode" type="string"/>
+    <aura:attribute name="ItemSKU" type="string"/>
+    <aura:attribute name="ItemName" type="string"/>
+    <aura:attribute name="ShowWarrantyPanal" type="Boolean" default="false"/>    
+    <aura:attribute name="WarrantyEnd" type="Date"/>
+    <aura:attribute name="productName" type="string" default="product name"/>
+    <aura:attribute name="showComponent" type="Boolean" default="false"/>
+    <aura:attribute name="showDetails" type="Boolean" default="false"/>
+    <aura:attribute name="gridColumns" type="List"/>
+    <aura:attribute name="gridData" type="Object"/>     
+    
+    <div class="{!if(v.showComponent,'slds-show','slds-hide')}">
+        
+        <lightning:card variant="Narrow" title="Product Detail" iconName="standard:products">
+            <div class="slds-p-horizontal_medium">               
+                <div class="{!if(v.ShowWarrantyPanal,'slds-show slds-p-top_medium','slds-hide')}">  
+                    <div class="slds-grid slds-grid_vertical slds-border_top slds-border_bottom slds-border_right slds-border_left">      
+                        <div class="slds-grid slds-grid_vertical">                    
+                            <aura:if isTrue="{!v.InWarranty == 'true'}">                        
+                                <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;background:#147d12">
+                                    <b>In Warranty</b>
+                                </div>                        
+                                <aura:set attribute="else">
+                                    <div class="slds-text-heading_small slds-align_absolute-center slds-text-color_inverse" style="width:100%;background:#e3092f">
+                                        <b>Out Of Warranty</b>
+                                    </div>
+                                </aura:set>
+                            </aura:if>                   
+                            <div class="slds-grid slds-wrap slds-p-left_small slds-p-top_small slds-p-bottom_small slds-text-body_regular slds-theme_default">    
+                                <div class="slds-col slds-size_1-of-3">
+                                    <b>Product SKU:</b> 
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <b>{!v.ItemSKU}</b>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <b>Product Name:</b> 
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <b>{!v.ItemName}</b>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <b>Warranty Start:</b> 
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <b>{!v.WarrantyStart}</b>
+                                </div> 
+                                <div class="slds-col slds-size_1-of-3">
+                                    <b>Warranty End:</b> 
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <b>{!v.WarrantyEnd}</b>
+                                </div> 
+                                <div class="slds-col slds-size_1-of-3">
+                                    <b>Serial Code:</b> 
+                                </div>
+                                <div class="slds-col slds-size_2-of-3">
+                                    <b>{!v.SerialCode}</b>
+                                </div> 
+                            </div>                            
+                        </div>
+                    </div>  
+                </div>
+                
+                <div class="{!if(v.InWarranty == 'true','slds-show slds-p-top_medium','slds-hide')}">                      
+                    <div class="slds-p-top_small">
+                        <div class="slds-grid slds-grid_vertical slds-border_top slds-border_bottom slds-border_right slds-border_left">      
+                            <div class="slds-grid slds-grid_vertical">                           
+                                <div class="slds-text-heading_small slds-align_absolute-center slds-theme_alt-inverse" style="width:100%">
+                                    <b>Recommended Replacement</b>
+                                </div>                                
+                                <div class="slds-grid slds-wrap slds-p-left_small slds-p-top_small slds-p-bottom_small slds-text-body_regular slds-theme_default">                             
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <b>Type:</b>
+                                    </div>  
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <b>{!v.stockType} Stock</b>
+                                    </div>    
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <b>Reason:</b>
+                                    </div>  
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <b>{!v.stockTypeReason}</b>
+                                    </div>  
+                                </div>                            
+                            </div>
+                        </div>  
+                    </div>                
+                    
+                    <div class="slds-grid slds-grid_vertical slds-border_top slds-border_bottom slds-border_right slds-border_left">  
+                        <lightning:treeGrid aura:id="subProdTreegridID" 
+                                            columns="{!v.gridColumns }"
+                                            data="{!v.gridData }"                               
+                                            keyField="KeyField"
+                                            selectedRows="{!v.selectedRows}"
+                                            onrowselection= "{!c.onSelected}"
+                                            />
+                    </div>
+                </div>
+                
+                <div class="{!if(v.showDetails,'slds-show','slds-hide')}"> 
+                    <div class="slds-p-top_small">                        
+                        <lightning:recordViewForm class="slds-p-top_medium" recordId="{!v.productId}" objectApiName="Product2">                        
+                            <div class="slds-page-header">
+                                <div class="slds-page-header__row">
+                                    <div class="slds-page-header__col-title">
+                                        <div class="slds-media">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon-standard-opportunity" title="Inventory">
+                                                    <lightning:icon iconName="standard:products" />
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <div class="slds-page-header__name">
+                                                    <div class="slds-page-header__name-title">
+                                                        <h1>
+                                                            <span class="slds-page-header__title slds-truncate" title="ProductCodeTitle"><lightning:outputField fieldName="ProductCode" variant="label-hidden" /></span>
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                                <p class="slds-page-header__name-meta"><lightning:outputField fieldName="Name" variant="label-hidden" /></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <lightning:accordion aura:id="accordion" activeSectionName="A">
+                                <lightning:accordionSection name="A" label="Inventory">
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <div class="slds-col slds-size_1-of-2">                    
+                                            <lightning:outputField fieldName="HALLAM_Inventory__c" onchange="{!c.validate}" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="CLT_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="DALLAS_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="CVG_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="PDX_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="SLC_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="SAN_Inventory__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="YORK_Inventory__c" />
+                                        </div>
+                                    </div>
+                                </lightning:accordionSection>
+                                <lightning:accordionSection name="B" label="Repair Costs">
+                                    <div class="slds-grid slds-gutters slds-wrap">
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Hardware_Repair_CAD__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Hardware_Repair_NZD__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Hardware_Repair_GPB__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Hardware_Repair_EUR__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Software_Repair_CAD__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Estimated_Software_Repair_Charges__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Software_Repair_GBP__c" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"> 
+                                            <lightning:outputField fieldName="Est_Hardware_Repair_USD__c" />
+                                        </div>
+                                    </div>
+                                </lightning:accordionSection>       
+                            </lightning:accordion>                           
+                        </lightning:recordViewForm>
+                    </div>
+                </div>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -1,0 +1,52 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/> 
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 tabIndex="0"></h1>
+    <h1 class="slds-text-heading_large">Voice Control</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.GettingStartedClick}" onmouseover="{!c.HoverGTImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'GT','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Getting-Started-Video.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'GT','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-getting-started-video.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Getting Started</p>
+                    <p class="slds-align_absolute-center text-navigation">Video</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.CustScreenNamesClick}" onmouseover="{!c.HoverCSNImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'CSN','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Customizing-Screen-Names.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'CSN','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-customizing-screen-names.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Customizing</p>
+                    <p class="slds-align_absolute-center text-navigation">Screen Names</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.QuickStartClick}" onmouseover="{!c.HoverQSGImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'QSG','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Quick-Start-Guide-1.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'QSG','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-quick-start-guide-1.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Quick Start</p>
+                    <p class="slds-align_absolute-center text-navigation">Guide</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.CustomerFAQsClick}" onmouseover="{!c.HoverCFImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'CF','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Customer-FAQs.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'CF','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-customer-faqs.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Customer</p>
+                    <p class="slds-align_absolute-center text-navigation">FAQs</p>
+                </span>
+            </div>          
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div> 
+</aura:component>

@@ -1,0 +1,34 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+	<ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css', 
+    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}"
+		scripts="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/js/jquery-3.3.1.min.js', 
+    	$Resource.TechnicianCommunityResources + '/js/slick.min.js')}"
+    	afterScriptsLoaded="{!c.scriptsLoaded}" />
+
+	<div class="slider">
+		<!-- slide -->
+		<div class="slide" style="background-image: url(http://res.cloudinary.com/control4/image/upload/v1525289343/community/slide-dealer.jpg);">
+			<div class="vertically-center">
+				<h2 class="uppercase text-white ">Earn Points<br/><strong>Complete Your Profile</strong></h2>
+				<a href="" class="c4btn outline slds-text-link_reset" onclick="{!c.goToProfile}">My Profile</a>
+			</div>
+		</div>
+		<!-- slide -->
+		<div class="slide" style="background-image: url(http://res.cloudinary.com/control4/image/upload/v1525284313/community/slide-askcommunity.jpg);">
+			<div class="vertically-center">
+				<h2 class="uppercase">Have a Question?<br/><strong>Ask The Community</strong></h2>
+				<a href="ask-question" class="c4btn outline dark slds-text-link_reset">Ask a Question</a>
+			</div>
+		</div>
+		<!-- slide -->
+		<div class="slide" style="background-image: url(http://res.cloudinary.com/control4/image/upload/v1525284313/community/slide-becomeexpert.jpg);">
+			<div class="vertically-center">
+				<h2 class="uppercase">Know it all?<br/><strong>Become an Expert</strong></h2>
+				<a href="" class="c4btn outline dark slds-text-link_reset">Learn More</a>
+			</div>
+		</div>
+	</div>
+</aura:component>

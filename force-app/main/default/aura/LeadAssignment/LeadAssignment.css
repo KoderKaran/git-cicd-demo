@@ -1,0 +1,354 @@
+.THIS.lead-assignment {
+    margin: 1rem;
+}
+
+.THIS .send-immediately svg, .THIS .send-later svg{
+    height: 17px;
+    width: 17px;
+}
+
+.THIS .available-dealers {
+    border-radius: 0.25rem;
+    border: 1px solid #D9DBDD;
+    padding-top: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 5rem;
+    height: 600px;
+    margin-top: 1rem;
+}
+
+.THIS .dealers-spans {
+    width: 99%;
+}
+
+.THIS .dealers-spans > span:first-child {
+    width: 70%;
+    max-width: 70%;
+}
+
+.THIS .dealers-spans > span:nth-child(2) {
+    max-width: 30%;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:nth-child(3) {
+    padding-top: 0rem;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span {
+    height:39px;
+    text-transform: uppercase;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    background-color: #fafaf9;
+    color: #514f4d;
+    float: left;
+    text-align: center;
+    width: 10%;
+    padding-top: 10px;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:nth-child(4) {
+    padding-top: 0rem;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:first-child {
+    width: 25%;
+    text-align: left;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:last-child {
+    width: 13.5%;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:nth-child(2) {
+    width: 16.5%;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:nth-child(3) {
+    width: 15%;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child {
+    border-bottom: 1px solid #D9DBDD;
+    height: 40px;
+}
+
+.THIS .available-dealers > div > div:first-child > div:first-child > span:not(:first-child) {
+    border-left: 1px solid #D9DBDD;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > div {
+    padding-left: 2.5%;
+}
+
+.THIS .header-dealer {
+    text-transform: uppercase;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    background-color: #fafaf9;
+    color: #514f4d;
+    float: left;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid #d9dbdd;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > span:first-child {
+    border: 1px solid #d9dbdd;
+    border-radius: 0.25rem;
+    border-bottom: unset;
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) {
+    border-radius: 0.25rem;
+    padding-left: unset;
+    border-top: unset;
+    border: 1px solid #D9DBDD;
+    height: 200px;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) {
+    height: 50px;
+}
+
+.THIS .middle-aligned {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.THIS .header {
+    padding-top: 0.55rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    height: 60px;
+    background-color: #f9fafc;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+}
+
+.THIS .header button {
+    vertical-align: -webkit-baseline-middle;
+}
+
+.THIS .header > span:last-child {
+    float: right;
+    font-size: unset;
+    margin-top: 0.25rem;
+}
+
+.THIS .arrows-area button:focus {
+    box-shadow: unset;
+}
+
+.THIS .arrows-area svg {
+    fill: #36a0fe !important;
+}
+
+.THIS .arrows-area {
+    margin-top: 10px;
+}
+
+.THIS .header > span:first-child {
+    float: left;
+}
+
+.THIS .send-in > div span {
+    display:inline-block;
+    padding-right: 0.5rem;
+}
+
+.THIS .send-in  {
+    display:table;
+}
+
+.THIS .header > span:nth-child(2) {
+    padding-left: 10px;
+    padding-top: 4px;
+    float: left;
+    color:gray;
+    font-size: 1.3rem;
+}
+
+.THIS .header svg {
+    background-color: #ffbb60;
+    height: 2.5rem!important;
+    width: 2.5rem!important;
+    float: left;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > span:nth-child(2) > input {
+    margin-left: 1%;
+    margin-right: 1%;
+    height: 28px;
+    width: 8%;
+}
+    
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) > div:last-child {
+    border-radius: 0.25rem;
+    border: 1px solid #D9DBDD;
+    height: 180px;
+    padding-left: unset;
+}
+
+.THIS .available-dealers > div:nth-child(2) > span:last-child {
+    margin-top: 30px;
+    font-size: 0.8125rem;
+    margin-left: auto;
+    float: right;
+}
+
+.THIS .available-dealers > div:nth-child(2) > span:last-child > button {
+    width: 5rem;
+    height: 2.2rem;
+}
+
+.THIS .dealers-output svg {
+    width: 1rem;
+    height: 1rem;
+    fill: #333;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:first-child {
+    border-radius: 0.25rem;
+    border: 1px solid #D9DBDD;
+    height: 450px;
+}
+
+.THIS ul li {
+    border-bottom: 1px solid rgb(217, 219, 221);
+}
+
+.THIS ul li:hover > div {
+    background-color: #fafaf9;
+    -webkit-box-shadow: #dddbda 0 -1px 0 inset, #dddbda 0 1px 0 inset;
+            box-shadow: #dddbda 0 -1px 0 inset, #dddbda 0 1px 0 inset;
+}
+
+
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(2) > span > span > span > svg {
+    float: left;
+    width: 60%;
+}
+
+.THIS .available-dealers svg {
+   fill: #89898A;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(2) {
+    width: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(2) > span:nth-child(2) > button:first-child {
+    margin-top: 11.3rem ;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(2) > span:first-child > button:first-child {
+    margin-top: 4rem;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) {
+    height: 408px;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(3) {
+    width: 37%;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:first-child {
+    width: 60%;
+}
+
+.THIS .available-dealers > div:nth-child(2) > div:nth-child(2) > span:nth-child(2) > span:first-child {
+    margin-top: 10rem;
+}
+
+.THIS .available-dealers > div > span {
+    font-size: 1.2rem;
+}
+
+.THIS .slds-scrollable_y > ul > li > div {
+    padding: 0.05rem .3rem !important;
+    width: 102%;
+}
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span {
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.THIS .send-immediately > ul > li > div:first-child > span {
+    width: 100%;
+}
+
+.THIS .send-later span {
+    width: 100%;
+}
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:not(:first-child) {
+    text-align: center;
+}
+
+.THIS .dealers-output > ul > li > div:first-child > span:first-child {
+    width: 25%;
+    text-align: left;
+}  
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(2) {
+    width: 16.5%;
+}    
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(3) {
+    width: 15%;
+}   
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(4) {
+    width: 10%;
+}   
+
+.THIS .smaller-size {
+    width: 13.8% !important;
+}
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(5) {
+    width: 9.5%;
+}   
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(6) {
+    width: 11%;
+}   
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(7) {
+    width: 13%;
+}   
+
+.THIS .slds-scrollable_y > ul > li > div:first-child > span:nth-child(8) {
+    display: none
+}  
+    
+
+.THIS .number-input {
+    width: 4.5rem;
+}
+
+.THIS .send-later div {
+    width: 100%;
+}
+
+.THIS .slds-is-selected {
+    /*background-color: #0070d2 !important;*/
+    background-color: #b7b1b1 !important;
+    color: white;
+}

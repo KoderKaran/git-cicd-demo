@@ -1,0 +1,15 @@
+<design:component>
+    <design:attribute name="endorseForTopic"  label="Endorses me on a topic"/>
+    <design:attribute name="follow" label="Follows me"/>
+    <design:attribute name="commentOnYourChange"  label="Comments on my posts"/>
+    <design:attribute name="commentAfterMyComment"  label="Comments after me"/>
+    <design:attribute name="commentPostILiked" label="Comments an item I like"/>
+    <design:attribute name="mentioInComment" label="Mentions me in a comment"/>
+    <design:attribute name="commentOnBookmarkedItem"  label="Comments on an item I bookmarked"/>    
+    <design:attribute name="mentionInAPost" label="Mentions me in a post"/>
+    <design:attribute name="flagItem" label="Flags an item as inappropriate"/>
+    <!--<design:attribute name="directMessage" label="Email me when someone sends me a direct message"/>-->
+    <!--<design:attribute name="postInProfile" label="Post to my profile"/>-->
+    <!--<design:attribute name="postIsShared" label="Share my post"/>-->
+    <!--<design:attribute name="commentInPostInMyProfile" label="Comments on a posts on my profile"/>-->   
+</design:component>

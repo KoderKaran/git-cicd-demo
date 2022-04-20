@@ -1,0 +1,35 @@
+<template>
+    <template if:true={tableValues}>
+        <table class="tableData">
+            <caption><b>{tableName}</b></caption>
+            <tr>
+                <template for:each={finalColumns} for:item="column">
+                    <template if:true={column.isVisible}>
+                        <th key={column}>{column.name}</th>
+                    </template>
+                    <template if:false={column.isVisible}>
+                        <th key={column} style="visibility:hidden;">{column.name}</th>
+                    </template>
+                    
+                </template>
+            </tr>
+            <template for:each={tableValues} for:item="table">
+                <tr key={table}>
+                    <template for:each={table} for:item="tableItem">
+                        <template if:true={tableItem.isId}>
+                            <td key={tableItem}>
+                                <a href={tableItem.urlValue} target="_blank">{tableItem.value}</a>
+                            </td>
+                        </template>
+                        <template if:false={tableItem.isId}>
+                            <td key={tableItem.value}>
+                                {tableItem.value}
+                            </td>
+                        </template>
+
+                    </template>
+                </tr>
+            </template>
+        </table>
+    </template>
+</template>

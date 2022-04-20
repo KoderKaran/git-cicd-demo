@@ -1,0 +1,66 @@
+<aura:component controller="AskAQuestionController" implements="forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="topics" type="sObject[]" />
+	<aura:attribute name="blobValue" type="Blob" />
+	<aura:attribute name="uploadedFileURL" type="String" />
+	<aura:attribute name="uploadedFileName" type="String" />
+	<aura:attribute name="fileToBeUploaded" type="Object[]" />
+	<aura:attribute name="files" type="Object[]" />
+	<aura:attribute name="content" type="List" />
+	<aura:attribute name="selectedTopics" type="String[]" />
+	<aura:attribute name="userId" type="String" default=""/>
+	<aura:attribute name="userPhoto" type="String" default=""/>
+	<aura:attribute name="myVal" type="String" />
+	<aura:attribute name="padding-top" type="String" />
+    
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+	<ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css', 
+    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}" />
+
+	<h2 class="uppercase">Ask A<br/><strong>Question</strong></h2>
+	<div class="flex margin-bottom">
+		<div class="flex-75">
+			<aura:if isTrue="{! !empty(v.userPhoto)}">
+				<div class="userimg" style="{!'background-image: url(' + v.userPhoto + ')'}"></div>
+				<aura:set attribute="else">
+					<div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultMinAvatar + ')'}"></div>
+				</aura:set>
+			</aura:if>
+		</div>
+		<div class="flex-stretch">	
+			<textarea id="message-title" placeholder="Your Question"></textarea>
+			<lightning:inputRichText class="textInRichTextArea" value="{!v.myVal}" placeholder="Details" disabledCategories="ALIGN_TEXT,REMOVE_FORMATTING"/>
+			<!-- <textarea id="message-details" placeholder="Details"></textarea> -->
+			<!--<lightning:inputRichText value="{!v.myVal}" placeholder="Details"/> -->
+			<!-- <div class="flex-50">
+				<button class="attach light-grey no-margin" onclick="{!c.attach}"><i class="fal fa-paperclip"></i></button>
+			</div> -->
+            
+         <!--    <lightning:inputRichText value="{!v.myVal}" placeholder="Details">
+        		<lightning:insertImageButton/>
+    		</lightning:inputRichText> -->
+            
+			
+			<!-- <div class="tags" onclick="{!c.changeColor}">
+				<aura:iteration items="{!v.topics}" var="topic">
+					<div class="content" onclick="{!c.setTopic}" id="{!topic.id}">{!topic.name}</div>
+					<a onclick="{!c.setTopic}" id="{!topic.id}">
+						<ui:outputRichText value="{!topic.name}"/>
+					</a>
+				</aura:iteration>
+			</div> -->
+			<lightning:input type="file"
+									variant="label-hidden"
+									files="{!v.fileToBeUploaded}"
+									name="file" 
+									multiple="false"
+									messageWhenBadInput="File type not supported"
+									onchange="{!c.uploadPreviewAttachment}"
+									class="uploadFile"/>
+									<span style="padding-left: 10px;">{!v.uploadedFileName}</span>
+									
+			<button class="light-grey no-margin slds-p-top_medium" onclick="{!c.sendQuestion}"><i class="fal fa-question-circle"></i>Ask The Community</button>
+		</div>
+	</div>
+</aura:component>

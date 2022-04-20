@@ -1,0 +1,315 @@
+.THIS {
+
+}
+
+.THIS.header {
+    margin: 2%;
+    width: 96%;
+    height: 80px;
+    background-color: #f9fafc;
+    border: 1px solid #dddbda;
+    border-bottom: 1px solid #dddbda;
+    border-radius: 0.25rem;
+}
+
+.THIS.header > span:first-child {
+    margin-top: 20px;
+    margin-left: 40px;
+    float: left;
+}
+
+.THIS.header:nth-child(4) {
+    margin-top: 4rem;
+    margin-left: 2%;
+}
+
+.THIS.header > span:nth-child(2) {
+    color:gray;
+    float:left;
+    padding-left:10px;
+    padding-top:18px;
+    line-height:normal;
+}
+
+.THIS.header > span:nth-child(2) > span:first-child {
+    font-size: 20px;
+}
+
+
+.THIS.header > span:nth-child(3) {
+    margin-top: 22px;
+    margin-right: 30px;
+    float: right;
+}
+
+.THIS.header svg {
+    background-color: #FFBB60;
+    height: 2.5rem !important;
+    width: 2.5rem !important;
+}
+
+.THIS.save-button {
+    margin-top: 4rem;
+    margin-left: 2%;
+}
+
+.THIS .update-button > button {
+    width: unset !important;
+    margin-bottom: 2rem;
+}
+
+.THIS .update-button {
+    padding-left: 0% !important;
+    margin-top: 2%;
+}
+
+.THIS.saved-point {
+    border-radius: 20px;
+}
+
+.THIS.saved-point > span svg {
+    width: 18px;
+    margin-left: 0.8rem;
+}
+
+.THIS.saved-point > span:nth-child(2) {
+    padding-left: 1.5rem;
+}
+
+.THIS.value-output > table > tbody > tr td:first-child {
+    padding-left: 0.5rem;
+}
+
+.THIS #error-message {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+    width: 40%;
+    padding-top: 1rem;
+}
+
+.THIS #error-message-2 {
+    text-align: center;
+    color: red;
+    font-size: 20px;
+    width: 40%;
+    padding-top: 1rem;
+}
+
+.THIS #success-message {
+    text-align: center;
+    color: green;
+    font-size: 20px;
+    width: 40%;
+    padding-top: 1rem;
+}
+
+.THIS .delete-button {
+    width: 17px;
+    height: 17px;
+    border: none;
+}
+
+.THIS.select-value > div > button:first-child {
+    margin-top: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.THIS.select-value > div > fieldset > div:nth-child(2) a {
+    display: none;
+}
+
+.THIS.select-value > div > fieldset {
+    width: 20%;
+    margin-right: 3%;
+}
+
+.THIS.select-value > div > fieldset > legend {
+    text-align: center;
+}
+
+/*.THIS.select-value > div > span:nth-child(2) {
+    padding-right: 20px;
+    padding-top: 25px;
+    font-weight: 400;
+    font-size: 15px;
+} */  
+
+.THIS.value-output > div > span:first-child {
+    padding-right: 20px;
+    padding-top: 22px;
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 53px;
+    width: 15%;
+}
+
+.THIS.value-output > div > div:last-child > input {
+    width: 40%;
+    text-align: center;
+}
+
+.THIS.value-output > div > div:last-child > label {
+    text-align: left;
+    padding-left: 18px;
+}
+
+.THIS.value-output > div > div:last-child {
+    padding-top: 0px;
+    text-align: left;
+}
+
+.THIS.header-info {
+    margin-top: 30px;
+    margin-left: 40px;
+    float: left;
+}
+
+.THIS.select-value {
+    margin-left: 5%;
+    margin-top: 2%;
+    margin-right: 2% !important;
+}
+
+.THIS.select-value > div:not(:last-child) {
+    display: inline-flex;
+}
+
+.THIS.select-value > div > div {
+    margin-right: 20px;
+}
+
+.THIS .points-output > input {
+    border-top: none;
+    border-bottom: none;
+    min-height: 0rem;
+}
+
+.THIS .points-output {
+    margin-left: 28%;
+    margin-right: 21%;
+}
+
+.THIS .points {
+    width: 40%;
+}
+
+.THIS.select-value > div > div > div > a {
+    display: none;
+}
+
+.THIS label {
+    color: #0070d2 !important;
+    display: block;
+}
+
+.THIS .text-area {
+    width: 280px;
+}
+
+.THIS.select-type {
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+.THIS button {
+    width: 5rem;
+    height: 2.2rem;
+}
+
+.THIS .output-field {
+    width: 20%;
+}
+
+.THIS.value-output > div > span:nth-child(2) {
+    padding-right: 20px;
+    padding-top: 25px;
+    font-weight: 400;
+    font-size: 15px;
+    width: 15%;
+}
+
+.THIS .wide-output {
+    width: 40%;
+    margin-left: 20px;
+}
+
+.THIS .value-output > div > div {
+    width: 20%;
+}
+
+.THIS .value-output > div > div {
+    width: 20%;
+}
+
+/*.THIS .left-padded-checkbox {
+    padding-left: 16px;
+}*/
+
+.THIS.value-output > table > tbody > tr td {
+    padding: unset;
+    vertical-align: middle;
+}
+
+/*.THIS.value-output > table div {
+    max-width: 20%;
+}*/
+
+.THIS.value-output > table > thead > tr th {
+    background-color: #fafaf9;
+}
+
+.THIS.value-output > table > thead > tr th:nth-child(n + 3) {
+    text-align: center;
+}
+
+.THIS.value-output > table > tbody > tr td:nth-child(n + 3) {
+    text-align: center;
+}
+
+.THIS.value-output > div > div {
+    padding-top: 6px;
+    text-align: center;
+} 
+
+.THIS.value-output > div > div > span {
+    font-size: 15px;
+}
+
+.THIS.value-output {
+    margin-left: 2%;
+    margin-top: 1%;
+    margin-right: 2% !important;
+}
+
+.THIS.value-output > div {
+    padding-left: 3%;
+    display: inline-flex;
+}
+
+.THIS.saved-point {
+    margin-left: 2%;
+    width: 96%;
+    background-color: #F6F7FB;
+    padding-top: 0.1rem;
+    padding-bottom: 0.4rem;
+    margin-top: 2rem;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.THIS .add-button > button {
+    margin-left: 38px;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    padding-bottom: 0.1rem;
+    font-size: 24px;
+    margin-top: 15px;
+    width: 3rem;
+}
+
+.THIS .output-checkbox {
+
+}

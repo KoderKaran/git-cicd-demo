@@ -1,0 +1,19 @@
+<apex:component controller="RecommendedDealersCtrl" access="global">
+
+    <apex:attribute name="leadIdentifier" type="Id" assignTo="{!leadId}" access="global" description="Lead id for information retrieval"/>
+
+    Hello {!lead.FirstName},<br/><br/>
+    We have passed your project information to the following Control4 certified dealer(s):<br/><br/>
+    <apex:variable value="{!0}" var="count"/>
+    <apex:repeat value="{!oppos}" var="oppo">
+    <apex:variable value="{!count + 1}" var="count"/>    
+    {!count}. {!oppo.Account.Name}, {!oppo.Account.Dealer_Phone_for_Leads__c}<br/>
+    </apex:repeat>
+    <br/>
+    You should be hearing from them very soon. If you don’t hear from them or if have any<br/>
+    other questions or concerns about your project, feel free to reach out to me directly at<br/>
+    {!lead.Owner.Phone}.<br/><br/>
+    Thank you,<br/>
+    {!lead.Owner.Name}<br/>
+
+</apex:component>

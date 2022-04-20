@@ -1,0 +1,49 @@
+<aura:component controller="CustomLookUpCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <!--declare attributes--> 
+    <aura:attribute name="selectedRecord" type="String" default=""/>
+    <aura:attribute name="selectedRecordId" type="String" default="" />
+    <aura:attribute name="listOfSearchRecords" type="Map"/>
+    <aura:attribute name="SearchKeyWord" type="string"/>
+    <aura:attribute name="objectAPIName" type="string" default=""/>
+    <aura:attribute name="label" type="string" default=""/>
+    <aura:attribute name="numberOfContainer" type="Integer" default=""/>
+    
+    <!--declare events hendlers-->  
+    <aura:handler name="oSelectedRecordEvent" event="c:SelectedsObjectRecordEvent" action="{!c.handleComponentEvent}"/>
+    <aura:attribute name="Message" type="String" default=""/>
+    
+    <div aura:id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single">
+        <label class="slds-form-element__label" for="lookup-348">{!v.label}</label>
+        <div class="slds-form-element__control">
+            
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+                <lightning:icon class="slds-input__icon slds-show" iconName="utility:search" size="x-small" alternativeText="search"/> 
+                <div style="padding-right: 2rem" aura:id="lookup-pill" class="{! if(empty(v.selectedRecord), 'slds-pill-container slds-hide', 'slds-pill-container slds-show')}">
+                    <span class="slds-pill">
+                        <span class="selected-value slds-pill__label">
+                            {!v.selectedRecord}  
+                        </span>
+                        <div class="slds-hide">
+                            {!v.selectedRecordId}
+                        </div>
+                        <button class="slds-button slds-button--icon slds-pill__remove" onclick="{!c.clear}">
+                            <lightning:icon class="slds-button__icon" iconName="utility:close" size="x-small" alternativeText="search"/>  
+                            <span class="slds-assistive-text">Remove</span>
+                        </button>
+                    </span>
+                </div>
+                <div aura:id="lookupField" class="{! if(empty(v.selectedRecord), 'slds-show', 'slds-hide')}">
+                    <ui:inputText click="{!c.onfocus}" 
+                        updateOn="keyup" blur="{!c.removeSelection}" keyup="{!c.keyPressController}" class="slds-lookup__search-input slds-input leftPaddingClass search-lookup" value="{!v.SearchKeyWord}" placeholder="Search.."/>
+                </div>   
+            </div>
+        </div>
+        <ul class="slds-listbox slds-listbox_vertical slds-dropdown_fluid slds-lookup__menu slds" role="listbox" style="width:100%;">
+            <center> {!v.Message}</center>
+            <aura:iteration items="{!v.listOfSearchRecords}" var="singleRec" indexVar="key">
+                <c:CustomLookUpResult oRecord="{!singleRec.key}" oRecordId="{!singleRec.value}"/>
+            </aura:iteration>
+        </ul>
+    </div>
+    
+</aura:component>

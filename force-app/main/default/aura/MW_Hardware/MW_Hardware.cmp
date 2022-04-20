@@ -1,0 +1,180 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+
+ 	<aura:attribute name="PreviousScreen" type="String" default="" />
+    <aura:attribute name="PreviousRebootControllerScreen" type="String" default="" />
+    <aura:attribute name="RemoteTroubleshootIconAnswer" type="String" default="" />
+        
+    <lightning:overlayLibrary aura:id="overlayLib2"/>    
+    
+    <div aura:id="MWHardwareBegin_Div">
+    <c:MW_Hardware_Begin/>   
+    </div> 
+    <div aura:id="MWHardwareNeeo_Div">
+        <c:MW_Hardware_Neeo/>   
+    </div>
+    <div aura:id="MWHardwareNeeoGuide_Div">
+        <c:MW_Hardware_Neeo_Guide/>   
+    </div>
+    <div aura:id="MWHardwareNeeoQuickTips_Div">
+        <c:MW_Hardware_Neeo_QuickTips/>
+    </div>
+    <div aura:id="MWHardwareNeeoQuickTipsRestart_Div">
+        <c:MW_Hardware_Neeo_QuickTips_Restart/>
+    </div>
+    <div aura:id="MWHardwareNeeoQuickTipsReset_Div">
+        <c:MW_Hardware_Neeo_QuickTips_Reset/>
+    </div>
+    <div aura:id="MWHardwareNeeoTS_Div">
+        <c:MW_Hardware_Neeo_TS/>
+    </div>
+    <div aura:id="MWHardwareNeeoTSNE_Div">
+        <c:MW_Hardware_Neeo_TS_NE/>
+    </div>
+    <div aura:id="MWHardwareNeeoTSNEStep1_Div">
+        <c:MW_Hardware_Neeo_TS_NE_Step1/>
+    </div>    
+    <div aura:id="MWHardwareNeeoTSNEStep2_Div">
+        <c:MW_Hardware_Neeo_TS_NE_Step2/>
+    </div>   
+    <div aura:id="MWHardwareNeeoTSNEStep3_Div">
+        <c:MW_Hardware_Neeo_TS_NE_Step3/>
+    </div>
+    <div aura:id="MWAppCon500Controllers_Div">
+        <h1 class="slds-text-heading_large text-red">Network Error - Step 4</h1> 
+        <c:MW_App_Con_500_Controllers/>
+    </div>  
+    <div aura:id="MWHardwareNeeoTSAR_Div">
+        <c:MW_Hardware_Neeo_TS_AR/>
+    </div>
+    <div aura:id="MWHardwareNeeoTSOther_Div">
+        <c:MW_Hardware_Neeo_TS_Other/>
+    </div>
+    <div aura:id="MWAppSuccess_Div">
+        <c:MW_App_Success/>
+    </div>   
+    <div aura:id="MWHardwareWatch_Div">
+        <c:MW_Hardware_Watch/>   
+    </div> 
+    <div aura:id="MWHardwareWatchRem_Div">
+        <c:MW_Hardware_Watch_Rem/>   
+    </div> 
+    <div aura:id="MWHardwareWatchRemReboot_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot/>   
+    </div> 
+    <div aura:id="MWHardwareWatchRemRebootY_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_Y/>   
+    </div> 
+    <div aura:id="MWHardwareWatchRemRebootN_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N/>   
+    </div> 
+    <div aura:id="OS3IDK_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_IDK aura:id="OS3IDK"/>
+    </div>  
+    <div aura:id="MWHardwareWatchRemRebootNEA5_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA5/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNEA3_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA3/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNEA1_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_EA1/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNCA10_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_CA10/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNCA1_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_CA1/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNHC250_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_HC250/>   
+    </div>
+    <div aura:id="MWHardwareWatchRemRebootNHC800_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_HC800/>   
+    </div>   
+    <div aura:id="MWHardwareWatchContactUs_Div">
+        <c:MW_Hardware_Watch_ContactUs/>   
+    </div> 
+    <div aura:id="MWHardwareWatchRemRebootNContactDealer_Div">
+        <c:MW_Hardware_Watch_Rem_Reboot_N_ContactDealer/>   
+    </div>   
+    <div aura:id="MWHardwareWatchNewDevice_Div">
+        <c:MW_Hardware_Watch_NewDevice/>   
+    </div> 
+    <div aura:id="MWHardwareWatchQuickStart_Div">
+        <c:MW_Hardware_Watch_QuickStart/>   
+    </div> 
+    <div aura:id="MWHardwareListen_Div">
+        <c:MW_Hardware_Listen/>   
+    </div> 
+    <div aura:id="MWHardwareListenEntGuide_Div">
+        <c:MW_Hardware_Listen_EntGuide/>   
+    </div> 
+    <div aura:id="MWHardwareListenNoSound_Div">
+        <c:MW_Hardware_Listen_NoSound/>   
+    </div> 
+    <div aura:id="MWHardwareListenMusic_Div">
+        <c:MW_Hardware_Listen_Music/>   
+    </div> 
+    <div aura:id="MWHardwareListenMusicDriver_Div">
+        <c:MW_Hardware_Listen_Music_Driver/>   
+    </div> 
+    <div aura:id="MWHardwareLighting_Div">
+        <c:MW_Hardware_Lighting/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTS_Div">
+        <c:MW_Hardware_Lighting_TS/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSAPD120_Div">
+        <c:MW_Hardware_Lighting_TS_APD120/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSKD120_Div">
+        <c:MW_Hardware_Lighting_TS_KD120/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSLDZ101_Div">
+        <c:MW_Hardware_Lighting_TS_LDZ101/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSK6_Div">
+        <c:MW_Hardware_Lighting_TS_K6/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSSuccess_Div">
+        <c:MW_Hardware_Lighting_TS_Success/>   
+    </div> 
+    <div aura:id="MWHardwareLightingTSContactDealer_Div">
+        <c:MW_Hardware_Lighting_TS_ContactDealer/>   
+    </div>   
+    <div aura:id="MWHardwareLightingTSElectrician_Div">
+        <c:MW_Hardware_Lighting_TS_Electrician/>   
+    </div>   
+    <div aura:id="MWHardwareLightingTSLightSolutions_Div">
+        <c:MW_Hardware_Lighting_TS_LightSolutions/>   
+    </div>   
+    <div aura:id="MWHardwareComfort_Div">
+        <c:MW_Hardware_Comfort/>   
+    </div>   
+    <div aura:id="MWHardwareComfortC4ThermV2_Div">
+        <c:MW_Hardware_Comfort_C4_ThermV2/>   
+    </div>   
+    <div aura:id="MWHardwareComfortC4ThermV2Reboot_Div">
+        <c:MW_Hardware_Comfort_C4_ThermV2_Reboot/>   
+    </div>   
+    <div aura:id="MWHardwareComfortC4ThermV1_Div">
+        <c:MW_Hardware_Comfort_C4_ThermV1/>   
+    </div>    
+    <div aura:id="MWHardwareComfortC4ThermV1Reboot_Div">
+        <c:MW_Hardware_Comfort_C4_ThermV1_Reboot/>   
+    </div>
+    <div aura:id="MWHardwareComfortC4ThermSuccess_Div">
+        <c:MW_Hardware_Comfort_C4_Therm_Success/>   
+    </div>    
+    <div aura:id="MWHardwareComfortC4ThermContactDealer_Div">
+        <c:MW_Hardware_Comfort_C4_Therm_ContactDealer/>   
+    </div>    
+    <div aura:id="MWHardwareComfortHVAC_Div">
+        <c:MW_Hardware_Comfort_HVAC/>   
+    </div>    
+    <div aura:id="MWHardwareComfortQuickStart_Div">
+        <c:MW_Hardware_Comfort_QuickStart/>   
+    </div>    
+</aura:component>

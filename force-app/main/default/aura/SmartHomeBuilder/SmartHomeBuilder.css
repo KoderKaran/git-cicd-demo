@@ -1,0 +1,174 @@
+.THIS {
+
+}
+
+.THIS input[type="checkbox"] {
+         width: auto;
+         opacity: 0.00000001;
+         position: absolute;
+         left: 0;
+         margin-left: -20px;
+      }
+
+.THIS .helper {
+         position: absolute;
+         top: 3px;
+         left: 4px;
+         cursor: pointer;
+         display: block;
+         font-size: 16px;
+         user-select: none;
+         color: #e7e7e7;
+      }
+.THIS .helper:before {
+         content: '';
+         position: absolute;
+         left: 0;
+         top: 0;
+         margin: 4px;
+         width: 22px;
+         height: 22px;
+         transition: transform 0.28s ease;
+         border-radius: 3px;
+         border: 2px solid #55c782;
+      }
+.THIS .helper:after {
+         content: '';
+         display: block;
+         width: 10px;
+         height: 5px;
+         border-bottom: 2px solid white;
+         border-left: 2px solid white;
+         -webkit-transform: rotate(-45deg) scale(0);
+         -moz-transform: rotate(-45deg) scale(0);
+         -ms-transform: rotate(-45deg) scale(0);
+         transform: rotate(-45deg) scale(0);
+         position: absolute;
+         top: 12px;
+         left: 10px;
+    }
+.THIS input[type="checkbox"]:checked ~ .helper::before {
+         background-color: #55c782;
+      }
+.THIS input[type="checkbox"]:checked ~ .helper::after {
+         -webkit-transform: rotate(-45deg) scale(1);
+         -moz-transform: rotate(-45deg) scale(1);
+         -ms-transform: rotate(-45deg) scale(1);
+         transform: rotate(-45deg) scale(1);
+      }
+.THIS .checkbox label {
+      min-height: 24px;
+      padding-left: 35px;
+      margin-bottom: 0;
+      font-weight: normal;
+      cursor: pointer;
+      vertical-align: sub;
+}
+
+.THIS input[type="checkbox"]:focus + label::before {
+      outline: rgb(59, 153, 252) auto 5px;
+}
+
+.THIS .changeButton {
+      background-color:#e7e7e7;
+}
+
+.THIS .changeButtonProjectType {
+      background-color:#e7e7e7;
+}
+
+.THIS .changeButtonBudget {
+      background-color:#e7e7e7;
+}
+
+.THIS .slds-icon-standard-task {
+      background-color:#e9eaec;
+}
+
+.THIS .slds-timeline__item_task:before {
+      background-color:#e9eaec;
+      left: 1.75rem;
+}
+
+/*.THIS .slds-box {
+      background-color:#e9eaec;
+}*/
+
+.THIS .slds-box > div:not(:last-child) {
+   border-bottom: 1px solid #c4d1d9;
+}
+
+.THIS .slds-box > div:nth-child(2n+1) {
+   background-color:#e9eaec
+}
+
+.THIS .slds-button_success {
+   color: #fff;
+}
+
+.THIS .slds-size_4-of-12 {
+      padding: 3rem;
+}
+
+.THIS .slds-timeline__icon {
+      padding: 0.5rem;
+}
+
+
+.THIS .slds-media__body {
+      padding: 0.5rem;
+}
+
+.THIS .slds-no-space{
+      padding-left: 0.2rem;
+      margin-top: 0.5rem;
+}
+
+.THIS .class-validation{
+      padding-left: 0.2rem;
+      margin-top: 0.5rem;
+}
+
+.THIS .invalidInput {
+      border: 1.5px solid red !important;
+      border-radius: 5px;
+}
+
+.THIS #toast {
+      height: 4rem;
+      z-index: 999999;
+}
+
+.THIS input[type=number]::-webkit-inner-spin-button { 
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0; 
+}   
+.THIS input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0; 
+}   
+
+.THIS input[type='number'] {  
+   -moz-appearance:textfield;
+}
+
+.THIS .hide-error-message > .slds-form-element > .slds-form-element__help {
+    display: none;
+
+}
+.THIS .error-text {
+    display:none;
+}
+
+.THIS .slds-textarea {
+    height:100px !important;
+}
+
+.THIS .show {
+    display:flex;
+    color:red;
+}

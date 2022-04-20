@@ -1,0 +1,52 @@
+.THIS {
+    padding-right: 15px;
+}
+.THIS .div-content{
+	display: inline-block;
+    width: 100%;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    float: right;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+
+.THIS.uppercase{
+    text-transform:uppercase !important;
+    padding:0px;
+    color:inherit;
+    font-weight:300;
+    line-height:1.1em;
+    font-size: 24px;
+    padding-left: 15px;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+.THIS.account{
+	margin: 0 0 15px 0;
+    margin-top: 20px;
+}
+.THIS.hr{
+	margin-left: 30px;
+	margin-top: 0px;
+    margin-bottom: 5px;
+    width: 89%;
+}
+.THIS.display-inline{
+	width: 100%;
+	display: inline-flex;
+}
+.THIS .strong {
+    font-weight: 600 !important;
+}

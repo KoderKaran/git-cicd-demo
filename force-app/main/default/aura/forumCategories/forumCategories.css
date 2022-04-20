@@ -1,0 +1,80 @@
+.THIS .categoryName{
+    color:#303030;
+    font-weight:600!important;
+    font-size:14px;
+    letter-spacing:0;
+    line-height:18px;
+    font-family:Montserrat!important;
+}
+.THIS .categoryDescription{
+    color:#303030;
+    font-size:10px;
+    font-family:Montserrat!important;
+    font-weight:regular!important;
+    letter-spacing:0;
+    line-height:13px;
+}
+
+.THIS .slds-button_icon-bare{
+    display: none;
+}
+
+.THIS .icnEmail svg {
+    fill:#FFc300;
+}
+
+.THIS .lgc-bg-inverse {
+}
+.THIS .inputDesign {
+    width:75%;
+}
+
+
+.THIS .leftPaddingClass {
+    padding-left: 2rem;
+}
+
+.THIS .pillSize{
+    width:100%;
+}
+
+.THIS .notUploading {
+    visibility: hidden;
+}
+
+.THIS .uploading {
+    visibility: visible;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.THIS .small-spinner {
+    height: 20px;
+    width: 20px;
+}
+
+.THIS .file {
+    margin-bottom: 5px;
+    display: block;
+}
+
+.THIS .pagination-currentpage {
+    font-weight: bolder;
+    font-size: 14px;
+    color: var(--lwc-brandTextLink);
+}
+
+.THIS .pagination-notcurrentpage {
+    font-weight: lighter;
+}
+        
+.THIS .forumCategories-button {
+    height: 32px;
+    color: black;
+}
+        
+.THIS .forumCategories-button-active {
+    background-color: gray;
+    height: 32px;
+    color: white;
+}

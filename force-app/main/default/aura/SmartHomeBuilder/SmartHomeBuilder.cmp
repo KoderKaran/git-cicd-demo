@@ -1,0 +1,1026 @@
+<aura:component implements="force:appHostable,force:lightningQuickAction" access="global" controller="SmartHomeBuilderController">
+   <ltng:require styles="/resource/bootstrap/css/bootstrap.min.css" 
+      scripts="/resource/bootstrap/js/jquery.js,/resource/bootstrap/js/bootstrap.min.js"/>
+   <aura:attribute name="lead" type="Lead" default="{sobjectType : 'Lead'}"/>
+   <aura:attribute name="leadId" type="String" access="global"/>
+   <aura:attribute name="leadName" type="String" access="global"/>
+   <aura:attribute name="leadStreet" type="String" access="global"/>
+   <aura:attribute name="leadCity" type="String" access="global"/>
+   <aura:attribute name="leadState" type="String" access="global"/>
+   <aura:attribute name="leadCountry" type="String" access="global"/>
+   <aura:attribute name="leadPostalCode" type="String" access="global"/>
+   <aura:attribute name="enableTv" type="Boolean" default="false"/>
+   <aura:attribute name="enableSmart" type="Boolean" default="false"/>
+   <aura:attribute name="enableMusic" type="Boolean" default="false"/>
+   <aura:attribute name="enableSecurity" type="Boolean" default="false"/>
+   <aura:attribute name="enableClimate" type="Boolean" default="false"/>
+   <aura:attribute name="enableKeypad" type="Boolean" default="false"/>
+   <aura:attribute name="enableTvRemote" type="Boolean" default="false"/>
+   <aura:attribute name="enableOtherHome" type="Boolean" default="false"/>
+   <aura:attribute name="disableWhenBoxSmart" type="Boolean" default="false"/>
+   <aura:attribute name="disableWhenBoxMusic" type="Boolean" default="false"/>
+   <aura:attribute name="projectType" type="String"/>
+   <aura:attribute name="projectBudget" type="String"/>
+   <aura:attribute name="squareFootage" type="String"/>
+   <aura:attribute name="noOfTv" type="String"/>
+   <aura:attribute name="musicNumberRooms" type="String"/>
+
+   <aura:attribute name="newSmartHomeBuilder" type="HomeBuilder__c" default="{ 'sobjectType': 'HomeBuilder__c', 'Name': '', }"/>
+   <aura:attribute name="newSmartHomeBuilderComponent" type="Home_Builder_Component__c" default="{ 'sobjectType': 'Home_Builder_Component__c', 'Name': '', }"/>
+   <aura:attribute name="listTv" type="String[]" default="[null, null, null, null, null, null]"/>
+   <aura:attribute name="listSmart" type="String[]" default="[null, null, null, null, null]"/>
+   <aura:attribute name="listMusic" type="String[]" default="[null, null, null, null, null, null]"/>
+   <aura:attribute name="listSecurity" type="String[]" default="[null, null, null, null, null, null, null, null]"/>
+   <aura:attribute name="listClimate" type="String[]" default="[null, null]"/>
+   <aura:attribute name="listOtherHome" type="String[]" default="[null]"/>
+   <aura:attribute name="enableBoxTv" type="Boolean" default="false"/>
+   <aura:attribute name="enableBoxSmart" type="Boolean" default="false"/>
+   <aura:attribute name="enableBoxMusic" type="Boolean" default="false"/>
+   <aura:attribute name="isValid" type="Boolean" />
+
+   <aura:attribute name="tvPotentialValue" type="String"/>
+   <aura:attribute name="tvNonPotentialValue" type="String"/>
+   <aura:attribute name="smartPotentialValue" type="String"/>
+   <aura:attribute name="smartNonPotentialValue" type="String"/>
+   <aura:attribute name="musicPotentialValue" type="String"/>
+   <aura:attribute name="musicNonPotentialValue" type="Integer"/>
+   <aura:attribute name="musicNonPotentialCurrency" type="Integer"/>
+
+   <aura:attribute name="securityPotentialValue" type="String" default='0'/>
+   <aura:attribute name="securityNonPotentialValue" type="String"/>
+   <aura:attribute name="climatePotentialValue" type="String"/>
+   <aura:attribute name="climateNonPotentialValue" type="String"/>
+   <aura:attribute name="squarePotentialValue" type="String"/>
+   <aura:attribute name="squareNonPotentialValue" type="String"/>
+
+   <aura:attribute name="valueMusicInput" type="Integer"/>
+   <aura:attribute name="valueTotalRoomsInput" type="Integer"/>
+   <aura:attribute name="valueLeadMessage" type="String"/>
+
+   <aura:attribute name="sumPotentialValue" type="String"/>
+   <aura:attribute name="sumNonPotentialValue" type="String"/>   
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+   <div class="slds-page-header">
+      <div id="toast" class="slds-is-fixed slds-hide">
+         <div class="slds-notify_container">
+            <div id="theme" class="slds-notify slds-notify_toast" role="alert">
+               <span class="slds-icon_container slds-m-right_small slds-no-flex slds-align-top">
+               </span>
+               <div class="slds-notify__content">
+                  <h2 id="toastMessage" class="slds-text-heading_small"></h2>
+               </div>
+               <div class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close" onclick="closeToast()">
+                  <span class="slds-assistive-text">Close</span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="slds-media">
+         <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-standard-user">
+               <lightning:icon iconName="utility:user"/>
+            </span>
+         </div>
+         <div class="slds-media__body">
+            <p class="slds-text-body_small slds-line-height_reset">SMART HOME BUILDER</p>
+            <h3 class="slds-page-header__title slds-truncate slds-align-middle" title="">{!v.leadName}</h3>
+         </div>
+      </div>
+      <ul class="slds-grid slds-page-header__detail-row">
+         <li class="slds-page-header__detail-block">
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">Address</p>
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">{!v.leadStreet}</p>
+         </li>
+         <li class="slds-page-header__detail-block">
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 3">City</p>
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">{!v.leadCity}</p>
+         </li>
+         <li class="slds-page-header__detail-block">
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 4">State</p>
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">{!v.leadState}</p>
+         </li>
+         <li class="slds-page-header__detail-block">
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 4">Country</p>
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">{!v.leadCountry}</p>
+         </li>
+         <li class="slds-page-header__detail-block">
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 4">Zip</p>
+            <p class="slds-text-title slds-truncate slds-m-bottom_xx-small" title="Field 1">{!v.leadPostalCode}</p>
+         </li>
+      </ul>
+   </div>
+   <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_8-of-12">
+         <ul class="slds-m-top_large">
+            <li>
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon slds-m-right_medium" style="padding-left: 0.3rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_home_wf}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2 slds-m-bottom_small">
+                              <div class="slds-text-align_left slds-m-around_xx-small">Are you building a new home, remodeling your current home, or looking to retrofit your existing home?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonNewHome" label="New Home" value="New Home" onclick="{!c.applyClassProjectType}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonRemodeling" label="Remodeling" value="Remodel" onclick="{!c.applyClassProjectType}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonRetrofit" label="Retrofit" value="Retrofit" onclick="{!c.applyClassProjectType}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-text-align_right slds-m-top_small slds-m-around_xx-small" style="
+                                 padding-right: 1rem;">Square Footage?</div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap slds-m-top_xx-small">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                      <div class="slds-form-element__control"> 
+                                       <lightning:input type="number" aura:id="textSquareFootage" onblur="{!c.handleSquareFootageBlur}" />
+                                       <p>
+                                          <lightning:formattedText aura:id="fteError6" class="error-text" value="Incorrect value"/>
+                                       </p>
+                                    </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                           <div class="slds-grid slds-wrap">
+                              <div class="slds-size_1-of-3">
+                                 <div class="slds-text-align_right slds-m-top_small slds-m-around_xx-small" style="
+                                    padding-right: 1rem;">Number of Rooms?</div>
+                              </div>
+                              <div class="slds-size_1-of-3">
+                                 <div class="slds-grid slds-wrap slds-m-top_xx-small">
+                                    <div class="slds-size_1-of-2">
+                                       <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <div class="slds-form-element__control">
+                                          <lightning:input type="number" aura:id="selectBuildingNumberRooms" onblur="{!c.handleBuildingNumberRoomsBlur}"/>
+                                             <p>
+                                                <lightning:formattedText aura:id="fteError8" class="error-text" value="Value must not be 0 and not be greater than 99"  />
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentTelevision">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.3rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_Tv}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Television</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-text-align_left slds-m-around_x-small">How many TV's do you have?</div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-text-align_left slds-m-around_small">Do you want to be able to control all devices with a single remote? If yes, how many?</div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-text-align_left slds-m-around_small">Control lights in the room with your TV remote or keypad?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-4">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="master_checkbox_tv" click="{!c.enableAllTv}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_2-of-4">
+                                    <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                       <lightning:input type="number" aura:id="selectNumberTv" disabled="{!not(v.enableTv)}" onblur= "{!c.handleNoOfTvChange}"/>
+                                          <p>
+                                             <lightning:formattedText aura:id="fteError7" class="error-text" value="Value must not be 0 and not be greater than 99"  />
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_2-of-3">
+                                 </div>
+                                 <!--<lightning:button label='TestBtn' onclick="{!c.checkAttr}"/>-->
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonSingleRemote" disabled="{!not(v.enableTv)}" label="Single Remote" onclick="{!c.enableBoxTvNumber}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-wrap slds-m-horizontal_x-small">
+                                       <div class="slds-form-element__control">
+                                          <lightning:input type="number" aura:id="textBoxTv" disabled="{!not(v.enableBoxTv)}" onblur="{!c.handleTextBoxBlur}" />
+                                          <p>
+                                             <lightning:formattedText aura:id="fteError1" class="error-text" value="Value must not be 0 and not be greater than 99" />
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonTvRemote" disabled="{!not(v.enableTv)}" label="TV Remote Lighting Control" onclick="{!c.disableKeypad}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonKeypad" disabled="{!not(v.enableTv)}" label="Keypad Lighting Control" onclick="{!c.disableKeypad}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentSmartLighting">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.4rem;" title="" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_lightbulb}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Smart Lighting</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                              <div class="slds-text-align_left slds-m-around_x-small">Do you want Smart Lighting in your home?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="master_checkbox_smart" click="{!c.enableAllSmart}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-text-align_center slds-m-around_x-small">If yes, where?</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonEveryRoomSmart" disabled="{!not(v.enableSmart)}" label="Whole Home" onclick="{!c.enableTextBoxSmart}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="buttonMainHomeAreasSmart" disabled="{!not(v.disableWhenBoxSmart)}" label="Main Living Areas" onclick="{!c.handleSmartButtonClick}" name="1"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonBedroomsSmart" disabled="{!not(v.disableWhenBoxSmart)}" label="Bedroom(s)" onclick="{!c.enableTextBoxSmartBr}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonGarage" disabled="{!not(v.disableWhenBoxSmart)}" label="Porch/Garage" onclick="{!c.handleSmartButtonClick}" name="3"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-wrap slds-m-horizontal_x-small">
+                                       <div class="slds-form-element__control">
+                                          <lightning:input type="number" aura:id="textBoxSmart" disabled="{!not(v.enableBoxSmart)}" onblur="{!c.handleTextSmartBoxBlur}"/>
+                                          <p>
+                                             <lightning:formattedText aura:id="fteError2" class="error-text" value="Value must not be 0 and not be greater than 99" />
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+   
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentMusic">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.4rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_music}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Music</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-text-align_left slds-m-around_x-small">Is music important to you?</div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="master_checkbox_music" click="{!c.enableAllMusic}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-text-align_center slds-m-around_x-small">If yes, where?</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonEveryRoomMusic" disabled="{!not(v.enableMusic)}" label="Whole Home" onclick="{!c.enableTextBoxMusic}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="buttonMainHomeAreasMusic" disabled="{!not(v.disableWhenBoxMusic)}" label="Main Living Areas" onclick="{!c.handleMusicButtonClick}" name="1"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonBedroomsMusic" disabled="{!not(v.disableWhenBoxMusic)}" label="Bedroom(s)" onclick="{!c.enableTextBoxMusicBr}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonOutdoorMusic" disabled="{!not(v.disableWhenBoxMusic)}" label="Outdoor areas" onclick="{!c.handleMusicButtonClick}" name="3"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                           <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-wrap slds-m-horizontal_x-small">
+                                       <div class="slds-form-element__control">
+                                       <lightning:input type="number" aura:id="textBoxMusic" value="{!v.valueMusicInput}" disabled="{!not(v.enableBoxMusic)}" onblur="{!c.handleTextMusicBoxBlur}"/>
+                                          <p>
+                                             <lightning:formattedText aura:id="fteError3" class="error-text" value="Value must not be 0 and not be greater than 99" />
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentSecurity">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.4rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_lock}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Security</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                              <div class="slds-text-align_left slds-m-around_x-small">Do you want a security solution that gives you peace of mind both when you`re at home and when you`re away?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="master_checkbox_security" click="{!c.enableAllSecurity}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-text-align_center slds-m-around_x-small">If yes, what?</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonSmartLocks" disabled="{!not(v.enableSecurity)}" label="Smart Locks" value="Smart Locks" onclick="{!c.handleSecurityButtonClick}" name="0"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonCameras" disabled="{!not(v.enableSecurity)}" label="Cameras" value="Cameras" onclick="{!c.handleSecurityButtonClick}" name="1"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="buttonDoorbell" disabled="{!not(v.enableSecurity)}" label="Doorbell Camera" value="Doorbell Camera" onclick="{!c.handleSecurityButtonClick}" name="2"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentClimate">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media" style="margin-bottom: 3rem;">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.4rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_temperature}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Climate</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                              <div class="slds-text-align_left slds-m-around_x-small">Do you want to be able to automate and control the climate system in your home?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="checkbox_climate" click="{!c.enableClimate}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-text-align_left slds-m-around_x-small slds-p-left_small slds-m-top_xxx-small" style="padding-left: 2rem;">Number of Thermostats?</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-wrap slds-m-horizontal_x-small">
+                                       <div class="slds-form-element__control">
+                                          <lightning:input type="number" aura:id="textBoxClimate" disabled="{!not(v.enableClimate)}" onblur="{!c.handleTextClimateBoxBlur}"/>
+                                          <p>
+                                             <lightning:formattedText aura:id="fteError4" class="error-text" value="Value must not be 0 and not be greater than 99" />
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+               <strong>
+                  <div class="slds-border_top" style="solid #e9eaec !important;"></div>
+               </strong>
+            </div>
+            <li class="recordHomeBuilderComponentOtherHomeAutomation">
+               <div class="slds-timeline__item_expandable slds-timeline__item_task">
+                  <div class="slds-media" style="margin-bottom: 3rem;">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon" style="padding-left: 0.4rem;" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_question}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                           <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                              <h3 class="slds-truncate" title="">
+                                 <strong>Other</strong>
+                              </h3>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                              <div class="slds-text-align_left slds-m-around_x-small">Are there any other smart home solutions that you are interested in that we haven't talked about today?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2" style="margin-top: 0.2rem;">
+                                    <div class="slds-form-element">
+                                       <div class="slds-form-element__control">
+                                          <div class="checkbox">
+                                             <label class="checkbox-container">
+                                                <ui:inputCheckbox label="" aura:id="checkbox_other_home" click="{!c.enableOtherHome}" value=""/>
+                                                <lightning:icon class="helper"/>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-2" style="margin-top: 0.5rem;">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-1">
+                                    <div class="slds-form-element slds-wrap">
+                                       <div class="slds-form-element__control" style="padding-left: 0.25rem;">
+                                          <lightning:input type="text" aura:id="textBoxOtherHome" disabled="{!not(v.enableOtherHome)}" onblur="{!c.handleTextOtherHomeBoxBlur}"/>
+                                       </div>
+                                       <p>
+                                          <lightning:formattedText aura:id="fteError5" class="error-text" value="The value must be filled and must not exceed 500 characters" />
+                                       </p>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <div style="padding: 1rem;">
+                  <div class="slds-border_top slds-grid slds-wrap" style="solid #e9eaec !important;"></div>
+            </div>
+            <li>
+               <div class="">
+                  <div class="slds-media">
+                     <div class="slds-media__figure">
+                        <button class="slds-button slds-button_icon slds-p-left_xx-small" title="" aria-controls="task-item-base" aria-expanded="false">
+                           <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                              <img src="{!$Resource.glypicon_money}" class="custom-img-icon"></img>
+                           </div>
+                        </button>
+                     </div>
+                     <div class="slds-media__body" style="padding: 0.3rem; padding-top: 0.7rem;">
+                        <div class="slds-grid slds-text-align_left slds-p-left_xxx-small slds-m-top_xx-small">
+                           <h3 class="slds-truncate" title="">
+                              <strong>Budget</strong>
+                           </h3>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-2">
+                              <div class="slds-text-align_left slds-m-around_xxx-small">What is your estimated budget for your smart home project?</div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-m-top_small">
+                           <div class="slds-size_1-of-3"></div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonUnder1" label="Under $1K" value="Under $1K" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="button35" label="$3-5K" value="$3-5K" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="button1015" label="$10-15K" value="$10-15K" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonDidntDiscuss" label="Didn't Discuss" value="Didn't Discuss" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap">
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap slds-m-top_xx-small">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="button13" label="$1K-3K" value="$1K-3K" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="button510" label="$5-10K" value="$5-10K" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="slds-size_1-of-3">
+                              <div class="slds-grid slds-wrap slds-m-top_xx-small">
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="button25" label="$25K+" value="$25K+" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                                 <div class="slds-size_1-of-2">
+                                    <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                                       <lightning:button class="slds-button slds-button_neutral slds-p-horizontal_none slds-size_1-of-1" aura:id="buttonWouldntProvide" label="Wouldn't Provide" value="Wouldn't Provide" onclick="{!c.applyClassBudget}"/>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </li>
+            <li>
+             <div class="slds-size_1-of-1" style="margin-top: 0.5rem;">
+             </div>   
+               <div class="slds-grid slds-wrap">
+                  <div class="slds-size_1-of-3">
+                  </div>
+                  <div class="slds-size_1-of-3">
+                     <div class="slds-grid slds-wrap slds-m-top_large">
+                        <div class="slds-size_1-of-2">
+                        </div>
+                        <div class="slds-size_1-of-2">
+                           <div class="slds-form-element slds-m-horizontal_x-small slds-grid slds-wrap">
+                              <lightning:button class="slds-button slds-button_brand slds-p-horizontal_small slds-size_1-of-1" aura:id="buttonSubmit" label="Submit" onclick="{!c.createSmartRecords}"/>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="slds-size_1-of-3">
+                  </div>
+               </div>
+
+            </li>
+         </ul>
+      </div>
+      <div class="slds-col slds-size_4-of-12">
+         <div class="slds-box">
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-wrap slds-p-around_x-small slds-text-align_center">
+                     <strong>Potential value</strong>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-wrap slds-p-around_x-small slds-text-align_center">
+                     <strong>Control4 MSRP</strong>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-wrap slds-p-around_x-small slds-text-align_center">
+                     <strong>Non-Control4 MSRP</strong>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_Tv}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-wrap slds-p-around_x-small">
+                     <p>{!v.tvPotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-wrap slds-p-around_x-small">
+                     <p>{!v.tvNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_lightbulb}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.smartPotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.smartNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_music}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.musicPotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p><ui:outputText value="{!v.musicNonPotentialCurrency}"/></p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_lock}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.securityPotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.securityNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_temperature}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.climatePotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.climateNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_home_wf}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.squarePotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>{!v.squareNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+               <div class="slds-size_1-of-7">
+                  <div class="slds-form-element slds-align_absolute-center">
+                     <div class="slds-icon_container slds-p-around_small">
+                        <img src="{!$Resource.glypicon_money}" class="custom-img-icon"></img>
+                     </div>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>${!v.sumPotentialValue}</p>
+                  </div>
+               </div>
+               <div class="slds-size_3-of-7">
+                  <div class="slds-form-element slds-align_absolute-center slds-p-around_x-small">
+                     <p>${!v.sumNonPotentialValue}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="slds-box" style="margin-top: 1rem;">
+            <div class="slds-grid slds-wrap">  
+            <div class="slds-size_1-of-1">
+               <div class="slds-form-element slds-text-align_left slds-p-around_x-small">
+                  <strong>Notes</strong>
+               </div>
+            </div>         
+               <div class="slds-form-element slds-p-around_x-small slds-size_1-of-1">
+                  <lightning:textarea aura:id="textLeadMessage" value="{!v.valueLeadMessage}"></lightning:textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+</aura:component>

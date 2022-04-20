@@ -1,0 +1,402 @@
+.THIS {
+	color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    padding-left: 25px;
+}
+
+.THIS .padding {
+    padding: 25px;
+}
+
+.THIS .margin-bottom {
+    margin-bottom: 25px;
+}
+
+.THIS .row {
+    margin-right: -12.5px;
+    margin-left: -12.5px;
+}
+
+.THIS .row [class^="col-"] {
+	padding-right: 12.5px;
+    padding-left: 12.5px;
+}
+
+.THIS .col-lg-8 {
+	position: relative;
+    min-height: 1px;
+}
+
+.THIS textarea {
+    padding-top: 20px;
+    height: calc(15px + 25px*4);
+    line-height: normal;
+    resize: vertical;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    color: #000;
+    font-size: 16px;
+    background-color: #e8e8e8;
+    border-width: 0;
+    border-color: transparent;
+    border-radius: 0px;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    overflow: auto;
+}
+
+.THIS textarea:focus {
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    z-index: 1;
+    outline: none;
+}
+
+.THIS textarea {
+        padding-top: 20px;
+    height: calc(15px + 25px*4);
+    line-height: normal;
+    resize: vertical;
+}
+.THIS .textInRichTextArea {
+    text-transform: uppercase;
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+
+}
+.THIS .lightningInputRichText .ql-editor.ql-blank:before {
+    color: rgb(111, 101, 101);
+
+}
+.THIS .slds-rich-text-editor.slds-has-focus {
+    outline-offset: -2px;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    z-index: 1;
+    outline: none;
+    border-color: #e8e8e8;
+}
+
+.THIS textarea::placeholder {
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.THIS button.light-grey {
+	color: #000;
+    background-color: #cecccc;
+}
+
+.THIS button.no-margin {
+	/*margin: 0 0 0 0;*/
+}
+
+.THIS button {
+	font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    padding: 0 12.5px;
+    line-height: 18px;
+    border-width: 0;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    max-width: 250px;
+    overflow: visible;
+    text-rendering: auto;
+    margin-bottom: 10px;
+}
+
+.THIS button:not([disabled]):hover {
+	color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+
+}
+
+.THIS button:active {
+	background-color: #8a2432;
+    box-shadow: none;
+}
+
+.THIS .userimg {
+    display: block;
+    height: 60px;
+    width: 60px;
+    background-color: #f0eeee;
+    background-size: cover;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+}
+
+.THIS a {
+    background-color: transparent;
+    color: #8a2432;
+}
+
+.THIS * a {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.THIS  a:active {
+    color: #c2c2c2;
+}
+
+.THIS .tags {
+    margin-bottom: 10px;
+}
+
+.THIS .tags a {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 5px 10px 0;
+    height: 25px;
+    color: #8a878a;
+    font-size: 12.30769px;
+    line-height: 24px;
+    background-color: #f0eeee;
+    border-radius: 13px;
+}
+
+.THIS * a.active {
+    color: #000;
+}
+
+.THIS * a:hover {
+    color: #c32032;
+}
+.THIS.uppercase {
+    text-transform: uppercase !important;
+    /*color: inherit;*/
+    font-weight: 300;
+    line-height: 1.1em;
+    display: block;
+    font-size: 1.9em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-style: normal;
+    letter-spacing: normal;
+}
+.THIS.flex{
+    display: flex;
+    width: 97%;
+}
+
+.THIS.flex .flex-75 {
+    width: 75px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.THIS.flex .flex-stretch {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+.THIS.bg-light-grey {
+   
+    background-color: #e2e0e0;
+}
+.THIS.slds-rich-text-editor{
+    background: #cecccc;
+}
+.THIS .lightningInputRichText {
+    z-index: 1;
+    position: relative;
+    margin-bottom: 20px;
+}
+.THIS .forceCommunityReputationLeaderboard42 {
+    padding-left: 30px;
+    margin-top: 91px;
+    border-left: 2px solid #f0eeee;
+}
+
+.THIS  button:not([disabled]) {
+    color: #000;
+    background-color: #cecccc;
+    display: block;
+}
+.THIS .slds-rich-text-editor__select{
+    display: none;
+}
+.THIS .slds-rich-text-editor__toolbar {
+    border-bottom: 0px;
+    height: 50px;
+    background-color: #e2e0e0;
+    padding: 0px 0px;
+}
+.THIS .slds-rich-text-area__content{
+    background-color: #e8e8e8;
+    border-radius: 0rem; 
+}
+.THIS .slds-rich-text-area__content:placeholder {
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    text-transform: uppercase;
+}
+.THIS .slds-rich-text-area__content:hover {
+    background-color: #ffffff;
+}
+
+.THIS .slds-button-group-list li:first-child .slds-button, 
+.THIS .slds-button-group .slds-button:first-child {
+    border-radius: 0rem;
+}
+
+.THIS .slds-button-group-list li:last-child .slds-button {
+    border-radius: 0rem;
+}
+
+.THIS .slds-rich-text-editor .slds-button-group-list {
+    margin-right: 0rem !important;
+    height: 50px;
+}
+
+.THIS .slds-button-group-list {
+    background-color: #cecccc;
+}
+.THIS i {
+    position: relative;
+    margin: 0 10px;
+    font-size: 150%;
+}
+.THIS .flex .flex-50 {
+    width: 50px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.THIS .flex .flex-50 a.c4btn,
+.THIS .flex .flex-50 button {
+    width: 50px;
+    padding: 0;
+}
+.THIS .attach{  
+    position: relative;
+    top: -167px;
+    z-index: 1;
+    width: 50px;
+    right: -485px;
+}
+.THIS .slds-file-selector__text {
+    display: none;
+}
+/*.THIS .slds-button__icon */
+.THIS .slds-file-selector__text {
+  display: none;
+}
+
+.THIS .slds-button_neutral {
+      font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: #cecccc !important;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgb(206, 204, 204);
+    -webkit-transition: border .15s linear;
+    transition: border .15s linear;
+    border-color: #f4f4f4;
+    color: #491300;
+    border-radius: 0px;
+    justify-content: center;
+    width: 100%;
+} 
+
+.THIS .slds-button--neutral {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: #cecccc !important;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgb(206, 204, 204);
+    -webkit-transition: border .15s linear;
+    transition: border .15s linear;
+    border-color: #f4f4f4;
+    color: #491300;
+    border-radius: 0px;
+}
+
+.THIS span.slds-file-selector__button.slds-button.slds-button_neutral:hover {
+    color: #fff!important;
+    background-color: #c32032!important;
+    border-color: transparent!important;
+}
+
+.THIS [is=lightning-input][lightning-input_input], .THIS lightning-input[lightning-input_input] {
+    display: inline-block;
+}
+
+.THIS .uploadFile {
+    width: 250px;
+    max-width: 250px;
+}
+
+.THIS .no-margin {
+    margin-top: 15px;
+}
+.THIS .slds-file-selector__dropzone {
+    padding: 0px;
+    border: 0px dashed #f4f4f4;
+    width: 100%;
+}
+
+.THIS .slds-file-selector.slds-file-selector_files {
+    width: 100%;
+}
+
+.THIS .slds-file-selector__dropzone .slds-file-selector__button .slds-button__icon{
+    display: none;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button{
+    font-size: 0;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button:before{
+    content: 'Upload File';
+    font-size: 12.30769px;
+    color: #000;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+.THIS .slds-file-selector__dropzone .slds-file-selector__button:hover:before{
+    color: #fff!important;
+}

@@ -1,0 +1,274 @@
+.THIS {
+	color:#000;
+    font-family:'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size:16px;
+    font-style:normal;
+    font-weight:300;
+    letter-spacing:normal;
+    line-height:25px;
+    text-transform:none;
+}
+
+.THIS::selection {
+    color:#fff;
+    background:#418fde;
+}
+
+.THIS.slider{
+    position:relative;
+    background:#35363a;
+    min-height:300px;
+}
+
+.THIS.slider .slick-track{
+	position:absolute;
+    width:100% !important;
+	opacity: 0;
+    
+}
+
+.THIS.slider.slick-initialized .slick-track {
+    -webkit-transition: 1s opacity 1s;
+    		transition: 1s opacity 1s;
+	opacity: 1;	
+}
+
+.THIS .slide{
+	position:absolute !important;
+    width:100%;
+    padding:25px;
+    min-height:300px;
+    background-size:cover;
+    background-position:right top;
+}
+
+.THIS .slide:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.THIS.slider .slick-arrow{
+    display:block;
+    position:absolute;
+    top:50%;
+    right:25px;
+    color: rgba(255,255,255,0.6);
+    font-size:60px;
+    line-height:75px;
+    text-align:center;
+    transform:translateY(-50%);
+    z-index:1000;
+}
+
+.THIS.slider .slick-arrow:hover{
+    color:rgba(255, 255, 255, 1);
+}
+
+.THIS div.slick-track{
+    position:absolute;
+    width:100% !important;
+}
+
+.THIS.slider ul.slick-dots{
+    position:absolute;
+    bottom:15px;
+    left:0;
+    right:0;
+    margin:0 auto;
+    padding:0;
+    list-style:none;
+    text-align:center;
+    z-index:1000;
+}
+
+.THIS.slider ul.slick-dots li{
+    display:inline;
+    margin:0px 5px;
+    list-style:none;
+    font-size:0;
+}
+
+.THIS.slider ul.slick-dots li button{
+    display:inline-block;
+    height:10px;
+    width:10px;
+    padding:0;
+    margin:0;
+    font-size:0px;
+    line-height:0;
+    background-color:rgba(151, 153, 155, 0.5);
+    border:0 none;
+    border-radius:50%;
+}
+
+.THIS.slider ul.slick-dots li.slick-active button{
+    background-color:#f0eeee;
+}
+
+.THIS.slider ul.slick-dots li button:hover{
+    color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+}
+
+.THIS.slider ul.slick-dots li button:focus{
+    outline:0;
+}
+
+.THIS.slider:focus{
+	outline: none;
+}
+
+.THIS.slider .slide:focus {
+	outline: none;
+}
+
+.THIS .vertically-center{
+    width:100%;
+    position:absolute;
+    top:50%;
+    -webkit-transform:translateY(-50%);
+    -moz-transform:translateY(-50%);
+    -ms-transform:translateY(-50%);
+    transform:translateY(-50%);
+}
+
+.THIS a{
+    color:inherit;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.THIS a.c4close{
+    font-size:22px;
+    line-height:inherit;
+} 
+
+.THIS a.c4play{
+    font-size:22px;
+    line-height:inherit;
+}
+.THIS a.active{
+    color:#000;
+}
+.THIS a:hover{
+    color:#c32032;
+}
+.THIS h2 {
+    display: block;
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+.THIS ul{
+    padding:0px 0px 0px 25px;
+    margin:0px 0px 25px 0px;
+}
+.THIS ul.no-style{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.THIS ul.no-style li{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.THIS ul.padding-bottom {
+    padding-bottom:25px;
+}
+.THIS ul.padding-bottom>li{
+    padding-bottom:25px;
+}
+.THIS .uppercase{
+    text-transform:uppercase !important;
+}
+.THIS a{
+    color:#8a2432;
+}
+.THIS .text-white{
+    color:#fff;
+}
+.THIS .text-white.link{
+    color:rgba(255,255,255,0.6);
+}
+.THIS .text-white.link:hover{
+    color:#fff;
+}
+
+.THIS .c4btn {
+    width:100%;
+    max-width: 350px;
+}
+
+.THIS a.c4btn.outline.dark {
+	color:#000;
+	border-color:#000
+}
+
+.THIS a.c4btn.outline {
+    color: #fff;
+    line-height: calc(50px - 2px);
+    background: transparent !important;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #fff;
+}
+.THIS a.c4btn{
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+    padding: 0 12.5px;
+    margin: 0 0 10px 0;
+    color: #000;
+    line-height: 18px;
+    text-transform: uppercase;
+    background-color: #e8e8e8;
+    border-width: 0;
+    border-color: transparent;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+ .THIS a.c4btn:not([disabled]):hover {
+    color: #fff !important;
+    background-color: #c32032 !important;
+    border-color: transparent !important;
+}
+
+.THIS h1, .THIS h2, .THIS h3, .THIS h4 {
+    color: inherit;
+    font-weight: 300;
+    line-height: 1.1em;
+}
+
+.THIS h1, .THIS h2, .THIS h3, .THIS h4, .THIS h5, .THIS h6, .THIS p, .THIS table, .THIS blockquote, .THIS pre {
+    margin: 0px 0px 25px 0px;
+    padding: 0px;
+}
+
+.THIS b, .THIS .bold, .THIS strong{
+    font-weight:600 !important;
+}

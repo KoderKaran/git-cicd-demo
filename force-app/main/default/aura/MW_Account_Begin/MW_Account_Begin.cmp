@@ -1,0 +1,41 @@
+<aura:component>
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 tabindex="0"></h1>
+    <h1 class="slds-text-heading_large">Account</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-gutters_x-large ">
+            <div class="slds-col slds-max-small-size_1-of-1">
+                <span style="cursor: pointer;" onclick="{!c.ForgotPasswordClick}" onmouseover="{!c.HoverPasswordImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Password','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Forgot-Password.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Password','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-forgot-password.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">Forgot Password</p>
+                </span>
+            </div>
+            <div class="slds-col slds-max-small-size_1-of-1">
+                <span style="cursor: pointer;" onclick="{!c.DealerOfRecordClick}" onmouseover="{!c.HoverProImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Pro','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Change-Dealer.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Pro','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-change-dealer.svg" /></div>
+                   
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Change Your</p>
+                    <p class="slds-p-bottom_large slds-align_absolute-center text-navigation">Smart Home Pro</p>
+                </span>
+            </div>
+            <div class="slds-col slds-max-small-size_1-of-1">
+                <span style="cursor: pointer;" onclick="{!c.Sight4Click}" onmouseover="{!c.Hover4SightImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == '4Sight','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_4Sight.svg" /></div>
+                    <div class="{!if(v.ImageToggle == '4Sight','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-4sight.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">4Sight</p>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>   
+</aura:component>

@@ -1,0 +1,18 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />   	
+    
+    <h1 class="slds-text-heading_large text-red">Athentication Required</h1>
+    
+    <div class="slds-p-top_large">
+        <p class="text-paragraph">Sign in on the Control4 mobile app to continue.</p>
+    </div>
+
+    <div class="slds-p-top_large">
+        <p class="text-paragraph">If you've recently added a new music service, sign in on your 
+            Control4 app to enter your credentials and start listening to your music.</p>
+    </div>
+
+    <div class="slds-p-top_x-large">  
+    	<lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>
+</aura:component>

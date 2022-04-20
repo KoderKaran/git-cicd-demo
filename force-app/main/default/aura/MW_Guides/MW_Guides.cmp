@@ -1,0 +1,33 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+
+ 	<aura:attribute name="PreviousScreen" type="String" default="" />
+
+    <lightning:overlayLibrary aura:id="overlayLib2"/>    
+    
+    <div aura:id="MWGuidesBegin_Div">
+        <c:MW_Guides_Begin aura:id="MWGuidesBegin"/>  
+    </div> 
+    <div aura:id="MWGuidesSolution_Div">
+        <c:MW_Guides_Solution aura:id="MWGuidesSolution"/>   
+    </div>
+    <div aura:id="MWGuidesIntercomAnywhere_Div">
+        <c:MW_Guides_IntercomAnywhere aura:id="MWGuidesIntercomAnywhere"/>   
+    </div>
+    <div aura:id="MWGuidesProgram_Div">
+        <c:MW_Guides_Program aura:id="MWGuidesProgram"/>   
+    </div>
+    <div aura:id="MWVoiceControl_Div">
+        <c:MW_Voice_Control aura:id="MWVoiceControl"/>   
+    </div>
+    <div aura:id="MWGuidesElectHVAC_Div">
+        <c:MW_Guides_Elect_HVAC aura:id="MWGuidesElectHVAC"/>   
+    </div>   
+    <div aura:id="MWGuidesElect_Div">
+        <c:MW_Guides_Elect aura:id="MWGuidesElect"/>   
+    </div>   
+    <div aura:id="MWGuidesHVAC_Div">
+        <c:MW_Guides_HVAC aura:id="MWGuidesHVAC"/>   
+    </div>  
+</aura:component>

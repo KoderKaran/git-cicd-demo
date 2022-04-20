@@ -1,0 +1,36 @@
+<aura:component controller="CaseCreationControllerV2" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="Origin" type="List" />
+    <aura:attribute name="Account" type="List" />
+    <aura:attribute name="CaseInfo" type="object" />
+    <aura:attribute name="SelectedAccount" type="Id" />
+    <aura:attribute name="SelectedOrigin" type="String" default="Inbound Phone Call" />    
+    
+    <aura:attribute name="newCase" type="Case"
+                    default="{ 'sobjectType': 'Case',
+                             'Subject': '',
+                             'Origin': '',
+                             'Status': '',
+                             'Contact': ''
+                             }"/>    
+    
+    <div class="slds-grid slds-gutters slds-p-top_xx-small">
+        <div class="slds-col ">                    
+            <lightning:combobox name="progress" label="Case Origin" value="{!v.SelectedOrigin}" placeholder="Select Status" options="{!v.Origin}" />
+        </div>
+        <div class="slds-col">       
+            <lightning:combobox name="account" label="Account" value="{!v.SelectedAccount}" placeholder="Select Account" options="{!v.Account}" />                            
+        </div>
+    </div>            
+    
+    <div class="slds-grid slds-gutters_xx-small slds-grid_align-end slds-p-top_medium">
+        <div class="slds-col slds-align-middle">
+            <lightning:button class="slds-button slds-button_brand" label="Sales RMA" onclick="{!c.CreateCaseSalesRMA}" /> 
+        </div>
+        <div class="slds-col slds-align-middle">
+            <lightning:button class="slds-button slds-button_brand" label="Defective RMA" onclick="{!c.CreatCaseDefectiveRMA}" /> 
+        </div>
+    </div>  
+    
+</aura:component>

@@ -1,0 +1,52 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global" >
+    <div class="slds-grid slds-wrap slds-p-top_x-large"> 
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalWizardAccount" 
+                           label="Smart Home OS 3"
+                           modalContainer="MW_OS3" 
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-01106-www-customer-support-knowledge-base-os-3-update-1a-pg-os-3.png"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-os-3.png"
+                           />
+        </div>
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalWizardAccount"
+                           label="Account"
+                           modalContainer="MW_Account" 
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Account.svg"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-account.svg"
+                           />
+        </div>        
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalWizardApp"
+                           label="App"
+                           modalContainer="MW_App" 
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_App.svg"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-app.svg"
+                           />
+        </div>
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalWizardVC"
+                           label="Voice Control"
+                           modalContainer="MW_Voice_Control" 
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-icons-voice-control.svg"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-voice-control.svg"
+                           />
+        </div>       
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalWizardGuides"
+                           label="Guides"
+                           modalContainer="MW_Guides"
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-01106-www-customer-support-knowledge-base-os-3-update-1a-pg-guides-videos.png"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-entertainment-guide.svg"
+                           />
+        </div>
+        <div class="slds-col slds-p-bottom_large slds-size_1-of-6 slds-max-small-size_1-of-1 slds-align_absolute-center">
+            <c:ModalWizard aura:id="MobalHardware"
+                           label="Products"
+                           modalContainer="MW_Hardware" 
+                           imageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Products.svg"
+                           solidImageLocation="https://res.cloudinary.com/control4/image/upload/c_limit,w_151,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-products.svg"
+                           />
+        </div>
+    </div>       
+</aura:component>

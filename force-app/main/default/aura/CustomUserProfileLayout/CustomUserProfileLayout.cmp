@@ -1,0 +1,28 @@
+<aura:component implements="forceCommunity:layout" description="User Profile Layout" access="global">
+  <aura:attribute name="header" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="sidebar" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="content" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="footer" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="blueBackground" type="Boolean" default="false"/> 
+    <aura:attribute name="smallLogo" type="Boolean" default="false" />
+
+    <div class="siteforceContentArea">
+      <div class="slds-col--padded comm-content-header comm-layout-column">
+        {!v.header}
+      </div>
+        <div class="slds-grid slds-gutters slds-wrap slds-nowrap--large">
+            
+            <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--2-of-12 slds-medium-order--2 slds-large-size--2-of-12 slds-large-order--1 comm-layout-column">
+                {!v.sidebar}
+            </div>
+           
+            <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--10-of-12 slds-medium-order--1 slds-large-size--10-of-12 slds-large-order--2 comm-layout-column">
+                {!v.content}
+            </div>
+        </div>
+     <div class="slds-col--padded comm-content-footer comm-layout-column">
+          {!v.footer}
+        </div>
+    </div>
+</aura:component>

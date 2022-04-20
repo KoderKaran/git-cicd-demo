@@ -1,0 +1,57 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="UserProfileInfoCtrl" access="global">
+    
+    <aura:attribute name="userInfo" type="object" default="{sobjectType : 'TechnicianUserInfo'}"/>
+    <aura:attribute name="userId" type="String"/>
+    <aura:attribute name="spinner" type="Boolean" />
+    <aura:attribute name="recordId" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    
+    <div>
+        <lightning:spinner class="{!if(v.spinner, '','slds-hide')}"/>
+    </div>
+    
+    <div class="slds-p-top_large slds-grid">  
+        <div class="slds-col slds-size_1-of-3">
+            <h2>
+                <output class="uppercase" name="Name" placeholder="First Name" id="FirstName" value="{!v.userInfo.Name}"/>			        
+            </h2>           
+        </div>
+    </div>
+
+    <div class="slds-p-top_large slds-grid technician">
+        <div class="slds-col slds-size_1-of-8">
+	 	<p class="bold">Title</p>
+        </div>
+        <div class="slds-col slds-size_7-of-8">
+            <output name="jobTitle" class="output" placeholder="Unspecified" id="title" value="{!v.userInfo.Title}"/> 
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large slds-grid technician">
+        <div class="slds-col slds-size_1-of-8">
+            <p class="bold">Company</p>
+        </div>
+        <div class="slds-col slds-size_7-of-8">
+            <output name="jobTitle" class="output" placeholder="Unspecified" id="title" value="{!v.userInfo.AccountName}"/>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large slds-grid technician">
+        <div class="slds-col slds-size_1-of-8">
+		<p class="bold">Location</p>
+        </div>
+        <div class="slds-col slds-size_7-of-8">
+            <output name="mailingState" class="output" placeholder="Unspecified" id="city" value="{!v.userInfo.MailingState}"/>&nbsp;
+            <output name="mailingCountry" class="output" placeholder="Unspecified" id="city" value="{!v.userInfo.MailingCountry}"/>
+        </div>
+    </div> 
+    
+    <div class="slds-p-top_large slds-grid technician">
+        <div class="slds-col slds-size_1-of-8">
+            <p class="bold">Certifications</p>
+        </div>
+        <div class="slds-col slds-size_7-of-8">      	
+        </div>
+    </div>
+</aura:component>

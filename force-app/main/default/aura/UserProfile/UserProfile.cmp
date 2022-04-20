@@ -1,0 +1,44 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="UserProfileInfoCtrl" access="global">
+	<aura:attribute name="spinner" type="Boolean" />	
+	<aura:attribute name="userProfile" type="Contact" default="{sobjectType : 'Contact'}"/>
+	<aura:attribute name="editMode" type="Boolean" default="false"/>
+	<aura:attribute name="userId" type="String"/>
+	<aura:attribute name="contact" type="sObject"/>
+
+	<!-- <ltng:require styles="{!$Resource.TechnicianCommunityResources_1 + '/TechnicianCommunityResources/css/style.css'}" /> -->
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	
+	<div>
+	    <lightning:spinner class="{!if(v.spinner, '','slds-hide')}"/>
+	</div>
+	<div class="technician">
+	<div class="col-md-10 col-sm-9 width" >						
+		<div class="margin-bottom">
+			<h2 class="uppercase">{!v.contact.FirstName}&nbsp;{!v.contact.LastName}</h2>
+			
+			<aura:if isTrue="{!v.editMode}">
+				<div class="table">
+					<div class="body">
+						<div class="row">
+							<div class="col-xs-4"><strong>Email</strong></div>
+							<div class="col-xs-8">{!v.contact.Email}</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4">
+								<strong>Mobile</strong>
+								<span title="Phone number verified"><i class="fal fa-check-circle text-success"></i></span></div>
+							<div class="col-xs-8">{!v.contact.MobilePhone}</div>
+						</div>
+					</div>
+				</div>
+			    <aura:set attribute="else">
+			       <div class="{!if(or(v.userProfile.MailingCountry=='United States',v.userProfile.MailingCountry=='Canada'), 'slds-hide', '')}">{!v.userProfile.MailingCity},&nbsp;{!v.userProfile.MailingCountry}</div>
+			       <div class="{!if(or(v.userProfile.MailingCountry=='United States',v.userProfile.MailingCountry=='Canada'), '', 'slds-hide')}">{!v.userProfile.MailingCity},&nbsp;{!v.userProfile.MailingState}</div>
+			       <div>{!v.userProfile.Account.Name}</div>
+			    </aura:set>
+			</aura:if>
+		</div>
+	</div>
+</div>
+
+</aura:component>

@@ -1,0 +1,208 @@
+<apex:page controller="RMAFormControllerV2" renderAs="pdf" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+    <HEAD>
+        <STYLE type="text/css">
+            @page
+            {    
+            size: letter;
+            margin: 5mm;
+            @bottom-center {
+            content: "Page " counter(page); /* For page numbers */
+            font-size: small;}
+            }
+            
+            body {font-size: small;}
+            
+            .smlbold {font-weight: bold; font-size: 14px;}
+            .mdmbold {font-weight: bold; font-size: 16px;}
+            .lrgbold {font-weight: bold; font-size: 18px;}
+            
+            .pretty-table
+            {
+            padding: 0;
+            margin: 0;
+            border-collapse: collapse;
+            border: 1px solid #333;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 0.9em;
+            color: #000;
+            }
+            
+            .pretty-table caption
+            {
+            caption-side: bottom;
+            font-size: 0.9em;
+            font-style: italic;
+            text-align: right;
+            padding: 0.5em 0;
+            }
+            
+            .pretty-table th, .pretty-table td
+            {
+            border: 1px solid #666;
+            padding: 0.5em;
+            text-align: left;
+            color: #000000;
+            }
+            
+            .pretty-table th[scope=col]
+            {
+            color: #000;
+            background-color: #8fadcc;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            border-bottom: 2px solid #333;
+            border-right: 2px solid #333;
+            }
+            
+            .pretty-table th[scope=row]
+            {
+            background-color: #b8cfe5;
+            border-right: 2px solid #333;
+            }  
+            
+            .pagebreak { display:block; page-break-before: always; }
+        </STYLE>
+    </HEAD>
+    
+    <apex:variable value="{!1}" var="rowNum"/>       
+    <apex:repeat var="RMAFormData" value="{!RMAFormDataList}">
+        <div style="{!if(rowNum = 1, 'page-break-before:avoid;','page-break-before:always;')}">
+            
+            <apex:outputPanel rendered="{!if(CONTAINS(RMAFormData.DebuggingMessage, 'RMA_FORM_EXCEPTION'), true, false)}" >
+                <apex:outputText value="{!RMAFormData.DebuggingMessage}" escape="false"/>
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!IF(caseData.Account.Dealer_Type2__c == 'Control4', true,false) }"><img src='{!URLFOR($Resource.Logo2)}'/></apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(caseData.Account.Dealer_Type2__c == 'Pakedge', true,false) }"><img src='{!URLFOR($Resource.Pakedge)}'/></apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(caseData.Account.Dealer_Type2__c == 'Triad', true,false) }"><img src='{!URLFOR($Resource.Triad)}'/></apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(caseData.Account.Dealer_Type2__c == 'SnapAV', true,false) }"><img src='{!URLFOR($Resource.SnapAVLogo)}'/></apex:outputPanel>
+            
+            <hr/>   <!---- Horizontal Line ---->
+            
+            <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'SCRAP' || RMAFormData.RMALocation == 'VERIFIEDSCRAP' || RMAFormData.RMALocation == 'REPAIRINFIELD', true,false) }">
+                <table border="0" cellspacing="1" cellpadding="3" width="100%">
+                    <tr>
+                        <td align="center" class="lrgbold">                           
+                            <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'SCRAP', true,false) }">Scrap in Field</apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'VERIFIEDSCRAP', true,false) }">Verified Scrap in Field</apex:outputPanel>
+                            <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'REPAIRINFIELD', true,false) }">Repair in Field</apex:outputPanel>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="mdmbold">
+                        <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'SCRAP' || RMAFormData.RMALocation == 'VERIFIEDSCRAP', true,false) }">Scrap the following items:</apex:outputPanel>
+                        <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation == 'REPAIRINFIELD', true,false) }">Do not return the list products. You will be sent a repair kit.</apex:outputPanel>
+                        </td>
+                    </tr> 
+                </table>                
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!IF(RMAFormData.RMALocation != 'SCRAP' && RMAFormData.RMALocation != 'VERIFIEDSCRAP' && RMAFormData.RMALocation != 'REPAIRINFIELD', true,false) }">            
+                <table border="0" cellspacing="1" cellpadding="3" width="100%">
+                    <tr>
+                        <td align="center" class="lrgbold">Return Material Authorization</td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="mdmbold">Notice</td>
+                    </tr> 
+                    <tr>
+                        <td align="center" class="mdmbold">Return RMA to the Following Address:</td>
+                    </tr>                
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!RMAFormData.ShippingName.Content__c}" escape="false"/>
+                            <apex:outputText value="{!RMAFormData.ShippingAddress.Content__c}" escape="false"/>
+                        </td>
+                    </tr>  
+                </table>
+            </apex:outputPanel>
+            
+            <br />  
+            
+            <table width="100%">
+                <tr>
+                    <td width="17%" class="smlbold">Customer Name: </td><td width="43%">{!caseData.Account.Name}</td>
+                    <td width="12%" class="smlbold">RMA/Call#: </td><td width="28%">{!caseData.CaseNumber}</td>
+                </tr>
+                <tr>
+                    <td class="smlbold">Account Number: </td><td>{!caseData.Account.SAP_ACCOUNT_ID__c}</td>
+                    <td class="smlbold">Date: </td><td>{!month(DATEVALUE(caseData.LastModifiedDate))}/{!day(DATEVALUE(caseData.LastModifiedDate))}/{!year(DATEVALUE(caseData.LastModifiedDate))}</td>
+                </tr>
+                <tr>
+                    <td class="smlbold">Contact Person: </td><td>{!IF(caseData.Origin = 'Online RMA',caseData.SuppliedName,caseData.Contact.Name)}</td></tr>
+                <tr>
+                    <td class="smlbold">Email: </td><td>{!IF(caseData.Origin = 'Online RMA',caseData.SuppliedEmail,caseData.Contact.Email)}</td>
+                    <td class="smlbold">Phone: </td><td>{!IF(caseData.Origin = 'Online RMA',caseData.SuppliedPhone,caseData.Contact.Phone)}</td>
+                </tr>        
+                <tr>
+                    <td class="smlbold">ProjectName: </td><td>{!caseData.MyControl4_Name__c}</td>
+                </tr>
+            </table>
+            
+            <br/><hr/><br/>  <!---- Horizontal Line ---->
+            
+            <table width="100%">
+                <tr>
+                    <td width="17%" class="smlbold">Subject: </td><td width="43%">{!caseData.Subject}</td>
+                    <td width="12%" class="smlbold">&nbsp;</td><td width="28%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="smlbold">Technician Name: </td><td>{!caseData.Owner.FirstName} {!caseData.Owner.LastName}</td>
+                    <td class="smlbold">Origin: </td><td>{!caseData.origin}</td>
+                </tr>
+            </table>
+            
+            <br />
+            
+            <table width="100%">
+                <tr>
+                    <td width="60%" class="smlbold">Shipping Address:</td>
+                    <td width="40%" class="smlbold">Special RMA Instructions:</td>
+                </tr>
+                <tr>                   
+                    <td>
+						<apex:outputPanel rendered="{!IF(caseData.Alternate_Ship_Address__c, true, false) }">{!caseData.Alternate_Ship_To_Address__c}</apex:outputPanel>
+						<apex:outputPanel rendered="{!IF(caseData.Alternate_Ship_Address__c, false, true) }">
+                            {!RMAFormData.AccountShippingStreet}<br />
+                            {!RMAFormData.AccountShippingCity}, {!RMAFormData.AccountShippingState} {!RMAFormData.AccountShippingPostalCode}
+                        </apex:outputPanel> 
+                        
+                    </td>
+                    <td>{!caseData.Special_RMA_Instructions__c}</td>
+                </tr>                    
+            </table>
+            
+            <br/><hr/><br/>  <!---- Horizontal Line ---->
+            
+            <table class="pretty-table" border="0" cellpadding="3" width="100%">
+                <tr>                        
+                    <td bgcolor="#C0C0C0" width="45">RMA</td>
+                    <td bgcolor="#C0C0C0" width="100">Product Shipped</td>
+                    <td bgcolor="#C0C0C0" width="125">Mac Address</td>
+                    <td bgcolor="#C0C0C0" width="125">Item</td>
+                    <td bgcolor="#C0C0C0" width="125">Outbound Item</td>
+                    <td bgcolor="#C0C0C0" width="45">Qty</td>
+                    <td bgcolor="#C0C0C0" width="200">Problem Description</td>
+                    <td bgcolor="#C0C0C0" width="150">Shipment Priority</td>
+                </tr> 
+                <apex:repeat var="CaseProduct__c" value="{!RMAFormData.CaseProductList}">
+                    <tr>
+                        <td>{!CaseProduct__c.RMA__c}</td>
+                        <td>{!CaseProduct__c.New_Email_RMA_Sent__c}</td>
+                        <td>{!CaseProduct__c.MacID__c}</td>
+                        <td>{!CaseProduct__c.item__r.ProductCode}</td>
+                        <td>{!CaseProduct__c.outbound_product__r.ProductCode}</td>             
+                        <td>{!round(CaseProduct__c.Quantity__c,0)}</td>
+                        <td>{!CaseProduct__c.Symptom__c} : {!CaseProduct__c.Symptom_Type__c}</td>
+                        <td>{!CaseProduct__c.Shipment_Priority__c}</td>
+                    </tr>
+                    <td>&nbsp;</td>
+                    <td colspan="7">RMA Type: {!CaseProduct__c.RMA_Type__c} - {!CaseProduct__c.RMA_Outcome__c}</td>
+                </apex:repeat>               
+            </table>            
+            <br/>            
+            <apex:outputText value="{!RMAFormData.FormVerbiage.Content__c}" escape="false"/>        
+        </div>        
+        <apex:variable var="rowNum" value="{!rowNum + 1}"/>
+    </apex:repeat>    
+</apex:page>

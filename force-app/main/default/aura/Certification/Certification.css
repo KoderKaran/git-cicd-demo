@@ -1,0 +1,78 @@
+.THIS {
+    padding-right: 15px;
+    margin-top: 49px;
+}
+.THIS.toggle {
+    display: none;
+}
+.THIS .padding{
+	padding-bottom: 25px;
+	padding-left: 15px;
+    display: inline-block;
+    width: 100%;
+}
+
+.THIS .main{
+	padding-left: 15px;
+}
+
+.THIS h2 {
+	/*margin-bottom: 25px;*/
+	padding-left: 15px;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    text-transform: uppercase!important;
+	font-size: 1.5rem;
+	margin-bottom: 25px;
+}
+.THIS .name {
+    width: 50%;
+    display: inline-block;
+    color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+}
+
+.THIS .date {
+    display: inline-block;
+    color: #8a878a;
+    font-size: 12.30769px;
+    font-style: italic;
+    line-height: 18px;
+}
+
+.THIS .title-word-wrap{
+    width: 15em;
+    overflow-wrap: break-word;
+}
+
+.THIS .slds-grid {
+    width: 100%;
+}
+
+.THIS a {
+    text-decoration: none;
+}
+
+.THIS .certificate {
+    text-align: center;
+}
+
+.THIS .no-margin {
+    margin-top: 10px;
+}
+
+.THIS a.c4btn.light-grey.text-dark {
+    margin-top: 30px;
+}

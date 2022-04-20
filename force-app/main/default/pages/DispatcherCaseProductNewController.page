@@ -1,0 +1,4 @@
+<apex:page standardController="CaseProduct__c" 
+           extensions="DispatcherCaseProductNewController"  
+           action="{!redirect}">
+</apex:page>

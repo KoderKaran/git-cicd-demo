@@ -1,0 +1,18 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Comfort Guide</h1>
+             
+    <p class="slds-p-top_large text-paragraph">Understand the basic features and functionality of your Control4 system with the Comfort and Quick Start Guide.</p>
+
+    <ul class="slds-p-top_large slds-list--dotted text-paragraph ">
+      <li><a href="https://www.control4.com/docs/product/climate/solutions-guide/english/latest/climate-solutions-guide-rev-b.pdf" class="slds-text-link text-paragraph" target="_blank"><u>Comfort Guide</u></a></li>
+      <li><a href="https://www.control4.com/docs/product/control4-system/quick-start-guide/english/latest/control4-system-quick-start-guide-rev-u.pdf" class="slds-text-link text-paragraph" target="_blank"><u>Quick Start Guide</u></a></li>
+    </ul>
+
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

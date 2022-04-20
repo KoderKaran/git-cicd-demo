@@ -1,0 +1,26 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+       
+    <h1 class="slds-text-heading_large text-red">Intercom Anywhere</h1>
+          
+    <p class="slds-p-top_large text-paragraph">How do I get it?</p>
+    <p class="slds-p-top_large text-paragraph bold">Here is what you need to use Intercom Anywhere:</p>
+    <p class="slds-p-top_large text-paragraph">
+        <ul class="slds-list--dotted">
+            <li><b>Control4 System: </b>Your Control4 controller must be one of the following:</li>
+            <ul class="slds-list--dotted">
+                <li>EA-5, EA-3, EA-1, CA-1, HC-800, HC-250</li>                        
+            </ul>
+            <li><b>Control4 Operating System: </b>Your main controller must be on Control4 OS 2.10.4 or newer.</li>
+            <li><b>4Sight: </b><a href="https://www.control4.com/o/4sight-services" class="slds-text-link text-paragraph" target="_blank"><u>4Sight</u></a> is required for all remote services, including Intercom Anywhere.</li>
+            <li><b>DS2 Door Station: </b>The <a href="https://www.control4.com/solutions/products/door-stations" class="slds-text-link text-paragraph" target="_blank"><u>DS2</u></a> or <a href="https://www.control4.com/solutions/products/door-stations" class="slds-text-link text-paragraph" target="_blank"><u>DS2 Mini</u></a> 
+                will be located at the entrance of your home. </li>
+        </ul>    
+    </p>        
+    
+    <div class="slds-p-top_small">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,74 @@
+<aura:component controller="ProductRMA"  implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="products" type="CaseProduct__c[]" default=""/>
+    <aura:attribute name="singleproduct" type="CaseProduct__c" default=""/>    
+    <aura:attribute name="caseid" type="String" default="" access="global"/>
+    <aura:attribute name="caseProdId" type="String" default="" access="global"/>
+    <aura:attribute name="qty" type="Integer" default="0" access="global"/>
+    <aura:attribute name="condMap" type="Map"/>
+    <aura:attribute name="truthy" type="Boolean" default="true"/>
+    <aura:attribute name="causecode" type="String" default=""/>
+    <aura:attribute name="causeMap" type="Map"/>
+    <aura:attribute name="causeType" type="String" default=""/>
+    <aura:attribute name="causetypeMap" type="Map"/>
+    <aura:attribute name="Disposition" type="String" default=""/>
+    <aura:attribute name="DispMap" type="Map"/>
+    <aura:attribute name="ReturnRegion" type="String" default=""/>
+    <aura:attribute name="RetRegMap" type="Map"/>
+    <aura:attribute name="RecDate" type="Date" default=""/>
+    <aura:attribute name="caseProd" type="CaseProduct__c" default=""/>
+    <aura:attribute name="validate" type="Aura.Action" 
+                    description="Custom validation function to run when the flow is navigated to the next screen. The function must evaluate the component and return values for isValid and errorMessage."/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>   
+    
+    <aura:if isTrue="{!v.truthy}">
+        
+        <lightning:recordEditForm aura:id="cpeditform" recordId="{!v.caseProdId}" objectApiName="CaseProduct__c" onsubmit="{!c.saveProducts}" onsuccess="{!c.handleOnSuccess}">
+            <lightning:outputField fieldName="Name"/>
+            <lightning:inputField aura:id="causeType" value="Administrative" required="true" fieldName="Cause_Type__c"/>
+            <lightning:inputField aura:id="idxCauseCode" value="Receiving" required="true" fieldName="Cause_Code__c"/>
+            <lightning:inputField aura:id="disposition" value="Set Aside for Test" required="true" fieldName="Disposition__c"/>
+            <lightning:inputField aura:id="returnRegion" required="true" fieldName="Return_Region__c"/>
+        </lightning:recordEditForm>
+        <br></br>
+        
+        <aura:iteration items="{!v.products}" var="product" indexVar="index">
+            <lightning:layout>                      
+                <lightning:layoutItem flexibility="auto no-grow" padding="around-small">
+                    <lightning:input  value="{!product.Case__r.CaseNumber}" label="Case" readonly="true"/>
+                </lightning:layoutItem>  
+                
+                <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <!--<lightning:input  value="{!product.Product_Condition__c}" label="Product Condition" />  -->
+                    <lightning:select aura:id="prodcodpick" value="{!product.Product_Condition__c}" name="prodcondPicklist" label="Product Condition" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.condMap}" var="ind" indexVar="key">
+                            <option text="{!ind.value}" value="{!ind.key}" selected="{!ind.key==product.Product_Condition__c}" />
+                        </aura:iteration>
+                    </lightning:select> 
+                </lightning:layoutItem>
+                <br></br>
+                <br></br>
+                
+                <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <lightning:input tabindex="{!index}" value="{!product.MacID__c}" label="MacID" />
+                </lightning:layoutItem>
+                <br></br>
+                <br></br>
+                <lightning:layoutItem  flexibility="auto" padding="around-small">
+                    <lightning:input  value="{!product.Serial_Number__c}" label="Serial Number" />
+                </lightning:layoutItem>
+                
+            </lightning:layout>
+            
+        </aura:iteration>
+        <br></br>
+        <!--<center><lightning:button variant="brand" label="Save" name="edit" onclick="{!c.saveProducts}" /></center>-->
+        <center><lightning:button type="Submit" variant="brand" label="Save" onclick="{!c.saveProducts}" name="edit"/></center>
+        
+        <aura:set attribute="else">
+            <ui:outputText value="Please click Finish!"/>
+        </aura:set> 
+    </aura:if>
+    
+</aura:component>

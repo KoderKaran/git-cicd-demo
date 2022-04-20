@@ -1,0 +1,27 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="UserProfileInfoCtrl" access="global"> 
+	<aura:attribute name="userId" type="String"/>
+	<aura:attribute name="photo" type="String" default=""/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="editMode" type="Boolean" default="false"/>
+
+	<ltng:require styles="{!$Resource.TechnicianCommunityResources_1 + '/TechnicianCommunityResources/css/style2.css'}" />
+	<div class="technician">
+	<div class="padding">
+		<h2 class="uppercase">My<br/><strong>Profile</strong></h2>
+			<div>
+				<div >
+					<div class=" margin-bottom">
+						<aura:if isTrue="{! v.photo != ''}">
+							<div class="profileimg" style="{!'background-image: url(' + v.photo + ');'}">
+							</div>
+							<aura:set attribute="else">
+								<div class="profileimg" style="{!'background-image: url(' + $Resource.Technician_DefaultProfileAvatar + ');'}">
+								</div>
+							</aura:set>
+						</aura:if>
+					</div>	
+				</div>			
+		</div>
+	</div>
+</div>
+</aura:component>

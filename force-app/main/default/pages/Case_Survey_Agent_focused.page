@@ -1,0 +1,3 @@
+<apex:page standardController="Case" >
+<iframe src="http://supportsurvey.control4.com/e/Ao2118Fk?gf_footer_background_off&gf_hide_logo&{!Case.CaseNumber}" style="border: 0; height= 0;"></iframe>
+</apex:page>

@@ -1,0 +1,1415 @@
+<apex:component controller="RMAFormController" access="global">
+<!--<apex:attribute assignTo="{!caseId}" name="cId" type="String" description="Case Id"/>-->
+<HEAD>
+ <STYLE type="text/css">
+ @page
+  {
+
+    /* Put page numbers in the bottom right corner of each
+    page in the pdf document. */
+    @bottom-center {
+      content: "Page " counter(page);
+      font-size: small;
+    }
+  }
+  
+  body {font-size: small;}
+  
+  .lrgbold
+  {font-size: 18px;
+  font-weight: bold;
+  }
+  
+    .mdmbold
+  {font-size: 16px;
+  font-weight: bold;
+  }
+  
+    .smlbold
+  {font-size: 14px;
+  font-weight: bold;
+  }
+  
+   .pretty-table
+{
+  padding: 0;
+  margin: 0;
+  border-collapse: collapse;
+  border: 1px solid #333;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  color: #000;
+}
+
+.pretty-table caption
+{
+  caption-side: bottom;
+  font-size: 0.9em;
+  font-style: italic;
+  text-align: right;
+  padding: 0.5em 0;
+}
+
+.pretty-table th, .pretty-table td
+{
+  border: 1px solid #666;
+  padding: 0.5em;
+  text-align: left;
+  color: #000000;
+}
+
+.pretty-table th[scope=col]
+{
+  color: #000;
+  background-color: #8fadcc;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  border-bottom: 2px solid #333;
+  border-right: 2px solid #333;
+}
+
+.pretty-table th+th[scope=col]
+{
+  color: #fff;
+  background-color: #7d98b3;
+  border-right: 1px dotted #666;
+}
+
+.pretty-table th[scope=row]
+{
+  background-color: #b8cfe5;
+  border-right: 2px solid #333;
+}
+
+.pretty-table tr.alt th, .pretty-table tr.alt td
+{
+  color: #2a4763;
+}
+
+.pretty-table tr:hover th[scope=row], .pretty-table tr:hover td
+{
+  background-color: #632a2a;
+  color: #fff;
+}
+.pagebreak { page-break-before: always; }
+ </STYLE>
+</HEAD>
+<apex:variable value="{!0}" var="rowNum"/>       
+<apex:repeat var="caseproduct" value="{!CaseProducts}">
+ <div style="{!if(rowNum < 1, 'page-break-before:avoid;','page-break-before:always;')}">
+<apex:outputPanel id="CanadaAddress1" rendered="{!IF(AND(caseproduct!=NULL,OR(caseproduct == 'DEFAULT',caseproduct == 'PDX', caseproduct == 'YORK', caseproduct == 'SLC' )), true,false) }">
+
+    
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->    
+<apex:outputPanel rendered="{!IF(dealerType == 'Control4', true,false) }">
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo2)}' title="logo" />
+    </td>    
+</tr>
+
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+    <apex:outputPanel id="CanadaAddress" rendered="{!IF(c.Account.BillingCountry = 'CA' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 Corporation</td></tr>
+       <tr><td align="center"> c/o Fedex Trade Networks</td></tr>
+       <tr><td align="center"> 7075 Ordan Drive</td></tr>
+       <tr><td align="center"> Mississauga Ontario L5T 1K6, Canada</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="UkAddress" rendered="{!OR(AND(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'GB'), caseproduct == 'DEFAULT'), caseproduct == 'YORK')}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="USAddress" rendered="{!OR(AND(NOT(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'CA')),caseproduct == 'DEFAULT', c.Account.SAP_Instance__c != 'AUS'), caseproduct == 'SLC')}">
+       <tr><td align="center"> Control4 </td></tr>
+       <tr><td align="center"> 3612 West 1820 South</td></tr>
+       <tr><td align="center"> Salt Lake City UT, 84104</td></tr>
+    </apex:outputPanel>  
+     <apex:outputPanel id="AUSAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS' && c.Account.BillingCountry != 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 Australia</td></tr>
+       <tr><td align="center"> 66-68 Wedgewood Rd. Hallam</td></tr>
+       <tr><td align="center"> Victoria, AU 3803</td></tr>  
+    </apex:outputPanel>
+    <apex:outputPanel id="NZAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS'&& c.Account.BillingCountry == 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 New Zealand</td></tr>
+       <tr><td align="center"> Unit G06, 23 Edwin Street</td></tr>
+       <tr><td align="center"> Mt Eden, Auckland 1024</td></tr>  
+    </apex:outputPanel>
+    <apex:outputPanel id="PortlandAddress" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c != 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> 15835 NE Cameron Blvd</td></tr>
+       <tr><td align="center"> Portland, OR  97230</td></tr>
+    </apex:outputPanel>
+    <apex:outputPanel id="UKAddressTRIAD" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c = 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>        
+  </td>
+</tr>  
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+
+
+ <table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts[caseproduct]}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+       
+</table>
+<apex:outputPanel rendered="{!IF(AND(c.Account.DealerType__c == 'Control4',c.Account.SAP_Instance__c != 'UK', caseproduct != 'YORK' , caseproduct != 'SLC'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Control4',c.Account.SAP_Instance__c = 'UK' , caseproduct != 'YORK' , caseproduct != 'SLC'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>To arrange collection of items in this RMA under warranty visit https://dealer-emea.control4.com/dealer/rma</b>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner..</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Control4', OR(caseproduct == 'YORK' , caseproduct == 'SLC')), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges or will be returned to you.  Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form.  This RMA is valid for 45 days from the date of issue above.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>
+
+    
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->
+<apex:outputPanel rendered="{!IF(dealerType == 'Pakedge', true,false) }">
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Pakedge)}' title="logo" />
+    </td>    
+</tr>
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+    <apex:outputPanel id="PakedgeCanadaAddress" rendered="{!IF(c.Account.BillingCountry = 'CA' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 Corporation</td></tr>
+       <tr><td align="center"> c/o Fedex Trade Networks</td></tr>
+       <tr><td align="center"> 7075 Ordan Drive</td></tr>
+       <tr><td align="center"> Mississauga Ontario L5T 1K6, Canada</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="PakedgeUkAddress" rendered="{!AND(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'GB'), caseproduct == 'DEFAULT')}">
+       <tr><td align="center"> Pakedge </td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="PakedgeUSAddress" rendered="{!AND(NOT(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'CA', c.Account.BillingCountry = 'GB')),caseproduct == 'DEFAULT', c.Account.SAP_Instance__c != 'AUS')}">
+       <tr><td align="center"> Pakedge  </td></tr>
+       <tr><td align="center"> 3612 West 1820 South</td></tr>
+       <tr><td align="center"> Salt Lake City UT, 84104</td></tr>
+    </apex:outputPanel>  
+     <apex:outputPanel id="PakedgeAUSAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS'&& c.Account.BillingCountry != 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Pakedge Australia</td></tr>
+       <tr><td align="center"> 66-68 Wedgewood Rd. Hallam</td></tr>
+       <tr><td align="center"> Victoria, AU 3803</td></tr>  
+    </apex:outputPanel>
+    <apex:outputPanel id="PakedgeNZAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS'&& c.Account.BillingCountry == 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 New Zealand</td></tr>
+       <tr><td align="center"> Unit G06, 23 Edwin Street</td></tr>
+       <tr><td align="center"> Mt Eden, Auckland 1024</td></tr>  
+    </apex:outputPanel>  
+     <apex:outputPanel id="PakedgePortlandAddress" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c != 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> 15835 NE Cameron Blvd</td></tr>
+       <tr><td align="center"> Portland, OR  97230</td></tr>
+    </apex:outputPanel>  
+    <apex:outputPanel id="PakedgeUKAddressTRIAD" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c = 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>           
+    </td>
+</tr>
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>  
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel id="PakedgeAltShipTrue" rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel id="PakedgeAltShipFalse" rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts[caseproduct]}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+       
+</table>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Pakedge'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. 
+Pakedge  cannot process your return unless you record the RMA number on the outside of each box and include this form. 
+<br/><br/>This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>
+
+    
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->    
+<apex:outputPanel rendered="{!IF(dealerType == 'Triad', true,false) }">
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Triad)}' title="logo" />
+    </td>    
+</tr>
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+    <apex:outputPanel id="TriadCanadaAddress" rendered="{!IF(c.Account.BillingCountry = 'CA' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 Corporation</td></tr>
+       <tr><td align="center"> c/o Fedex Trade Networks</td></tr>
+       <tr><td align="center"> 7075 Ordan Drive</td></tr>
+       <tr><td align="center"> Mississauga Ontario L5T 1K6, Canada</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="TriadUkAddress" rendered="{!AND(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'GB'), caseproduct == 'DEFAULT')}">
+       <tr><td align="center"> Triad </td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>     
+    <apex:outputPanel id="TriadUSAddress" rendered="{!AND(NOT(OR(c.Account.SAP_Instance__c = 'UK', c.Account.BillingCountry = 'CA', c.Account.BillingCountry = 'GB')),caseproduct == 'DEFAULT', c.Account.SAP_Instance__c != 'AUS')}">
+       <tr><td align="center"> Triad  </td></tr>
+       <tr><td align="center"> 3612 West 1820 South</td></tr>
+       <tr><td align="center"> Salt Lake City UT, 84104</td></tr>
+    </apex:outputPanel>  
+     <apex:outputPanel id="TriadAUSAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS'&& c.Account.BillingCountry != 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Triad Australia</td></tr>
+       <tr><td align="center"> 66-68 Wedgewood Rd. Hallam</td></tr>
+       <tr><td align="center"> Victoria, AU 3803</td></tr>  
+    </apex:outputPanel>
+    <apex:outputPanel id="TriadNZAddress" rendered="{!IF(c.Account.SAP_Instance__c = 'AUS'&& c.Account.BillingCountry == 'NZ' && caseproduct == 'DEFAULT', true, false)}">
+       <tr><td align="center"> Control4 New Zealand</td></tr>
+       <tr><td align="center"> Unit G06, 23 Edwin Street</td></tr>
+       <tr><td align="center"> Mt Eden, Auckland 1024</td></tr>  
+    </apex:outputPanel>  
+     <apex:outputPanel id="TriadPortlandAddress" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c != 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> 15835 NE Cameron Blvd</td></tr>
+       <tr><td align="center"> Portland, OR  97230</td></tr>
+    </apex:outputPanel>      
+    <apex:outputPanel id="TriadUKAddressTRIAD" rendered="{!IF(caseproduct == 'PDX' && c.Account.SAP_Instance__c = 'UK', true, false)}">
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>           
+    </td>
+</tr>   
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel id="TriadAltShipTrue" rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel id="TriadAltShipFalse" rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts[caseproduct]}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+       
+</table>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Triad',c.Account.SAP_Instance__c = 'UK'), true,false) }">
+<table>
+<tr>
+<td>
+
+<br/><br/><b>To arrange collection of items in this RMA under waranty visit https://dealer-emea.control4.com/dealer/rma</b>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Triad cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Triad',c.Account.SAP_Instance__c != 'UK'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Triad cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>
+
+</apex:outputPanel>     
+    
+    
+    
+<!-- These next pages are a copy of what is done above for DealerType Control4, Triad and Packedge. The difference is this is for specifically
+Triad Products in the UK only. The entire reason for this change is to specitfy the address at the top of the form to the UK address. 
+However, because of this, these products are listed in a diffent list to loop through. This solution is not scalable is done against better judgement.-->
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->    
+<apex:outputPanel rendered="{!IF(dealerType == 'Control4' && caseProduct == 'UKTRIADDISTRIBUTORS', true,false) }">
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo2)}' title="logo" />
+    </td>    
+</tr>
+
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+    <apex:outputPanel >
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>    
+    </td>
+</tr>  
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+
+
+ <table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['UKTRIADDISTRIBUTORS']}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+ 
+    
+</table>
+<apex:outputPanel rendered="{!IF(AND(c.Account.DealerType__c == 'Control4',c.Account.SAP_Instance__c != 'UK', caseproduct != 'YORK' , caseproduct != 'SLC'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Control4',c.Account.SAP_Instance__c = 'UK' , caseproduct != 'YORK' , caseproduct != 'SLC'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>To arrange collection of items in this RMA under warranty visit https://dealer-emea.control4.com/dealer/rma</b>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner..</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Control4', OR(caseproduct == 'YORK' , caseproduct == 'SLC')), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges or will be returned to you.  Control4 cannot process your return unless you record the RMA number on the outside of each box and include this form.  This RMA is valid for 45 days from the date of issue above.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>    
+    
+    
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->
+<apex:outputPanel rendered="{!IF(dealerType == 'Pakedge' && caseProduct == 'UKTRIADDISTRIBUTORS', true,false) }">
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Pakedge)}' title="logo" />
+    </td>    
+</tr>
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+    <apex:outputPanel >
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>    
+        
+    </td>
+</tr>
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>  
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['UKTRIADDISTRIBUTORS']}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+       
+</table>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Pakedge'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. 
+Pakedge  cannot process your return unless you record the RMA number on the outside of each box and include this form. 
+<br/><br/>This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>
+
+    
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->    
+<apex:outputPanel rendered="{!IF(dealerType == 'Triad' && caseProduct == 'UKTRIADDISTRIBUTORS', true,false) }">
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table111">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Triad)}' title="logo" />
+    </td>    
+</tr>
+<hr/>
+
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Return Material Authorization</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold">Notice</td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Return RMA to the Following Address:</td>
+</tr>
+<tr>
+    <td align="center" class="smlbold">
+      <apex:outputPanel >
+       <tr><td align="center"> Control4</td></tr>
+       <tr><td align="center"> Unit 3, Green Park Business Centre</td></tr>
+       <tr><td align="center"> Sutton on the Forest, York YO611ET, United Kingdom</td></tr>
+    </apex:outputPanel>     
+        
+    </td>
+</tr>   
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table11">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table41">
+<tr>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">RMA</font></td>
+       <td width="100" bgcolor="#C0C0C0"><font face="Arial">Product Shipped</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['UKTRIADDISTRIBUTORS']}">
+        <tr>
+            <td border="1">{!caseProductLine.RMA__c}</td>
+            <td>{!caseProductLine.New_Email_RMA_Sent__c}</td>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat> 
+       
+</table>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Triad',c.Account.SAP_Instance__c = 'UK'), true,false) }">
+<table>
+<tr>
+<td>
+
+<br/><br/><b>To arrange collection of items in this RMA under waranty visit https://dealer-emea.control4.com/dealer/rma</b>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Triad cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+<apex:outputPanel rendered="{!IF(AND(dealerType == 'Triad',c.Account.SAP_Instance__c != 'UK'), true,false) }">
+<table>
+<tr>
+<td>
+<br/><br/><b>Products returned that are incorrect, damaged and/or missing will result in extra charges, or will be returned to you. Extra product included with this RMA will be returned to you. Triad cannot process your return unless you record the RMA number on the outside of each box and include this form. This RMA is valid for 45 days from the date of issue above. Product received after 45 days will be assessed a restock fee.
+<br/><br/>Product returned between 46 – 90 days, a 25% restock fee will be assessed. Product returned between 91 – 120 days, a 50% restock fee will be assessed. Product past 120 days is not available for return, and will be returned to you.
+<br/><br/>Defective third party product must be troubleshot and returned through the applicable partner.
+</b>
+</td>
+</tr>
+</table></apex:outputPanel>
+</table>
+
+</apex:outputPanel>    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+     
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->     
+<apex:outputPanel id="ScrapAddress" rendered="{!IF(caseProduct == 'SCRAP',true,false)}">
+
+ <table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo2)}' title="logo" />
+    </td>    
+</tr>
+
+<hr/>
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Scrap in Field</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold"></td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Scrap the following items:</td>
+</tr>
+
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table12">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>    
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table4">
+<tr>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['SCRAP']}">
+        <tr>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat>       
+</table>
+<table>
+<tr>
+<td>
+
+</td>
+</tr>
+</table>
+</table>
+
+</apex:outputPanel> 
+
+
+     
+     
+     
+     
+     
+     
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->     
+<apex:outputPanel id="RepairInFieldAddress" rendered="{!IF(caseProduct == 'REPAIRINFIELD',true,false)}">
+
+ <table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo2)}' title="logo" />
+    </td>    
+</tr>
+
+<hr/>
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Repair in Field</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold"></td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Do not return the list products. You will be sent a repair kit.</td>
+</tr>
+
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table12">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>    
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table4">
+<tr>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['REPAIRINFIELD']}">
+        <tr>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat>       
+</table>
+<table>
+<tr>
+<td>
+
+</td>
+</tr>
+</table>
+</table>
+
+</apex:outputPanel>     
+     
+     
+    
+     
+<!---------------------------------------------------------- NEW PAGE ---------------------------------------------------------->
+<apex:outputPanel id="VerifiedScrapAddress" rendered="{!IF(caseProduct == 'VERIFIEDSCRAP',true,false)}">
+
+ <table border="0" cellspacing="0" cellpadding="0" width="100%" id="table1">
+<tr>
+    <td>
+        <img src='{!URLFOR($Resource.Logo2)}' title="logo" />
+    </td>    
+</tr>
+
+<hr/>
+</table>
+<table border="0" cellspacing="1" cellpadding="3" width="100%">
+<tr>
+    <td align="center" class="lrgbold"><center>Verified Scrap in Field</center></td>
+</tr>
+<tr>
+    <td align="center" class="mdmbold"></td>
+</tr> 
+<tr>
+    <td align="center" class="smlbold">Scrap the following items:</td>
+</tr>
+
+<hr/>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" id="table12">
+    <tr valign="top">    <td height="20" width="150"><b>Customer Name: </b></td><td>{!c.Account.Name}</td><td width="125"><b>RMA/Call#: </b></td><td>{!c.CaseNumber}</td></tr>
+    <tr valign="top">    <td height="20"><b>Account Number: </b></td><td>{!c.Account.SAP_ACCOUNT_ID__c}</td><td><b>Date: </b></td><td>{!month(DATEVALUE(c.LastModifiedDate))}/{!day(DATEVALUE(c.LastModifiedDate))}/{!year(DATEVALUE(c.LastModifiedDate))}</td></tr>
+    <tr valign="top">    <td height="20"><b>Contact Person: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedName,c.Contact.Name)}</td></tr>
+    <tr valign="top">    <td height="20"><b>Email: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedEmail,c.Contact.Email)}</td><td><b>Phone: </b></td><td>{!IF(c.Origin = 'Online RMA',c.SuppliedPhone,c.Contact.Phone)}</td></tr>        
+    <tr valign="top">    <td height="20"><b>ProjectName: </b></td><td>{!c.MyControl4_Name__c}</td><td></td><td></td></tr>    
+</table>
+<br/>
+<hr/>
+<br/>
+<table>
+<tr>    <td colspan="4" width="150"><b>Subject: </b></td><td>{!c.Subject}</td></tr>
+</table>
+<table>
+<tr valign="top">    <td width ="150"><b>Technician Name: </b></td><td width="300">{!c.Owner.FirstName} {!c.Owner.LastName}</td><td><b>Origin: </b></td><td width="150">{!c.origin}</td></tr>
+<tr><td>&nbsp;</td></tr>
+</table>
+
+<table border="0" cellpadding="6" width="100%">
+        <tr>
+            <td>
+                <b><apex:outputText value="Alternate Ship Address: "/></b>
+            </td>
+            <td>&nbsp;</td>
+             <td>
+                <b><apex:outputText value="Special RMA Instructions: "/></b>
+            </td>
+        </tr>
+        <tr>
+ 
+            <td>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = true, true, false)}">
+                    {!c.Alternate_Ship_To_Address__c}
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!IF(c.Alternate_Ship_Address__c = false, true, false)}">
+                    None
+                </apex:outputPanel>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <apex:outputText value="{!c.Special_RMA_Instructions__c}"/>
+            </td>
+        </tr>
+        
+ </table>
+
+
+
+<br/>
+<hr/>
+<br/>
+
+<table class="pretty-table" border="0" cellpadding="3" width="100%" id="table4">
+<tr>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Mac Address</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Item</font></td>
+       <td width="125" bgcolor="#C0C0C0"><font face="Arial">Outbound Item</font></td>
+       <td width="45" bgcolor="#C0C0C0"><font face="Arial">Qty</font></td>
+       <td width="200" bgcolor="#C0C0C0"><font face="Arial">Problem Description</font></td>
+       <td width="150" bgcolor="#C0C0C0"><font face="Arial">Shipment Priority</font></td>
+</tr>
+<apex:repeat var="caseProductLine" value="{!CaseProducts['VERIFIEDSCRAP']}">
+        <tr>
+            <td>{!caseProductLine.MacID__c}</td>
+            <td>{!caseProductLine.item__r.ProductCode}</td>
+            <td>{!caseProductLine.outbound_product__r.ProductCode}</td>
+            <td>{!round(caseProductLine.Quantity__c,0)}</td>
+            <td>{!caseProductLine.Symptom__c} : {!caseProductLine.Symptom_Type__c}</td>
+            <td>{!caseProductLine.Shipment_Priority__c}</td>
+        </tr>
+            <td>&nbsp;</td>
+            <td colspan="6">RMA Type: {!caseProductLine.RMA_Type__c} - {!caseProductLine.RMA_Outcome__c}</td>
+</apex:repeat>       
+</table>
+
+
+<table>
+<tr>
+<td>
+<br/><br/><b>This RMA requires verification of the destroyed AMP108 as described below:
+<br/><br/>1. Unplug power from the AMP108 and remove it.  Flip it over and locate the product label on the bottom of the unit.
+<br/>2. Directly to the right of the label run a drill bit through the metal chassis of the AMP108.
+<br/>3. Take ONE picture which shows both the product label and the drill hole.  You must ensure that the numbers on the label are readable and the drill hole is also visible in the picture. 
+<br/><i>The MAC Address on the product label must match the MAC Address on the RMA record or a credit for the replacement Triad PAMP8 will not be issued. Control4 reserves the right to request the destroyed AMP108 unit back for further verification of failure.
+<u>Do not use the AMP108 after it has been destroyed. Control4 is not liable for damage resulting from re-installing a destroyed unit</u></i>
+<br/>4. E-mail the following to 
+    
+    <apex:outputText value=" verifiedscrap-us@control4.com" rendered="{!IF(c.Account.SAP_Instance__c = 'US',true,false) }" />
+    <apex:outputText value=" verifiedscrap-uk@control4.com" rendered="{!IF(c.Account.SAP_Instance__c = 'UK',true,false) }" />
+    <apex:outputText value=" verifiedscrap-uas@control4.com" rendered="{!IF(c.Account.SAP_Instance__c = 'UAS',true,false) }" />:
+
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&#8226; Photo of the destroyed AMP108, attached to the e-mail or included in the body of the e-mail text.
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&#8226; RMA #
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&#8226; AMP108 MAC Address (Long number at the bottom of the product label)
+</b>
+</td>
+</tr>
+</table>
+
+</table>
+
+</apex:outputPanel> 
+
+     
+     
+     
+     
+</div>
+<apex:variable var="rowNum" value="{!rowNum + 1}"/>
+</apex:repeat> 
+
+ </apex:component>

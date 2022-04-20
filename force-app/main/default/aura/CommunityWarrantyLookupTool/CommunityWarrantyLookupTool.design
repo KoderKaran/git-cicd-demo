@@ -1,0 +1,8 @@
+<design:component>
+     <design:attribute name="MacSerialServiceID" label="Input MAC" />
+     <design:attribute name="OutputMACId" label="Mac ID" />
+     <design:attribute name="OutputSKU" label="SKU" />
+     <design:attribute name="salesOrderNumber" label="Sales Order Number" />
+     <design:attribute name="SF_productCode" label="ProductId" />
+     <design:attribute name="OutputProductName" label="Product Name" />
+</design:component>

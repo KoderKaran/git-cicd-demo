@@ -1,0 +1,24 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:handler name="bubblingEvent" event="c:MW_Screen_Event" action="{!c.handleBubbling}"/> 
+
+ 	<aura:attribute name="PreviousScreen" type="String" default="" />
+        
+    <lightning:overlayLibrary aura:id="overlayLib2"/>    
+    
+    <div aura:id="MWVoiceControlBegin_Div">
+        <c:MW_Voice_Control_Begin/>
+    </div> 
+    <div aura:id="MWVoiceControlAlexa_Div">
+        <c:MW_Voice_Control_Alexa/>
+    </div> 
+    <div aura:id="MWVoiceControlGoogleAssistant_Div">
+        <c:MW_Voice_Control_GoogleAssistant/>
+    </div> 
+    <div aura:id="MWVoiceControlGetStarted_Div">
+        <c:MW_Voice_Control_GetStarted/>   
+    </div>
+    <div aura:id="MWVoiceControlCustScreenNames_Div">
+        <c:MW_Voice_Control_CustScreenNames/>   
+    </div>    
+</aura:component>

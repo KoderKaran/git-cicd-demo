@@ -1,0 +1,26 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large">Change Your Smart Home Pro</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+        	<p class="text-paragraph">If you would like to change your Smart Home Pro, follow the steps below.</p>
+        </div>
+    	<div class="slds-p-top_large text-paragraph">
+            <ol class="slds-list--ordered">
+            <li><a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+                <li>Click <b> My Account,</b> then click <b>Smart Home Pro</b>.</li>
+                <li>Under <i>Changing Your Smart Home Pro</i>, click <b>Change My Pro</b>, enter the company name 
+                    of your new pro, and click <b>Search</b>.</li>
+                <li>Choose your pro from the list provided.</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_small ">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

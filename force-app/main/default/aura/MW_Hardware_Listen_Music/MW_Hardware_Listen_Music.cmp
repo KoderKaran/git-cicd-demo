@@ -1,0 +1,75 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">Music Services</h1>
+    
+    <p class="slds-p-top_large text-paragraph bold">Control4 Music Services</p>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-scrollable_y" style="height: 27rem;" >    
+            <div class="slds-grid slds-wrap">
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Pandora.svg"/> 
+                  <span class="text-paragraph slds-text-color_weak">Pandora</span>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_TIDAL.svg"/>
+                 <span class="text-paragraph slds-text-color_weak">TIDAL</span>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_SiriusXM.svg"/>
+                 <span class="text-paragraph slds-text-color_weak">SiriusXM</span>  
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Napster.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Napster</span>      
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Spotify.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Spotify Connect</span>     
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_TuneIn.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">TuneIn</span>      
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Amazon-Music.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Amazon Music</span>  
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_ShareBridge.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">ShairBridge</span>   
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_iHeart-Radio.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">iHeartRadio</span>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Radio-com.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Radio.com</span>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/Music_Streaming_Services_Icons_Deezer.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Deezer</span>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                 <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_110,h_160,f_auto,q_auto/customer-support/customer-support-icons-music-streaming-services-qobuz.svg"/>
+                  <span class="text-paragraph slds-text-color_weak">Qobuz</span>
+              </div>
+            </div>
+        </div>
+    </div>
+    
+    <p class="text-paragraph slds-p-top_large slds-text-title_bold">Click More Information to learn how to add these music services yourself with the Control4 Music Driver.</p>
+
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--3-of-4 slds-order_1 slds-medium-order_2">
+            <div class="slds-float_right">
+            	<lightning:button aura:id="moreInformationButton" class="slds-button style1button" label="More Information" onclick="{!c.MoreInformationButtonClick}"/>
+            </div>
+        </div>
+    </div>   
+</aura:component>

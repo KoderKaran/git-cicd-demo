@@ -1,0 +1,42 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickAction" controller="CommunityBreadCrumbsController" access="global">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.handleInit}"/>
+    <aura:attribute name="communityURL" type="object"/>
+    <aura:attribute name="communityUrlText" type="Boolean"/>
+    <aura:attribute name="filterText" type="String" default=""/>
+        
+    <lightning:breadcrumbs>
+         <aura:if isTrue="{!v.communityURL.isHome}"> 
+            <lightning:breadcrumb label="Home" href="{!v.communityURL.baseURL}"/>  
+            <li class="slds-breadcrumb__item">
+                <a href="" class ="bcrumbs">Discussions</a> 
+             </li>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.communityURL.isFilter}"> 
+            <lightning:breadcrumb label="Home" href="{!v.communityURL.baseURL}"/>  
+            <lightning:breadcrumb label=" Discussions " href="{!v.communityURL.discussionURL}"/>
+            <li class="slds-breadcrumb__item">
+                <a href="" class ="bcrumbs">{!v.communityURL.testURL}</a>
+            </li> 
+        </aura:if>
+        
+        <aura:if isTrue="{!v.communityURL.isGroupURL}">
+            <lightning:breadcrumb label="  Home " href="{!v.communityURL.baseURL}"/>
+            <lightning:breadcrumb label=" Discussions " href="{!v.communityURL.discussionURL}"/>
+            <li class="slds-breadcrumb__item">
+                <a href="" class ="bcrumbs">{!v.communityURL.groupName}</a>
+            </li> 
+        </aura:if>
+        
+        <aura:if isTrue="{!v.communityURL.isFeedURL}">
+            <lightning:breadcrumb label="Home" href="{!v.communityURL.baseURL}"/>  
+            <lightning:breadcrumb label="Discussions" href="{!v.communityURL.discussionURL}"/>
+            <lightning:breadcrumb label="{!v.communityURL.groupName}" href="{!v.communityURL.groupURL}"/> 
+            <li class="slds-breadcrumb__item">
+                <a href="" class ="bcrumbs">{!v.communityURL.feedBody}</a>
+            </li> 
+        </aura:if>
+    </lightning:breadcrumbs>
+    
+</aura:component>

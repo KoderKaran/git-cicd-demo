@@ -1,0 +1,72 @@
+.THIS input[type=checkbox] {
+  position: relative;
+    margin: 5px 15px 5px 5px;
+    height: 15px;
+    width: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    /*background: #c5b92f;*/
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance:none;
+       /* background-color: #f0eeee;
+    border: 2px solid #e2e0e0;*/
+}
+
+
+
+.THIS input[type="checkbox"]::before {
+   content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0eeee;
+    border: 2px solid #e2e0e0;
+    overflow: hidden;
+    transition-duration: 0.1s;
+}
+.THIS input[type="checkbox"]:not(:checked):hover::before {
+    background:rgba(205,200,200,0.5);
+}
+.THIS input[type="checkbox"]:checked::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 15px;
+    text-align: center;
+    color: #fff;
+    -moz-background-color: #c5b92f;
+    background-color: #c5b92f;
+    border: 0px;
+}
+.THIS .emailNotificationItem {
+    margin-bottom: 5px;
+    pointer-events: auto;
+    height: 25px;
+}
+.THIS .emailNotificationItem:hover {
+    /* background-color:rgba(205,200,200,0.5); */
+    /*cursor: pointer;*/
+}
+
+.THIS .onoffswitch{
+	display: inline-block;
+}
+.THIS .emailNotificationItemText{
+	font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-style: normal;
+	display: inline-block;
+    position: relative;
+    top: -8px;
+}
+
+.THIS .emailNotificationItemSwitcher{
+	display: inline-block;
+}
+
+.THIS.emailNotifications{
+	 padding-left: 15px;
+}

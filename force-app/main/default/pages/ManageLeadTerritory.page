@@ -1,0 +1,1563 @@
+<apex:page sidebar="true" showHeader="true" standardStylesheets="false" cache="false" title="Lead Routing" language="en" controller="ManageLeadTerritoryController" id="page">
+  
+  <head>
+    <apex:slds /> 
+    <!-- <link rel="icon" href="{!URLFOR($Resource.LeadAssigment, '../../favicon.ico')}"/> -->
+
+    <!-- Bootstrap -->
+    <!-- <link href="{!URLFOR($Resource.LeadAssigment, './assets/bs/css/bootstrap.min.css')}" rel="stylesheet"/> -->
+    <!-- Bootstrap theme -->
+    <!-- <link href="{!URLFOR($Resource.LeadAssigment, './assets/fa/font-awesome.min.css')}" rel="stylesheet"/> -->
+
+    <!-- Custom -->
+    <!-- <link href="{!URLFOR($Resource.LeadAssigment, './assets/switch/css/bs-switch.css')}" rel="stylesheet"/> -->
+    <link href="{!URLFOR($Resource.LeadAssigment, './assets/dtpicker/css/bs-datetimepicker.css')}" rel="stylesheet"/>
+    <!-- <link href="{!URLFOR($Resource.LeadAssigment, './assets/css/custom.css')}" rel="stylesheet"/> -->
+    
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/ie10-viewport-bug-workaround.js')}"></script>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/jquery.min.js')}"></script>
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/jquery-ui.min.js')}"></script>
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/bs/js/bootstrap.min.js')}"></script>
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/moment.min.js')}"></script>
+    <!-- <script src="{!URLFOR($Resource.LeadAssigment, './assets/switch/js/bs-switch.min.js')}"></script> -->
+    <script src="{!URLFOR($Resource.LeadAssigment, './assets/dtpicker/js/bs-datetimepicker.min.js')}"></script>
+
+    <!-- <apex:includeScript value="//932bf655.ngrok.io/custom.js" loadOnReady="true"/> -->
+
+    <!-- <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/custom.js')}"></script> -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/html5shiv.min.js')}"></script>
+      <script src="{!URLFOR($Resource.LeadAssigment, './assets/js/respond.min.js')}"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        body{
+            font-family: Arial,Helvetica,sans-serif;
+            padding-top:0px
+        }
+        input, button, select, textarea{
+            line-height: normal;
+        }
+        .dateInput .dateFormat{
+            display:none;
+        }
+        .btnNoOverride{
+            -moz-user-select: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857;
+            margin-bottom: 0;
+            padding: 6px 12px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        input.btn {
+            -moz-user-select: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857;
+            margin-bottom: 0;
+            padding: 6px 12px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        h1, .h1 {
+            font-size: 24px;
+        }
+        body button, body .x-btn, body .btn, body .btnDisabled, body .btnCancel, body .menuButton .menuButtonButton {
+            background:#FFF;
+        }
+        .slds-button-group .slds-button.slds-hide + button.slds-button {
+            border-radius: .25rem;
+        }
+        .slds-notify_toast {
+        	width: 100%;
+    	    margin: 0 !important;
+        }
+    </style> 
+  </head>
+
+  <body>
+    <apex:form id="form">
+    <div>
+      <!-- <apex:inputHidden id="currentindex" value="{!CurrentIndex}"/> -->
+      <apex:inputHidden value="{!CurrentTerritoryId}" id="CurrentTerritoryId"/> 
+      <apex:inputHidden id="json" value="{!jsonCriteria}"/>
+      <apex:inputHidden id="rerenderVal" value="{!rerenderId}" />
+      <apex:inputHidden id="territoryOrder" value="{!territoryOrder}"/>
+      <apex:inputHidden id="deleteId" value="{!removedId}"/>
+      <apex:inputHidden id="deleteType" value="{!removedType}"/>
+      <apex:inputHidden id="assignmentsCSV" value="{!AssignmentsCSV}"/>
+      <apex:inputField value="{!leadObject.DatetimeField__c}" style="display:none;"/>
+      <!-- Rows at bottom contain calls to controller's methods via <apex:actionFunction> tag. This tag defines a new JavaScript function which can then be called from within a block of JavaScript code.
+      *Expression {!methodName} in parameter "action" is used to define what method from page controller must be called. 
+      *Parameter "name" contains name of the JS function, when invoked elsewhere in the page markup, causes the method specified by the action attribute to execute.
+      *Parameter "reRender" contains ID of one or more components that are redrawn when the result of the action method returns to the client
+      *Parameter "oncomplete" define JS methods, which invoked when the result of an AJAX update request completes on the client
+      See more at https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/pages_compref_actionFunction.htm
+      -->
+      <apex:actionFunction name="checkTpsSTatus" action="{!checkCustomerTpsStatus}"/>
+      <apex:actionFunction action="{!insertNewLeadTerritoryGeos}" name="insertNewLeadTerritoryGeos" />
+      <apex:actionFunction action="{!addMoreLeadTerritoryGeos}" name="addMoreLeadTerritoryGeos" rerender="singleAssignmentPanel" status="statusAssignment" />
+      <apex:actionFunction action="{!insertNewLeadTerritoryGeosByCSV}" name="insertNewLeadTerritoryGeosByCSV" />
+      <apex:actionFunction action="{!createGeographicCriteria}" name="createGeographicCriteria"/>
+      <apex:actionFunction action="{!createLeadFieldCriteria}"  name="createLeadFieldCriteria" />
+      <apex:actionFunction action="{!remove}" name="removeRow"/>
+      <apex:actionFunction action="{!massupdateTerritoriesImmed}" name="doMassUpdateTerrsImm"/>  
+      <apex:actionFunction action="{!saveOrder}" name="savetheOrder"/>
+      <apex:actionFunction action="{!refreshDIsplayRecords}" name="refreshDIsplayRecords1" rerender="disGeos" oncomplete="showGeos();"/>
+      <apex:actionFunction action="{!refreshDIsplayRecords}" name="refreshDIsplayRecords2" rerender="disFC" oncomplete="showFcs();"/>
+      <apex:actionFunction action="{!createLeadTerritory}" name="docreateLeadTerritory" reRender="form" oncomplete="refreshform()"/>
+
+        <apex:outputPanel layout="block" rendered="{!errorMessages.size != 0}">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#error" />
+                        </svg>
+                    </span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">Some errors occurred. See info below:</h2>
+                        <apex:repeat value="{!errorMessages}" var="message">
+                            <p>{!message}</p>
+                        </apex:repeat>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="slds-button slds-button_brand slds-m-left_x-small {!IF(isActive, 'slds-hide', '')}" onclick="checkTpsSTatus();">Check TPS Status</button>
+        </apex:outputPanel>
+        <apex:outputPanel layout="block" rendered="{!isActive}" id="standardLayout" styleClass="slds-m-top_xx-small">
+            <div class="slds-grid slds-grid_vertical-align-start">
+
+                <button type="button" class="slds-button slds-button_neutral" onclick="toggleAddLayout()"><svg class="slds-button__icon slds-button__icon_left" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#add"></use></svg> Add New</button>
+                 
+                <button type="button" class="slds-button slds-button_neutral slds-m-left--medium" onclick="sendOrder();">Save Order</button>
+                <div id="tm-status" class="slds-form-element" style="margin: 0 auto;">
+                    <label class="slds-checkbox_toggle slds-grid">
+                      <span class="slds-form-element__label slds-m-bottom_none">Status</span>
+                      <input type="checkbox" id="switch-input" name="switch-input" data-init="{!AND(LeadTerrSetup.Status__c == 'On', SystemHasLeadTerrSetup)}" value="switch-input" aria-describedby="switch-input"/>
+                      <span class="slds-checkbox_faux_container" aria-live="assertive" onclick="showTerritoryManagementModal(event)">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-checkbox_on">Enabled</span>
+                        <span class="slds-checkbox_off">Disabled</span>
+                      </span>
+                    </label>
+                </div>
+
+                <div id="mass-update" class="slds-grid">
+                    <button type="button" class="slds-button slds-button_neutral slds-m-right_medium" data-target="#massUpdateModal" onclick="showMassUpdateModal(event)"><svg class="slds-button__icon slds-button__icon_left" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#fallback"></use></svg> Mass Update</button>
+            
+                    <div class="slds-form-element slds-grid slds-grid_vertical-align-center">
+                        <span class="slds-m-right_x-small" id="next-update">Next Update:</span>
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                          <apex:inputField html-disabled="true" value="{!LeadTerrSetup.Next_Mass_Update_Date_Lead__c}" styleClass="slds-input"/>
+                          <a href="javascript:void(0);" class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Select a date">
+                            <svg class="slds-button__icon" aria-hidden="true">
+                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#event" />
+                            </svg>
+                          </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+              <thead>
+                <tr class="slds-text-title_caps">
+                  <th scope="col"><div class="slds-truncate" title="Lead Territory Name">Lead Territory Name</div></th>
+                  <th scope="col"><div class="slds-truncate" title="Turf">Turf</div></th>
+                  <th scope="col"><div class="slds-grid">Type
+                        <div class="slds-is-relative popover-config" onmouseover="showTooltip(event)" onmouseout="hideTooltip(event)">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__icon slds-align-middle slds-grid">
+                                    <button type="button" class="slds-button slds-button_icon slds-button slds-button_icon">
+                                        <svg class="slds-button__icon" aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#info"/></svg>
+                                        <span class="slds-assistive-text">Help</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom slds-popover_small slds-is-absolute slds-fall-into-ground" role="tooltip" style="bottom: 28px; left: -8.3rem; text-transform: none;">
+                                <div class="slds-popover__body">
+                                    <p>Standard: assigns to the first Routing<br/>definition the lead matches</p>
+                                    <p class="slds-m-top_small">Round Robin: assigns to proportionally <br/>to all Lead Territories with the same<br/>Lead Territory Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div></th>
+                  <th scope="col"><div class="slds-truncate" title="Assign To Type">Assign To Type</div></th>
+                  <th scope="col"><div class="slds-truncate" title="Assign To">Assign To</div></th>
+                  <th scope="col"><div class="slds-truncate" title="Status">Status</div></th>
+                </tr>
+              </thead>
+              <tbody class="sortable">
+                  <input type="hidden" id="userTarget"/>
+                  <apex:variable var="leadIndex" value="{!1}"/>
+                  <apex:repeat value="{!leadTerritories}" var="territory">
+                    <tr data-lead="10{!territory.Order__c}">
+                      <th data-label="Lead Territory Name">
+                        <div class="slds-truncate">
+                            <span id="{!territory.Id}_order" style="display:none">{!territory.Order__c}</span>
+                            <span><a href="javascript:void(0);"><svg class="slds-button__icon slds-button__icon_small" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#sort"/></svg></a></span>
+                            <a href="javascript:void(0);" class="slds-m-left_small" onclick="toggleEditLayout('{!leadIndex}')">
+                              <apex:outputField value="{!territory.Name}"/>
+                            </a>
+                        </div>
+                      </th>
+                      <td data-label="Turf">
+                        <div class="slds-truncate">
+                            <a href="javascript:void(0);" onclick="openTurf('{!territory.Id}')">
+                                Link To Turf
+                            </a>
+                        </div>
+                      </td>
+                      <td data-label="Type">
+                        <div class="slds-truncate">
+                            <apex:outputField value="{!territory.Type__c}"/>
+                        </div>
+                      </td>
+                      <td data-label="Assign To Type">
+                        <div class="slds-truncate">
+                            <apex:outputField value="{!territory.Assigned_To_Type__c}"/>
+                        </div>
+                      </td>
+                      <td data-label="Assign To">
+                        <div class="slds-truncate">
+                            <apex:outputField value="{!territory.Assigned_To__c}"/>
+                        </div>
+                      </td>
+                      <td data-label="Status">
+                        <div class="slds-truncate">
+                            --Status--
+                        </div>
+                      </td>
+                    </tr>                   
+                  <apex:variable value="{!leadIndex+1}" var="leadIndex"/>
+                </apex:repeat> 
+              </tbody>
+            </table>
+        </apex:outputPanel>
+        <apex:outputPanel layout="block" id="addLayout" styleClass="slds-hide">
+            <article class="slds-theme_default">
+              <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                  <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-contact" title="contact">
+                      <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                      </svg>
+                      <span class="slds-assistive-text">contact</span>
+                    </span>
+                  </div>
+                  <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                      <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="LEAD TERRITORY SETUP">
+                        <span class="slds-text-heading_small">LEAD TERRITORY SETUP</span>
+                      </a>
+                    </h2>
+                  </div>
+                  <div class="slds-no-flex">
+                    <button type="button" class="slds-button slds-button_neutral" onclick="toggleAddLayout()">Back</button>
+                  </div>
+                </header>
+              </div>
+              <div class="slds-card__body slds-p-horizontal_large">
+                <div class="slds-tabs_default">
+                  <ul class="slds-tabs_default__nav" role="tablist">
+                    <li class="slds-tabs_default__item slds-is-active" title="Detail" role="presentation" data-target="tab-default-1">
+                      <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1">DETAIL</a>
+                    </li>
+                  </ul>
+                  <div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Lead Territory Name</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!leadTerritory.Name}" styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Type</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!leadTerritory.Type__c}" styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Assign To Type</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField html-data-id="currentRowSearchTypenew" value="{!leadTerritory.Assigned_To_Type__c}" styleClass="slds-input" onchange="setSearchType(this, 'new')"/>
+                                <!-- <input type="hidden" id="currentRowSearchTypenew" value=""/> -->
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="userName">Assign To</label>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <input type="text" id="userName" class="slds-input slds-combobox__input" readonly="true" placeholder="Search..."/>
+                                <apex:inputHidden id="userId" value="{!leadTerritory.Assigned_To_ID__c}"/>
+                                <apex:inputHidden id="userName" value="{!leadTerritory.Assigned_To__c}"/>
+                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                    <a href="javascript:void(0);" onclick="checkSearchType('new')">
+                                      <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                                      </svg>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-m-top_medium">
+                            <button type="button" class="slds-button slds-button_neutral" onclick="toggleAddLayout()">Cancel</button>
+                            <apex:commandButton action="{!createLeadTerritory}" value="Submit" styleClass="slds-button slds-button_brand"/>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+        </apex:outputPanel>
+        <apex:outputPanel layout="block" id="editLayout">
+            <apex:variable var="leadIndex" value="{!1}"/>
+            <apex:repeat value="{!leadTerritories}" var="territory">
+                <div class="slds-theme_default slds-hide" id="edit-lead-{!leadIndex}">
+                  <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                      <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-contact" title="contact">
+                          <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                          </svg>
+                          <span class="slds-assistive-text">contact</span>
+                        </span>
+                      </div>
+                      <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                          <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="LEAD ROUTING SETUP">
+                            <span class="slds-text-heading_small">LEAD ROUTING SETUP</span>
+                          </a>
+                        </h2>
+                        <apex:outputText value="{!territory.Name}" />
+                      </div>
+                      <div class="slds-no-flex">
+                        <div class="slds-button-group" role="group">
+                            <button type="button" class="slds-button slds-button_neutral slds-hide" id="bulk-bttn-{!leadIndex}" onclick="toggleBulkAssignmentsModal('{!territory.Id}')">Bulk Assignments</button>
+                            <button type="button" class="slds-button slds-button_neutral" onclick="toggleEditLayout('{!leadIndex}')">Back</button>
+                        </div>
+                      </div>
+                    </header>
+                  </div>
+                  <div class="slds-card__body slds-p-horizontal_large">
+                    <div class="slds-tabs_default">
+                      <ul class="slds-tabs_default__nav" role="tablist">
+                        <li class="slds-tabs_default__item slds-is-active" title="Detail" role="presentation" data-target="tab-default-{!leadIndex}-2" data-index="{!leadIndex}">
+                          <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-{!leadIndex}-2">DETAIL</a>
+                        </li>
+                        <li class="slds-tabs_default__item" title="Geography" role="presentation" data-target="tab-default-{!leadIndex}-3" data-index="{!leadIndex}">
+                          <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-{!leadIndex}-3">GEOGRAPHY</a>
+                        </li>
+                        <li class="slds-tabs_default__item" title="Lead Criteria" role="presentation" data-target="tab-default-{!leadIndex}-4" data-index="{!leadIndex}">
+                          <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-{!leadIndex}-4">LEAD CRITERIA</a>
+                        </li>
+                      </ul>
+
+                      <div id="tab-default-{!leadIndex}-2" class="slds-tabs_default__content slds-show" role="tabpanel">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Lead Territory Name</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!territory.Name}" styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Turf</label>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <apex:inputText styleClass="slds-input slds-combobox__input" html-readonly="true" html-placeholder="Search..."/>
+ 
+                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                    <a href="javascript:void(0);">
+                                      <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                                      </svg>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Type</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField value="{!territory.Type__c}" styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Assign To Type</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputField html-data-id="currentRowSearchType{!leadIndex}" value="{!territory.Assigned_To_Type__c}" styleClass="slds-input" onchange="setSearchType(this, '{!leadIndex}')"/>
+                                <!-- <input type="hidden" id="currentRowSearchType{!leadIndex}" value="{!territory.Assigned_To_Type__c}"/> -->
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Assign To</label>
+                            <div id="{!territory.Id}" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <apex:inputText styleClass="slds-input slds-combobox__input" value="{!territory.Assigned_To__c}" html-readonly="true" html-placeholder="Search..."/>
+                                <apex:inputHidden value="{!territory.Assigned_To_ID__c}"/>
+                                <apex:inputHidden value="{!territory.Assigned_To__c}"/>
+                                <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                    <a href="javascript:void(0);" onclick="checkSearchType('{!leadIndex}');setTarget('{!territory.Id}')">
+                                      <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search" />
+                                      </svg>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-m-top_medium">
+                            <button type="button" class="slds-button slds-button_neutral" onclick="toggleEditLayout('{!leadIndex}')">Cancel</button>
+                            <apex:commandlink action="{!editLeadTerritory}" style="text-decoration: none">
+                                <apex:param name="id" value="{!territory.Id}"/>
+                                <button type="button" class="slds-button slds-button_brand">Save</button>
+                            </apex:commandlink>
+                        </div>
+                      </div>
+
+                      <div id="tab-default-{!leadIndex}-3" class="slds-tabs_default__content slds-hide" role="tabpanel">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Country</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputText styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">State/Province</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputText styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Postal Start</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputText styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Postal End</label>
+                            <div class="slds-form-element__control">
+                                <apex:inputText styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-m-top_medium">
+                            <button type="button" class="slds-button slds-button_neutral" onclick="toggleEditLayout('{!leadIndex}')">Cancel</button>
+                            <button type="button" class="slds-button slds-button_brand" onclick="saveGeography('tab-default-{!leadIndex}-3', '{!territory.Id}');">Add</button>
+                        </div>
+
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_large">
+                          <thead>
+                            <tr class="slds-text-title_caps">
+                              <th scope="col"><div class="slds-truncate" title="Country">Country</div></th>
+                              <th scope="col"><div class="slds-truncate" title="State/Province">State/Province</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Postal Start">Postal Start</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Postal End">Postal End</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Action">Action</div></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <apex:variable var="geographyIndex" value="{!1}"/>
+                            <apex:repeat value="{!territory.Lead_Territory_Geographies__r}" var="geography" rows="5" first="0">
+                                <tr id="geography-row-{!geographyIndex}">
+                                  <th scope="row" data-label="Country">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!geography.Country__c}"/>
+                                    </div>
+                                  </th>
+                                  <td data-label="State/Province">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!geography.State__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Postal Start">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!geography.Zip_Start__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Postal End">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!geography.Zip_End__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Action">
+                                    <div class="slds-truncate">
+                                        <a href="javascript:void(0);" onclick="toggleEditRow('geography', 'tab-default-{!leadIndex}-3','{!geographyIndex}')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#edit" />
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0);" data-target="#deleteModal" onclick="showDeleteRowModal(event, '{!geography.Id}', 'geography')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#delete" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr id="geography-row-{!geographyIndex}-edit" class="slds-hide">
+                                  <th scope="row" data-label="Country">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!geography.Country__c}" styleClass="slds-input"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </th>
+                                  <td data-label="State/Province">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!geography.State__c}" styleClass="slds-input"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Postal Start">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!geography.Zip_Start__c}" styleClass="slds-input"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Postal End">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!geography.Zip_End__c}" styleClass="slds-input"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Action">
+                                    <div class="slds-truncate">
+                                        <a href="javascript:void(0);" onclick="saveGeography('tab-default-{!leadIndex}-3 #geography-row-{!geographyIndex}-edit', '{!territory.Id}', '{!geography.Id}');">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#check" />
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0);" onclick="toggleEditRow('geography', 'tab-default-{!leadIndex}-3', '{!geographyIndex}')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <apex:variable value="{!geographyIndex+1}" var="geographyIndex"/>
+                            </apex:repeat>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div id="tab-default-{!leadIndex}-4" class="slds-tabs_default__content slds-hide" role="tabpanel">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Lead Field</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList size="1" multiselect="false" styleClass="slds-select" onchange="enableField(event, 'leadValueField-{!leadIndex}');">
+                                        <apex:selectOptions value="{!leadFields}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Operator</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList styleClass="slds-select" size="1" multiselect="false">
+                                        <apex:selectOption itemLabel="equals" itemValue="equals"/>
+                                        <apex:selectOption itemLabel="not equal to" itemValue="not equal to"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Value</label>
+                            <div class="slds-form-element__control" id="leadValueField-{!leadIndex}">
+                                <apex:inputText disabled="true" styleClass="slds-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-m-top_medium">
+                            <button type="button" class="slds-button slds-button_neutral" onclick="toggleEditLayout('{!leadIndex}')">Cancel</button>
+                            <button type="button" class="slds-button slds-button_brand" onclick="saveLeadField('tab-default-{!leadIndex}-4', '{!territory.Id}');">Add</button>
+                        </div>
+
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_large">
+                          <thead>
+                            <tr class="slds-text-title_caps">
+                              <th scope="col"><div class="slds-truncate" title="Field">Field</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Operator">Operator</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Value">Value</div></th>
+                              <th scope="col"><div class="slds-truncate" title="Action">Action</div></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <apex:variable value="{!1}" var="leadFieldIndex"/>
+                            <apex:repeat value="{!territory.Lead_Territory_Field_Criteria__r}" var="leadField" rows="5" first="0">
+                                <tr id="leadField-row-{!leadFieldIndex}">
+                                  <td data-label="Field">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!leadField.Lead_Field__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Operator">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!leadField.Operator__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Value">
+                                    <div class="slds-truncate">
+                                        <apex:outputField value="{!leadField.Value__c}"/>
+                                    </div>
+                                  </td>
+                                  <td data-label="Action">
+                                    <div class="slds-truncate">
+                                        <a href="javascript:void(0);" onclick="toggleEditRow('leadField', 'tab-default-{!leadIndex}-4', '{!leadFieldIndex}')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#edit" />
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0);" data-target="#deleteModal" onclick="showDeleteRowModal(event, '{!leadField.Id}', 'leadField')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#delete" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr id="leadField-row-{!leadFieldIndex}-edit" class="slds-hide">
+                                  <td scope="row" data-label="Field">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-select_container">
+                                                    <apex:selectList value="{!leadField.Lead_Field__c}" styleClass="slds-select" size="1" multiselect="false" onchange="enableField(event, 'leadValueTableField-{!leadFieldIndex}');">
+                                                        <apex:selectOptions value="{!leadFields}"/>
+                                                    </apex:selectList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Operator">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-select_container">
+                                                    <apex:selectList value="{!leadField.Operator__c}" styleClass="slds-select" size="1" multiselect="false">
+                                                        <apex:selectOption itemLabel="equals" itemValue="equals"/>
+                                                        <apex:selectOption itemLabel="not equal to" itemValue="not equal to"/>
+                                                    </apex:selectList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Value">
+                                    <div class="slds-truncate">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control" id="leadValueTableField-{!leadFieldIndex}">
+                                                <apex:inputText value="{!leadField.Value__c}" styleClass="slds-input"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </td>
+                                  <td data-label="Action">
+                                    <div class="slds-truncate">
+                                        <a href="javascript:void(0);" onclick="saveLeadField('tab-default-{!leadIndex}-4 #leadField-row-{!leadFieldIndex}-edit', '{!territory.Id}', '{!leadField.Id}');">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#check" />
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0);" onclick="toggleEditRow('leadField', 'tab-default-{!leadIndex}-4', '{!leadFieldIndex}')">
+                                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <apex:variable value="{!leadFieldIndex+1}" var="leadFieldIndex"/>
+                            </apex:repeat>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <apex:variable value="{!leadIndex+1}" var="leadIndex"/>
+            </apex:repeat>
+        </apex:outputPanel>
+
+        <div id="territoryManagementModal" class="slds-is-absolute slds-hide" style="height: 640px;">
+          <section role="dialog" tabindex="-1" aria-labelledby="territoryManagementModalHeading" aria-modal="true" aria-describedby="territoryManagementModalText" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                <button type="button" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="$('#territoryManagementModal').addClass('slds-hide')">
+                  <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                  </svg>
+                  <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="territoryManagementModalHeading" class="slds-text-heading_medium slds-hyphenate"/>
+              </header>
+              <div class="slds-modal__content slds-p-around_medium" id="territoryManagementModalText">
+                <p/>
+                <p class="slds-m-top_small"><strong>Do you want to continue?</strong></p>
+              </div>
+              <footer id="territoryManagementModalFooter" class="slds-modal__footer">
+                <button type="button" class="slds-button slds-button_neutral" data-do="off" onclick="setupStatus('Off')"/>
+                <button type="button" class="slds-button slds-button_brand" data-do="on" onclick="setupStatus('On')"/>
+              </footer>
+            </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <div id="massUpdateModal" class="slds-is-absolute slds-hide" style="height: 640px;">
+          <section role="dialog" tabindex="-1" aria-labelledby="massUpdateModalHeading" aria-modal="true" aria-describedby="massUpdateModalText" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                <button type="button" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="$('#massUpdateModal').addClass('slds-hide')">
+                  <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                  </svg>
+                  <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="massUpdateModalHeading" class="slds-text-heading_medium slds-hyphenate">Mass Update</h2>
+              </header>
+              <div class="slds-modal__content slds-p-around_medium" id="massUpdateModalText">
+                <div class="form-group">
+                    <label>Select the next day for the Mass Update of Territory Management to run.</label>
+                      <div class='input-group date slds-is-relative' id='datetimepicker1'>
+                        <div class="slds-form-element">
+                          <div class="slds-form-element__control">
+                            <apex:inputField value="{!LeadTerrSetup.Next_Mass_Update_Date_Lead__c}" styleClass="slds-input"/>
+                          </div>
+                        </div>
+                        <span class="input-group-addon slds-is-absolute" style="top: 4px;right: 10px;">
+                            <span><svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#event" />
+                            </svg></span>
+                        </span>
+                      </div>
+                    
+                    <div id="alert-schedule-mass-update" class="slds-m-top_small slds-hide" role="alert">
+                      <h4 class="slds-text-heading_label">Schedule Mass Update</h4>
+                      <p class="slds-m-top_x-small">Scheduling a Mass Update will update ALL existing Leads. It is best to do this over a weekend or outside of business hours. Depending on the number of leads it can take a significant amount of time.</p>
+                      <p class="slds-m-top_x-small">A mass update of all leads will run on selected date at 1am PST. 
+                      Ownership assignments will be driven based on the Lead Routing definitions at that point in time.</p>
+                      <p class="slds-grid slds-grid_align-end slds-m-top_small">
+                          <button type="button" class="slds-button slds-button_neutral slds-m-right_x-small" data-target="#alert-schedule-mass-update" onclick="hideMassUpdateText(event)">Cancel</button>
+                          <apex:commandButton value="Yes, Schedule Mass Update" action="{!saveMassUpdatedDate}" styleClass="slds-button slds-button_brand"/>
+                      </p>
+                    </div>
+                    <div id="alert-schedule-mass-update2" class="slds-m-top_small slds-hide" role="alert">
+                      <h4 class="slds-text-heading_label">Run Mass Update Now</h4>
+                      <p class="slds-m-top_x-small">Running Mass Update will update ALL existing Leads. It is best to do this over a weekend or outside of business hours. Depending on the number of leads it can take a significant amount of time.</p>
+                      <p class="slds-m-top_x-small">A mass update of all leads will immediately. Leads will be reassigned owners based on the Lead Routing assignments that are currently defined.</p>
+                      <p class="slds-grid slds-grid_align-end slds-m-top_small">
+                          <button type="button" class="slds-button slds-button_neutral slds-m-right_x-small" data-target="#alert-schedule-mass-update2" onclick="hideMassUpdateText(event)">Cancel</button>
+                          <button type="button" class="slds-button slds-button_brand" data-target="#alert-schedule-mass-update2" onclick="hideMassUpdateText(event);doMassUpdateTerrsImm()">Yes, Mass Update</button>
+                      </p>
+                    </div>
+                  </div>
+              </div>
+              <footer class="slds-modal__footer" id="massfooter">
+                <button type="button" class="slds-button slds-button_neutral" id="scheduleMassBtn" data-target="#alert-schedule-mass-update" onclick="showMassUpdateText(event)">Schedule</button>
+                <button type="button" class="slds-button slds-button_brand" data-target="#alert-schedule-mass-update2" onclick="showMassUpdateText(event)">Effective Immediately</button>
+              </footer>
+            </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <div id="deleteModal" class="slds-is-absolute slds-hide" style="height: 640px;">
+          <section role="dialog" tabindex="-1" aria-labelledby="deleteModalHeading" aria-modal="true" aria-describedby="territoryManagementModalText" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                <button type="button" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="$('#deleteModal').addClass('slds-hide')">
+                  <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                  </svg>
+                  <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="deleteModalHeading" class="slds-text-heading_medium slds-hyphenate">Delete the row</h2>
+              </header>
+              <div class="slds-modal__content slds-p-around_medium" id="deleteModalText">
+                The <span id="deleteText"></span> will be deleted, correct?
+              </div>
+              <footer id="deleteModalFooter" class="slds-modal__footer">
+                <button type="button" class="slds-button slds-button_neutral" onclick="$('#deleteModal').addClass('slds-hide');">No</button>
+                <button type="button" class="slds-button slds-button_brand" onclick="removeRow();">Yes</button>
+              </footer>
+            </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        </div>
+        </apex:form>
+        <!--/deleteModal-->
+    
+        <!-- Search Modal -->
+        <div class="slds-hide" id="allAssignmentsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <apex:form id="lookupForm">
+          <apex:inputHidden value="{!searchType}" id="searchType"/>
+            <div role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                  <div class="slds-modal__header">
+                    <button type="button" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="closeSearchmodal()">
+                      <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                      </svg>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Lookup</h2>
+                  </div>
+                  <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid">
+                        <apex:inputText value="{!userinfo}" styleClass="slds-input slds-m-right_medium searchterrowner" onkeypress="if(event.keyCode==13) return false;"/>
+                        <apex:commandButton styleClass="slds-button slds-button_brand" action="{!searchUser}" value="Search" reRender="lookupForm"/>
+                    </div>
+                    <p class="slds-m-top_small"><b>Search Results</b>: max 15 records.</p>
+                    
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-hide" id="searchUserResponse">
+                      <thead>
+                        <tr class="slds-text-title_caps">
+                          <th scope="col"><div class="slds-truncate" title="Full Name">Full Name</div></th>
+                          <th scope="col"><div class="slds-truncate" title="Phone">Phone</div></th>
+                          <th scope="col"><div class="slds-truncate" title="Email">Email</div></th>
+                          <th scope="col"><div class="slds-truncate" title="Role">Role</div></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <apex:repeat value="{!defautusers}" var="user">
+                            <tr>
+                              <td scope="row" data-label="Full Name">
+                                <div class="slds-truncate"><a href="javascript:void(0)" onclick="closeSearchmodal();getUser('{!user.Id}', '{!user.Name}');">{!user.Name}</a></div>
+                              </td>
+                              <td data-label="Phone">
+                                <div class="slds-truncate">{!user.Phone}</div>
+                              </td>
+                              <td data-label="Email">
+                                <div class="slds-truncate">{!user.Email}</div>
+                              </td>
+                              <td data-label="Role">
+                                <div class="slds-truncate">{!user.UserRole.Name}</div>
+                              </td>
+                            </tr>
+                        </apex:repeat>
+                      </tbody>
+                    </table>
+
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-hide" id="searchQueueResponse">
+                      <thead>
+                        <tr class="slds-text-title_caps">
+                          <th scope="col"><div class="slds-truncate" title="Queue Name">Queue Name</div></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <apex:repeat value="{!defaultLeadQueues}" var="queue">
+                            <tr>
+                              <td scope="row" data-label="Queue Name">
+                                <div class="slds-truncate"><a href="javascript:void(0)" onclick="closeSearchmodal();getUser('{!queue.Id}', '{!queue.Name}');">{!queue.Name}</a></div>
+                              </td>
+                            </tr>
+                        </apex:repeat>
+                      </tbody>
+                    </table>
+                    <div id="searchResponse">
+                        <apex:outputPanel layout="block" rendered="{!searchtype = 'User'}">
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                              <thead>
+                                <tr class="slds-text-title_caps">
+                                  <th scope="col"><div class="slds-truncate" title="Full Name">Full Name</div></th>
+                                  <th scope="col"><div class="slds-truncate" title="Phone">Phone</div></th>
+                                  <th scope="col"><div class="slds-truncate" title="Email">Email</div></th>
+                                  <th scope="col"><div class="slds-truncate" title="Role">Role</div></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <apex:repeat value="{!users}" var="user">
+                                    <tr>
+                                      <td scope="row" data-label="Full Name">
+                                        <div class="slds-truncate"><a href="javascript:void(0)" onclick="closeSearchmodal();getUser('{!user.Id}', '{!user.Name}');">{!user.Name}</a></div>
+                                      </td>
+                                      <td data-label="Phone">
+                                        <div class="slds-truncate">{!user.Phone}</div>
+                                      </td>
+                                      <td data-label="Email">
+                                        <div class="slds-truncate">{!user.Email}</div>
+                                      </td>
+                                      <td data-label="Role">
+                                        <div class="slds-truncate">{!user.UserRole.Name}</div>
+                                      </td>
+                                    </tr>
+                                </apex:repeat>
+                              </tbody>
+                            </table>
+                        </apex:outputPanel>
+                        <apex:outputPanel layout="block" rendered="{!searchtype = 'Lead Queue'}">
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                              <thead>
+                                <tr class="slds-text-title_caps">
+                                  <th scope="col"><div class="slds-truncate" title="Queue Name">Queue Name</div></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <apex:repeat value="{!LeadQueues}" var="queue">
+                                    <tr>
+                                      <td scope="row" data-label="Queue Name">
+                                        <div class="slds-truncate"><a href="javascript:void(0)" onclick="closeSearchmodal();getUser('{!queue.Id}', '{!queue.Name}');">{!queue.Name}</a></div>
+                                      </td>
+                                    </tr>
+                                </apex:repeat>
+                              </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="slds-backdrop slds-backdrop_open"></div>
+            </apex:form>
+        </div>
+
+        <div class="slds-hide" id="bulkAssignmentsModal" style="height: 640px;">
+          <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                <button type="button" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="toggleBulkAssignmentsModal()">
+                  <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close" />
+                  </svg>
+                  <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 class="slds-text-heading_medium slds-hyphenate">Add Geo's Manually</h2>
+                <p class="slds-m-top_x-small slds-text-align_center slds-text-heading_small">Paste up to 2,000 geographies at one time. One geography per line</p>
+              </header>
+              <div class="slds-modal__content slds-p-around_medium">
+                <div class="slds-form-element" id="bulkAssignmentsModalTextArea">
+                  <div class="slds-form-element__control">
+                    <textarea class="slds-textarea" rows="7"/>
+                  </div>
+                  <div class="slds-form-element__help"></div>
+                </div>
+              </div>
+              <footer class="slds-modal__footer">
+                <button type="button" class="slds-button slds-button_neutral" onclick="toggleBulkAssignmentsModal()">Cancel</button>
+                <button type="button" class="slds-button slds-button_brand" onclick="validateBulkAssignmentsModalData()">Add Geographies</button>
+              </footer>
+            </div>
+          </section>
+          <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+    <script>
+        $(function () {
+            $('.sortable').sortable({
+                axis: 'y',
+                scroll: false,
+                handle: 'svg',
+                update(event, ui) {
+         
+                }
+            });
+
+            const nextDate = moment();
+            $('#datetimepicker1').datetimepicker({
+                minDate: nextDate,
+                format:'MM/DD/YYYY'
+            });
+
+            $('#switch-input').prop('checked', $('#switch-input').data('init'));
+
+            $('#territoryManagementModal .slds-button').click(function() {
+                const $do = $(this).data('do');
+
+                $('#switch-input').prop('checked', $do === 'on');
+                $('#territoryManagementModal').addClass('slds-hide');
+            });
+
+            $('.slds-tabs_default__nav').each(function() {
+                $(this).click(function(e = window.event) {
+                    const $tabs = $(this).find('.slds-tabs_default__item');
+                    $tabs.each(function() {
+                        const $tab = $(this);
+                        $tab.removeClass('slds-is-active');
+
+                        const targetId = $tab.data('target');
+                        const $target = $('#'+targetId);
+                        $target.removeClass('slds-show');
+                        $target.addClass('slds-hide');
+                    });
+
+                    const $tabActive = $(e.target).closest('.slds-tabs_default__item');
+                    $tabActive.addClass('slds-is-active');
+
+                    const index = $tabActive.data('index');
+
+                    if($tabActive.attr('title') === 'Geography') {
+                        $('#bulk-bttn-'+index).removeClass('slds-hide');
+                    } else {
+                        $('#bulk-bttn-'+index).addClass('slds-hide');
+                    }
+
+                    const targetId = $tabActive.data('target');
+                    const $target = $('#'+targetId);
+                    $target.removeClass('slds-hide');
+                    $target.addClass('slds-show');
+                }.bind(this));
+            });
+            
+        });
+        function openTurf(terrId) {
+        // debugger;
+        	// const curDomain = window.location;
+        	window.open('https://terrmgmt.na34.visual.force.com/apex/TerritoryManagementNew#/territorydetail/'+terrId, '_blank');
+        }
+        function showTooltip(e = window.event) {
+            const $target = $(e.target).closest('.popover-config').find('.slds-popover');
+            $target.removeClass('slds-fall-into-ground');
+            $target.addClass('slds-rise-from-ground');
+        }
+        function hideTooltip(e = window.event) {
+            const $target = $(e.target).closest('.popover-config').find('.slds-popover');
+            $target.removeClass('slds-rise-from-ground');
+            $target.addClass('slds-fall-into-ground');
+        }
+        function validateBulkAssignmentsModalData() {
+            const $textareaContainer = $('#bulkAssignmentsModalTextArea');
+            const $textarea = $textareaContainer.find('textarea');
+            const $errorContainer = $textareaContainer.find('div:last-child');
+            
+            let assignmentsCSV = $textarea.val().trim();
+            let strArr = assignmentsCSV ? assignmentsCSV.split('\n') : [];
+            let isValid = false;
+            let errorMssg = 'Field is empty';
+
+            for(let i = 0; i < strArr.length; i++) {
+                const symbolArr = strArr[i].split(',');
+
+                symbolArr.forEach((el, i, arr) => arr[i] = el.trim());
+
+                switch(symbolArr.length) {
+                    case 1: {
+                        isValid = !symbolArr[0].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'Country can not contain numbers';
+                            break;
+                        }
+                    }break;
+                    case 2: {
+                        isValid = !symbolArr[0].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'Country can not contain numbers';
+                            break;
+                        }
+                        isValid = !symbolArr[1].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'State can not contain numbers';
+                            break;
+                        }
+                    }break;
+                    case 3: {
+                        isValid = !symbolArr[0].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'Country can not contain numbers';
+                            break;
+                        }
+                        isValid = !!symbolArr[1].match(/^[0-9]*$/);
+                        if(!isValid) {
+                            errorMssg = 'Postal Start can contain only numbers';
+                            break;
+                        }
+                        isValid = !!symbolArr[2].match(/^[0-9]*$/);
+                        if(!isValid) {
+                            errorMssg = 'Postal End can contain only numbers';
+                            break;
+                        }
+                    }break;
+                    case 4: {
+                        isValid = !symbolArr[0].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'Country can not contain numbers';
+                            break;
+                        }
+                        isValid = !symbolArr[1].match(/\d/);
+                        if(!isValid) {
+                            errorMssg = 'State can not contain numbers';
+                            break;
+                        }
+                        isValid = !!symbolArr[2].match(/^[0-9]*$/);
+                        if(!isValid) {
+                            errorMssg = 'Postal Start can contain only numbers';
+                            break;
+                        }
+                        isValid = !!symbolArr[3].match(/^[0-9]*$/);
+                        if(!isValid) {
+                            errorMssg = 'Postal End can contain only numbers';
+                            break;
+                        }
+                    }break;
+                }
+
+                if(!isValid) break;
+
+                strArr[i] = symbolArr.join(',');
+            }
+            
+            if(isValid) {
+                assignmentsCSV = strArr.join('\n');
+                setAssignmentsCSV(assignmentsCSV);
+                
+                $errorContainer.text('');
+                $textareaContainer.removeClass('slds-has-error');
+                insertNewLeadTerritoryGeosByCSV();
+            } else {
+                $errorContainer.text(errorMssg);
+                $textareaContainer.addClass('slds-has-error');
+            }
+        }
+        function toggleBulkAssignmentsModal(territoryId) {
+            if(territoryId) {
+                setTerritoryID(territoryId);
+            }
+
+            const $modal = $('#bulkAssignmentsModal');
+            const $textareaContainer = $('#bulkAssignmentsModalTextArea');
+            const $errorContainer = $textareaContainer.find('div:last-child');
+            const $textarea = $textareaContainer.find('textarea');
+
+
+            $textareaContainer.removeClass('slds-has-error');
+            $errorContainer.text('');
+            $textarea.attr('placeholder', 'USA\nUnited States\nUSA,California\nUnited States,California,92708,92708');
+            $modal.toggleClass('slds-hide');
+        }
+        function toggleEditRow(o, item, index) {
+        	const mainItem = $('#'+item);
+            const $row = mainItem.find('#'+o+'-row-'+index);
+            $row.toggleClass('slds-hide');
+
+            const $rowToEdit = mainItem.find('#'+o+'-row-'+index+'-edit');
+            $rowToEdit.toggleClass('slds-hide');
+        }
+
+        function setupStatus(value){
+        Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.ManageLeadTerritoryController.setupStatus}',
+          value,
+          function(result, event) {
+            if (event.type === 'exception') {
+              alert('Failed: ' + event.message);
+            }
+          },
+          { escape: true }
+        );
+      }
+
+        const dateFields = 'mkto_si__HideDate__c; ConvertedDate; Registration_Expiration_Date__c; LastActivityDate; Registration_Date__c; Handraiser_Date__c; '
+            + 'Estimated_Close_Date__c; Referral_Registration_Date__c; Last_Marketing_Campaign_Date__c; Deal_Approved_Date__c; Meeting_Schedule_Date__c;';
+
+        const datetimeFields = 'mkto_si__Last_Interesting_Moment_Date__c; Download_Time_Stamp__c; SystemModstamp; Version_Check_Last_Visit__c; ' 
+            + 'App_Map_First_Visit__c; Version_Check_First_Visit__c; infer2__Infer_Lead_Created_Date__c; LastModifiedDate; LastReferencedDate; ' 
+            + 'FreeForm_Download_Time__c; CreatedDate; LastViewedDate; EmailBouncedDate; Page_Visit_Time_Stamp__c; Lite_Download_Time_Stamp__c; ' 
+            + 'App_Map_Last_Visit__c;';
+
+        const checkboxFields = 'Cannot_be_cleaned_by_DQS__c; HasOptedOutOfEmail; infer2__Infer_Converted_to_Opp__c; Competitive_Deal__c; ' 
+            + 'infer2__Infer_Good_Lead__c; jsImpacts__Data_com_do_not_auto_update__c; IsConverted; Has_Task__c; Customer_Referral__c; ' 
+            + 'Marketing_Priority__c; Meeting_Held__c; Cleaned_by__c; infer2__Infer_Is_Open__c; IsUnreadByOwner; Lite_User__c; ' 
+            + 'Self_Service_Pro_Trial__c; Other_Lead_Source_Lite_Downloader__c; AppJam_Presenter__c; NET_Lite_User__c; ' 
+            + 'Trade_Show_Lead_del__c; Project_Budgeted__c; No_GAP_Lookup__c; Java_Lite_User__c; No_Marketing__c;';
+
+        function enableField(e = window.event, id) {
+            const input = $('#'+id).find('input');
+            input.attr('disabled', !$(e.target).val());
+        }
+
+        // function displayField(currentSelect, value) {
+        //     var targetRow = $(currentSelect).parent().next().next();
+        //     var fieldName = $(currentSelect).val();
+        //     var source = $('#leadFieldValue');
+
+        //     var textField = source.children('.textField').clone();
+
+        //     targetRow.children().remove();
+
+        //     if(!fieldName){
+        //         targetRow.append(textField);
+        //         return;
+        //     }
+
+        //     if(source.find('.' + fieldName).length != 0){
+        //         var selectField = source.find('.' + fieldName).clone();
+        //         if(value) selectField.val(value);
+        //         targetRow.append(selectField);
+        //         return;
+        //     }
+
+        //     if(dateFields.indexOf(fieldName) != -1){
+        //         var dateField = source.children('.date').clone();
+        //         if(value) dateField.val(value);
+        //         targetRow.append(dateField);
+        //         return;
+        //     }
+
+        //     if(datetimeFields.indexOf(fieldName) != -1){
+        //         var datetimeField = source.children('.datetime').clone();
+        //         if(value) datetimeField.val(value);
+        //         targetRow.append(datetimeField);
+        //         return;
+        //     }
+
+        //     if(checkboxFields.indexOf(fieldName) != -1){
+        //         var checkboxField = source.children('.checkboxField').clone();
+        //         if(value) checkboxField.val(value);
+        //         targetRow.append(checkboxField);
+        //         return;
+        //     }
+
+        //     if(value) textField.val(value);
+        //     targetRow.append(textField);
+        // }
+
+        // var currentCollIndex;
+
+        // function setCurrentCollIndex(index) {
+        //     document.getElementById('page:form:currentindex').value = index;
+        //     currentCollIndex = index;
+        // }
+        // function editFieldRow(editButton, theLeadValue){
+        //     var currentRow = $(editButton).parent().parent();
+
+        //     currentRow.css('display', 'none');
+        //     currentRow.next().css('display', 'table-row');
+        //     displayField($(editButton).parent().parent().next().children().first().children().first(), theLeadValue);
+        // }
+        function editRow(editButton) {
+            const currentRow = $(editButton).parent().parent();
+            currentRow.css('display', 'none');
+            currentRow.next().css('display', 'table-row');
+        }
+        function cancelRow(cancelButton){
+            const currentRow = $(cancelButton).parent().parent();
+            currentRow.css('display', 'none');
+            currentRow.prev().css('display', 'table-row');
+        }
+        function showDeleteRowModal(e = window.event, deletedId, deletedType){
+            document.getElementById('page:form:deleteId').value = deletedId;
+            document.getElementById('page:form:deleteType').value = deletedType;
+
+            switch(deletedType) {
+                case 'territory':
+                    $('#deleteText').text('Lead Territory');
+                    break;
+                case 'geography':
+                    $('#deleteText').text('Geographic Criteria');
+                    break;
+                case 'leadField':
+                    $('#deleteText').text('Lead Field Criteria');
+                    break;
+            }
+
+            const targetId = $(e.target).closest('a').data('target');
+            const target = $(targetId);
+
+            target.removeClass('slds-hide');
+        }
+        function saveGeography(id, parentId, criteriaId) {
+            const allInputs = $('#'+id).find('input, textarea');
+            let jsonValue = '{"Lead_Territory__c":"' + parentId 
+                          + '","Country__c":"' + allInputs[0].value
+                          + '","State__c":"' + allInputs[1].value
+                          + '","Zip_Start__c":"' + allInputs[2].value 
+                          + '","Zip_End__c":"' + allInputs[3].value;
+
+            if(criteriaId) {
+                jsonValue += '","Id":"' + criteriaId + '"}';
+            } else {
+                jsonValue += '"}';
+            }
+
+            // document.getElementById('page:form:rerenderVal').value = id;
+            document.getElementById('page:form:json').value = jsonValue;
+
+            createGeographicCriteria();
+        }
+        function saveLeadField(id, parentId, criteriaId) {
+            const allInputs = $('#'+id).find('input, textarea');
+            const allSelects = $('#'+id).find('select');
+            
+            let jsonValue = '{"lead_Territory__c":"' + parentId 
+                          + '","Lead_Field__c":"' + allSelects[0].value
+                          + '","Operator__c":"' + allSelects[1].value 
+                          + '","Value__c":"' + allInputs[0].value;
+                          
+            if(criteriaId){
+                jsonValue += '","Id":"' + criteriaId + '"}';
+            } else {
+                jsonValue += '"}';
+            }
+
+            document.getElementById('page:form:json').value = jsonValue;
+            createLeadFieldCriteria();
+        }
+        function getUser(userId, userName) {
+            const targetId = $('#userTarget').val();
+            if(targetId) {
+                getUserWithTarget(targetId, userId, userName)
+            } else {
+                document.getElementById('page:form:userId').value = userId;
+                document.getElementById('page:form:userName').value = userName;
+                $('#userName').val(userName);
+            }
+        }
+        function getUserWithTarget(targetId, userId, userName) {
+            const inputs = $('#' + targetId).children('input');
+            inputs[0].value = userName;
+            inputs[1].value = userId;
+            inputs[2].value = userName;
+        }
+        function setTarget(targetId) {
+            $('#userTarget').val(targetId);
+        }
+        function sendOrder() {
+            let orderValue = '';
+            $("[id$='_order']").each(function(){
+                orderValue += this.id;
+            });
+            document.getElementById('page:form:territoryOrder').value = orderValue.substring(0, orderValue.length - 6);
+            savetheOrder();
+        }
+        function setTerritoryID(territoryId) {
+            document.getElementById('page:form:CurrentTerritoryId').value = territoryId;
+        }
+        function setAssignmentsCSV(assignmentsCSV) {
+            document.getElementById('page:form:assignmentsCSV').value = assignmentsCSV;
+        }
+        // function insertLeadTerritoryByCSV() {
+        //     if(checkAssignmentCSV()) {
+        //         insertNewLeadTerritoryGeosByCSV();
+        //     }
+        // }
+        function checkAssignmentCSV() {
+            let isValid = true;
+            const assignmentCsvValue = $(".assignmentCsv").val();
+
+            if(!assignmentCsvValue) {
+                alert('You need to paste some assignments.');
+                return false;
+            }
+  
+            let assignmentCSV = '';
+            const assignments = assignmentCsvValue.split('\n') || [];
+
+            if(assignments.length > 400) {
+                alert('Assignments can\'t be greater than 400.')
+                return false;
+            }
+
+            const reg = new RegExp('("[^"]*("{2})*[^"]*")*[^,]*,', 'g'); 
+
+            for(let i = 0; i < assignments.length; ++i) {
+                let count = 0;
+                if(assignments[i].trim().length) {
+                    const assignment = assignments[i] + ',';
+                    while(reg.exec(assignment) != null) {
+                        /*Increment*/
+                        count++;
+                    }
+
+                    switch(count) {
+                        case 1: assignmentCSV += assignments[i] + ',,,\n'; break;
+                        case 2: assignmentCSV += assignments[i] + ',,\n'; break;
+                        case 3: assignmentCSV += assignments[i] + ',\n'; break;
+                        case 4: assignmentCSV += assignments[i] + '\n'; break;
+                        default: 
+                            alert('Not Valid');
+                            isValid = false;
+                    }
+                } else {
+                    alert('The assignments you entered have invalid data.');
+                    $('.assignmentCsv').focus();
+                    isValid = false;
+                    break;
+                }    
+            }
+
+            if(isValid) {
+                assignmentCSV = assignmentCSV.slice(0, -1);
+                $('.assignmentCsv').val(assignmentCSV);
+            }
+
+            return isValid;            
+        }
+        function showRowToEdit(e = window.event) {
+            const targetEvt = $(e.target);
+            const targetId = targetEvt.data('target');
+            const target = $(targetId);
+
+            targetEvt.text(target.hasClass('slds-hide') ? 'Cancel' : 'Edit');
+            target.toggleClass('slds-hide');
+        }
+        // function setRowEditBtnText(editBtnIndex) {
+        //     const theRowEditBtn = document.getElementById("editBtn" + editBtnIndex);
+        //     theRowEditBtn.innerHTML = "Edit";
+        // }
+        // function setRowEditBtnToCancelText() {
+        //     const theRowEditBtn = document.getElementById("editBtn" + currentCollIndex);
+        //     theRowEditBtn.innerHTML = "Cancel";
+        // }
+        function closeSearchmodal() {
+            $('#allAssignmentsModal').addClass('slds-hide');
+        }
+        function setSearchType(assignedType, rowTag) {
+            const thisSelectType = $(assignedType).val();
+            const $currentSearchType = $("[data-id='currentRowSearchType"+rowTag+"']");
+            $currentSearchType.val(thisSelectType);
+        }
+        function checkSearchType(rowIndex) {
+        	const $currentRowSearchType = $("[data-id='currentRowSearchType"+rowIndex+"']");
+
+            if(!$currentRowSearchType.val()) {
+                alert("You must select a Assigned Type.");
+                return;
+            }
+
+            $('.searchterrowner').val('');
+            const currentSearchType = document.getElementById('page:lookupForm:searchType');
+            currentSearchType.value = $currentRowSearchType.val();
+            
+            if($currentRowSearchType.val() === 'User') {
+                $('#searchUserResponse').removeClass('slds-hide');
+                $('#searchQueueResponse').addClass('slds-hide');                    
+            } else {
+                $('#searchUserResponse').addClass('slds-hide'); 
+                $('#searchQueueResponse').removeClass('slds-hide');  
+            }
+
+            $('#allAssignmentsModal').removeClass('slds-hide');
+            $('#searchResponse').addClass('slds-hide'); 
+        }
+        function setDisplayLeadTerrid1(terrId) {
+            const currentTerritoryId = document.getElementById('page:form:CurrentTerritoryId');
+            currentTerritoryId.value = terrId;
+            
+            refreshDIsplayRecords1();
+        }
+        function setDisplayLeadTerrid2(terrId) {
+            const currentTerritoryId = document.getElementById('page:form:CurrentTerritoryId');
+            currentTerritoryId.value = terrId;
+            
+            refreshDIsplayRecords2();
+        }
+        function showGeos() {
+            $('#allGCAssignmentsModal').modal('show');
+        }
+        function showFcs() {
+            $('#allFCAssignmentsModal').modal('show');
+        }
+        function toggleAddLayout() {
+            const standardLayout = document.getElementById('page:form:standardLayout');
+            const addLayout      = document.getElementById('page:form:addLayout');
+            
+            $(standardLayout).toggleClass('slds-hide');
+            $(addLayout).toggleClass('slds-hide');
+        }
+        function toggleEditLayout(leadIndex) {
+            const standardLayout = document.getElementById('page:form:standardLayout');            
+            const $targetLayout = $('#edit-lead-'+leadIndex);
+
+            $(standardLayout).toggleClass('slds-hide');
+            $($targetLayout).toggleClass('slds-hide');
+        }
+        function showMassUpdateText(e = window.event) {
+            const $targetEvt = $(e.target);
+            const targetId = $targetEvt.data('target');
+            const $target = $(targetId);
+            const $massFooter = $('#massfooter');
+
+            $target.removeClass('slds-hide');
+            $massFooter.addClass('slds-hide');
+        }
+        function hideMassUpdateText(e = window.event) {
+            const $targetEvt = $(e.target);
+            const targetId = $targetEvt.data('target');
+            const $target = $(targetId);
+            const $massFooter = $('#massfooter');
+
+            $target.addClass('slds-hide');
+            $massFooter.removeClass('slds-hide');
+        }
+        function showMassUpdateModal(e = window.event) {
+            const $targetEvt = $(e.target);
+            const targetId = $targetEvt.data('target');
+            const $target = $(targetId);
+
+            $target.removeClass('slds-hide');
+        }
+        function checkDate(schDate) {
+            $('#scheduleMassBtn').prop('disabled', !!schDate.value);             
+        }
+        function showTerritoryManagementModal(e = window.event) {
+            const isChecked = $(e.target).closest('.slds-checkbox_faux_container').prev()[0].checked;
+
+            $('#territoryManagementModalHeading').text(
+                isChecked
+                ? 'Turning off Territory Management'
+                : 'Turning on Territory Management'
+            );
+
+            $('#territoryManagementModalText > p:first').text(
+                isChecked
+                ? 'Turning off Territory Management will result in No automated Account and Contact assignments effective immediately.'
+                : 'Turning on Territory Management will result in All New Accounts being assigned based on existing territory assignments AS WELL AS All Existing Accounts being reviewed and assigned according to existing territory assignments.'
+            );
+
+            const bttns = $('#territoryManagementModalFooter button');
+            const bttnFirst = bttns[0];
+            const bttnSecond = bttns[1];
+
+            bttnFirst.innerText = isChecked 
+                ? 'Yes, Turn Off'
+                : 'No, Keep Off';
+            bttnSecond.innerText = isChecked 
+                ? 'No, Keep On'
+                : 'Yes, Turn On';
+
+            $('#territoryManagementModal').removeClass('slds-hide');
+        }
+        
+        function refreshform() {
+            alert({!isCreatedTerr});
+            if({!IsCreatedTerr}) {
+                window.location.reload();
+            }
+        }
+        // showCollapse(); 
+               
+    </script> 
+    
+  </body>
+</apex:page>

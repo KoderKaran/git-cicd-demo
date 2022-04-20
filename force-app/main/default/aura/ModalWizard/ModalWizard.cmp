@@ -1,0 +1,20 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="modalContainer" type="String" default="MW_Account" />
+    <aura:attribute name="imageLocation" type="String" default="Place Image URL location here" />
+    <aura:attribute name="solidImageLocation" type="String" default="Sold Image URL location here" />
+    <aura:attribute name="label" type="String" default="Lighting Troubleshooting" />
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+        <div class="slds-text-heading_medium slds-text-align_center">
+        <span style="cursor: pointer;" onclick="{!c.handleShowModal}" onmouseover="{!c.HoverImage}" onmouseout="{!c.NoMouseOver}">       
+            <div class="{!if(v.ImageToggle == v.label,'slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="{!v.imageLocation}"/></div>
+            <div class="{!if(v.ImageToggle == v.label,'slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="{!v.solidImageLocation}"/></div>
+            
+            <div class="slds-p-top_small">
+            	<ui:outputText class="text-navigation" value="{!v.label}"/>
+            </div>            
+        </span>
+    </div>    
+</aura:component>

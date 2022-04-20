@@ -1,0 +1,3 @@
+<design:component>
+    <design:attribute name="caseId" label="Case Id" description="The Case Id" />
+</design:component>

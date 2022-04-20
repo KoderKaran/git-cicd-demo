@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="caseid" label="case Id" required="true"/>
+    <design:attribute name="qty" label="quantity" required="true"/>
+</design:component>

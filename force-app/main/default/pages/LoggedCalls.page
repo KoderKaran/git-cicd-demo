@@ -1,0 +1,11 @@
+<apex:page standardController="Account" extensions="AccountsRelatedList">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!myTasksList}" var="t">
+            <apex:column Value="{!t.Subject}" />
+            <apex:column Value="{!t.Description}"/>
+            <apex:column Value="{!t.ActivityDate}"/>
+            <apex:column value="{!t.OwnerId}"/>
+            <apex:column Value="{!t.AccountId}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

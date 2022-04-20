@@ -1,0 +1,14 @@
+<apex:page title="Lead Assignment" showHeader="false" sidebar="false">
+	<apex:includeScript value="/lightning/lightning.out.js"/>
+	<div id="lead-assignment" />
+    <script>
+        $Lightning.use("c:DealerScoringApp", function() {
+            $Lightning.createComponent(
+                "c:LeadAssignment",
+                "",
+                "lead-assignment",
+                function(cmp) {
+                });
+            });
+    </script>  
+</apex:page>

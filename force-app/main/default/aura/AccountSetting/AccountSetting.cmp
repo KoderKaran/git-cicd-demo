@@ -1,0 +1,29 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" controller="AccountSettingCtrl" access="global">
+	<aura:attribute name="contact" type="Object"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	
+    <h2 class="uppercase">Account<br/>
+        <strong class="strong">Settings</strong>
+    </h2>
+    <h2 class="uppercase account">Account</h2>
+    <div class="display-inline">
+    	<div class="div-content">
+    		Username
+    	</div>
+    	<div class="div-content">
+    		{!v.contact.Username}
+    	</div>
+    </div>
+    <hr class="hr"/>
+    <div class="display-inline">
+    	<div class="div-content">
+    		Email Address
+    	</div>
+    	<div class="div-content">
+    		{!v.contact.Contact.Email}
+    	</div>
+    </div>
+    <hr class="hr"/>
+
+</aura:component>

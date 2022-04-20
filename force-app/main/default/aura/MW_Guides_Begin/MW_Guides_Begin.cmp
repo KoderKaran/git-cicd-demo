@@ -1,0 +1,62 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 tabindex="0"></h1>
+    <h1 class="slds-text-heading_large">Guides</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.SolutionGuidesClick}" onmouseover="{!c.HoverOS2Image}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'OS2','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Solution-Guides.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'OS2','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-solution-guides.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">OS 2 </p>
+                    <p class="slds-align_absolute-center text-navigation">User Guides</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.IntercomAnywhereClick}" onmouseover="{!c.HoverIntercomImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Intercom','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Intercom-Anywhere.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Intercom','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-intercom-anywhere.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Intercom</p>
+                    <p class="slds-align_absolute-center text-navigation">Anywhere</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.EndUserClick}" onmouseover="{!c.HoverAutomationsImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Automations','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Homeowner-Automations.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Automations','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-homeowner-automations.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Homeowner</p>
+                    <p class="slds-align_absolute-center text-navigation">Automations</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.VoiceControlClick}" onmouseover="{!c.HoverAlexaImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Alexa','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Voice-Control.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Alexa','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-icons-solid-alexa.svg" /></div>
+
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Voice</p>
+                    <p class="slds-align_absolute-center text-navigation">Control</p>
+                </span>
+            </div>          
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ElectricianHVACClick}" onmouseover="{!c.HoverProImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Pro','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Electrician-HVAC-Pros.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Pro','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-electrician-hvac-pros.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Electrician</p>
+                    <p class="slds-align_absolute-center text-navigation">&#38; HVAC Pros</p>
+                </span>
+            </div> 
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div> 
+</aura:component>

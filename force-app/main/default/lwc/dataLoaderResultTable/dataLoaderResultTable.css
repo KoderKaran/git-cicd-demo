@@ -1,0 +1,22 @@
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
+thead,
+tbody {
+  display: block;
+}
+
+caption {
+  text-align: center;
+}
+
+tbody {
+    max-height: 500px;
+    overflow: auto;
+}

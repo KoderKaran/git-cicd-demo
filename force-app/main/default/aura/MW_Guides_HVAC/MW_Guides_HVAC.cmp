@@ -1,0 +1,21 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <h1 class="slds-text-heading_large text-red">HVAC Pros</h1>
+             
+    <p class="slds-p-top_large text-paragraph">Control4 recommends our thermostats be
+        installed by a certified and licensed HVAC professional, programmed by an
+        authorized Control4 Pro, and are subject to the terms and conditions of Control4’s 
+        <a href="https://www.control4.com/legal/warranty/control4-warranty" class="slds-text-link text-paragraph" target="_blank"><u>product warranty</u></a>.</p>
+    
+    	<ul class="slds-p-top_large slds-list--dotted">
+          <li><a href="https://www.control4.com/docs/product/wireless-thermostat-v2/installation-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>CCZ Installation Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/control4-wireless-thermostat-by-aprilaire/installation-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>C4-Therm Installation Guide</u></a></li>
+        </ul>   
+
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_large">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

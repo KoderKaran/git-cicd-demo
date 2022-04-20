@@ -1,0 +1,91 @@
+.THIS {
+	color: #000;
+    font-family: 'Montserrat','Gotham','Gotham SSm A','Gotham SSm B','Helvetica Neue',Calibri,Arial;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: normal;
+    line-height: 25px;
+    text-transform: none;
+    box-sizing: border-box;
+}
+
+.THIS.headeruser {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    padding-left: 50px;
+    height: 50px;
+    color: #8a878a;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.THIS.headeruser:hover {
+	color:#fff;
+}
+
+.THIS .userimg {
+    position: absolute;
+    top:8px;
+    left:0px;
+    height:36px;
+    width:36px;
+    background-color:#000;
+    background-size:cover;
+    border-radius:50%;
+    -webkit-border-radius:50%;
+}
+
+.THIS .username {
+    display: inline-block;
+    height: 50px;
+    width: 200px;
+    padding-right: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.THIS .username::after {
+	content: "\f078";
+    position: absolute;
+    top: 0;
+    right: 25px;
+    width: 25px;
+    height: 50px;
+    font-family: 'Font Awesome\ 5 Pro',FontAwesome;
+    line-height: 50px;
+    text-align: center;
+}
+
+.THIS.headeruser ul {
+	display:none;
+	position:absolute;
+	padding:0;
+	top:50px;
+	right:0px;
+	width:250px;
+	background-color: #414245;
+}
+
+.THIS.headeruser:hover ul {
+	display:block;
+	padding: 12px 0;
+}
+
+.THIS.headeruser:hover ul li {
+	list-style: none;
+}
+
+.THIS.headeruser:hover ul li a {
+	display: block;
+	line-height: 33px;
+	padding-left: 25px;
+	color: #cecccc;
+}
+
+.THIS.headeruser:hover ul li a:hover {
+	color: #fff;
+}

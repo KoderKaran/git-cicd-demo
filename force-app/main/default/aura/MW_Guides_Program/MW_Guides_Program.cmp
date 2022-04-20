@@ -1,0 +1,179 @@
+<aura:component >
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />  
+    
+    <div aura:id="Main_Div">
+        <h1 class="slds-text-heading_large text-red">Homeowner Automations</h1>
+                 
+        <p class="slds-p-top_large text-paragraph">Use these handy guides and videos to learn how to automate your home.</p>
+           
+        <p class="slds-p-top_large text-paragraph bold">When >> Then</p>
+    
+        <ul class="slds-list--dotted text-paragraph">
+          <li><a href="https://www.control4.com/docs/product/programming/solutions-guide/english/latest" class="slds-text-link text-paragraph" target="_blank"><u>Automations Guide</u></a></li>
+        </ul>
+        
+        <p class="slds-p-top_large text-paragraph bold">Composer Home Edition</p>    
+        
+         <ul class="slds-list--dotted text-paragraph">
+          <li><a href="https://www.control4.com/docs/product/composer-he/getting-started/latest" class="slds-text-link text-paragraph" target="_blank"><u>Getting Started Guide</u></a></li>
+          <li><a href="https://www.control4.com/docs/product/composer-he/user-guide/latest" class="slds-text-link text-paragraph" target="_blank"><u>User Guide</u></a></li>
+        </ul>   
+    
+        <p class="slds-p-top_large text-paragraph bold">Composer Home Edition Videos</p>    
+        
+         <ul class="slds-list--dotted text-paragraph">
+          <li><a onclick="{!c.Vid1Click}" class="slds-text-link text-paragraph"><u>Features and Overview</u></a></li>   
+          <li><a onclick="{!c.Vid2Click}" class="slds-text-link text-paragraph"><u>Basics</u></a></li>
+          <li><a onclick="{!c.Vid3Click}" class="slds-text-link text-paragraph"><u>Working with Media</u></a></li>
+          <li><a onclick="{!c.Vid4Click}" class="slds-text-link text-paragraph"><u>Announcements Email Notification</u></a></li>
+          <li><a onclick="{!c.Vid5Click}" class="slds-text-link text-paragraph"><u>Lighting, Scheduler, Variables, and Notification Agents in Programming</u></a></li>
+          <li><a onclick="{!c.Vid6Click}" class="slds-text-link text-paragraph"><u>Variables, Macros, and Custom Buttons Agents in Programming </u></a></li>
+          <li><a onclick="{!c.Vid7Click}" class="slds-text-link text-paragraph"><u>Intercom Agent in Programming</u></a></li>
+          <li><a onclick="{!c.Vid8Click}" class="slds-text-link text-paragraph"><u>Timers Agent In Programming</u></a></li>
+          <li><a onclick="{!c.Vid9Click}" class="slds-text-link text-paragraph"><u>Wakeup Agent in Programming</u></a></li>
+          <li><a onclick="{!c.Vid10Click}" class="slds-text-link text-paragraph"><u>Other Agents in Programming</u></a></li>
+        </ul>   
+           
+        <p class="slds-p-top_large text-paragraph bold">Composer Media Edition</p>
+    
+        <ul class="slds-list--dotted text-paragraph">
+          <li><a href="https://www.control4.com/docs/product/composer-me/user-guide/latest" class="slds-text-link text-paragraph" target="_blank"><u>User Guide</u></a>  (Composer Media Edition is not supported on OS 3.1.1 or above)</li>
+        </ul>
+       
+        <div class="slds-p-top_large">
+          <lightning:button class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+	</div>  
+    
+    <div aura:id="Vid1_Div">
+        <h1 class="slds-text-heading_large text-red">Features and Overview</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/rzypjckys4?videoFoam=true" id="firstVid" title="Features and Overview" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div>     
+    <div aura:id="Vid2_Div">
+        <h1 class="slds-text-heading_large text-red">Basics</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/spdxj1wesh?videoFoam=true" id="Vid2" title="Basics" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid3_Div">
+        <h1 class="slds-text-heading_large text-red">Working with Media</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/isr73vxphi?videoFoam=true" id="Vid3" title="Working with Media" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid4_Div">
+        <h1 class="slds-text-heading_large text-red">Announcements Email Notification </h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/1dsc5vyp7p?videoFoam=true" id="Vid4" title="Announcements Email Notification" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid5_Div">
+        <h1 class="slds-text-heading_large text-red">Lighting, Scheduler, Variables, and Notification Agents in Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/5i84kpi7dj?videoFoam=true" id="Vid5" title="Lighting, Scheduler, Variables, and Notification Agents in Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid6_Div">
+        <h1 class="slds-text-heading_large text-red">Variables, Macros, and Custom Buttons Agents in Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/n8gukk9juy?videoFoam=true" id="Vid6" title="Variables, Macros, and Custom Buttons Agents in Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid7_Div">
+        <h1 class="slds-text-heading_large text-red">Intercom Agent in Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/v0og9q39sw?videoFoam=true" id="Vid7" title="Intercom Agent in Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid8_Div">
+        <h1 class="slds-text-heading_large text-red">Timers Agent In Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/mvs1oegx0t?videoFoam=true" id="Vid8" title="Timers Agent In Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid9_Div">
+        <h1 class="slds-text-heading_large text-red">Wakeup Agent in Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/ux0n589btt?videoFoam=true" id="Vid9" title="Wakeup Agent in Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div> 
+    <div aura:id="Vid10_Div">
+        <h1 class="slds-text-heading_large text-red">Other Agents in Programming</h1>
+        <div class="slds-p-top_large model-video">
+            <div class="wistia_responsive_padding" style="padding:56.25% 0 28px 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                    <iframe src="https://fast.wistia.net/embed/iframe/n8gukk9juy?videoFoam=true" id="Vid10" title="Other Agents in Programming" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" oallowfullscreen="" msallowfullscreen="" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+    	</div>
+        <div class="slds-p-top_large">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.VidBackButton}"/>
+    	</div>        
+   </div>
+</aura:component>

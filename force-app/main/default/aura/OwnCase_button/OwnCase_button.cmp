@@ -1,0 +1,3 @@
+<aura:component implements ="force.lightningQuickAction">
+    <lightning:button variant="brand" label="Own Case" title="Own Case" onclick="{! c.handleClick }" />
+</aura:component>

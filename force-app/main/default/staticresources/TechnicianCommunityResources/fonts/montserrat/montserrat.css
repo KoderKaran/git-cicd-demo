@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('montserrat-extralight-webfont.woff2?orgId=00D5000000078mu') format('woff2'), url('montserrat-extralight-webfont.woff?orgId=00D5000000078mu') format('woff');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('montserrat-light-webfont.woff2?orgId=00D5000000078mu') format('woff2'), url('montserrat-light-webfont.woff?orgId=00D5000000078mu') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('montserrat-medium-webfont.woff2?orgId=00D5000000078mu') format('woff2'), url('montserrat-medium-webfont.woff?orgId=00D5000000078mu') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}

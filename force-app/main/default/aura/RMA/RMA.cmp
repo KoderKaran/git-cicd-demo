@@ -1,0 +1,124 @@
+<aura:component controller="RMAProcessControllerV2" implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens,force:hasRecordId" access="global" >
+
+    <aura:attribute name="RMAInfo" type="sObject" />
+    <aura:attribute name="FirstLoad" type="boolean"/>
+    <aura:attribute name="mailStatus" type="boolean" default="false"/>
+    <aura:attribute name="mailErrorStatus" type="boolean" default="false"/>   
+    <aura:attribute name="EmailErrorMessage" type="string"/>   
+    <aura:attribute name="caseId" type="string"/> 
+    <aura:attribute name="rmaFormURL" type="string"/>
+    <aura:attribute name="disableSendButton" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="slds-float--right">
+        <lightning:button label="Send RMA" iconName="utility:new_window" iconPosition="left" variant="brand" onclick="{!c.newPopup}" />
+    </div>    
+    
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox1" class="slds-modal slds-modal_large">
+        <div class="slds-modal__container" style="width: 50%;">
+            <div class="slds-modal__header">
+                RMA Email Preview
+            </div>            
+            <div aura:id="mid" class="slds-modal__content slds-p-around--medium">                
+                <!---Part 2 [header part] -->  
+                <!--<div class="slds-page-header" role="banner">
+                    <h1 class="slds-page-header__title slds-m-right- -small slds-align-middle slds-truncate" title="this should match">
+                        RMA Email Preview
+                    </h1>
+                </div>-->
+                
+                <!---Part 3 [message display part] --> 
+                <aura:if isTrue="{!v.mailStatus}">
+                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                        <div class="slds-modal__container">
+                            <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Mail Status</h2>
+                            </div>
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <div>
+                                    <p>Email Sent Successfully</p>
+                                </div>
+                            </div>
+                            <div class="slds-modal__footer slds-theme--default">
+                                <button class="slds-button slds-button--brand" onclick="{!c.closeMessage}">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if>
+                
+                <!---Part 3 [message display Error part] --> 
+                <aura:if isTrue="{!v.mailErrorStatus}">
+                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id2" aria-describedby="prompt-message-wrapper2" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                        <div class="slds-modal__container">
+                            <div class="slds-modal__errorheader slds-theme--error slds-theme--alert-texture">
+                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Mail Status</h2>
+                            </div>
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <div>
+                                    <p>{!v.EmailErrorMessage}</p>
+                                </div>
+                            </div>
+                            <div class="slds-modal__footer slds-theme--default">
+                                <button class="slds-button slds-button--brand" onclick="{!c.closeMessage}">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if>                
+                
+                <!---Part 4 [mail fourm part]-->                
+                <div class="slds-m-around--medium slds-align_absolute-center">
+                    <div class="slds-container--medium">
+                        <div class="slds-form--stacked">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="To">TO</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputText class="slds-input" aura:id="To" value="{!v.RMAInfo.ToEmail}" />
+                                </div>
+                            </div>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="CC">CC</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputText class="slds-input" aura:id="CC" value="{!v.RMAInfo.CcEmail}" />                                
+                                </div>
+                            </div>                            
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="BCC">BCC</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputText class="slds-input" aura:id="BCC" value="{!v.RMAInfo.BccEmail}" />                                 
+                                </div>
+                            </div>                           
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="CC">Subject</label>
+                                <div class="slds-form-element__control">
+                                    <ui:inputText class="slds-input" aura:id="subject"  value="{!v.RMAInfo.SubjectEmail}" placeholder="Subject"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-p-top_small">
+                                <label class="slds-form-element__label " for="textareaSample2">{!v.RMAInfo.EmailTemplateName}  </label>
+                                <div class="slds-form-element__control slds-border_top slds-border_left slds-border_right slds-border_bottom">
+                                    <div class="slds-p-around_small" >
+                                        <aura:unescapedHtml value="{!v.RMAInfo.BodyEmail}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-p-top_small">
+                                <label class="slds-form-element__label" for="textareaSample2">RMA Form</label>     						                                                              
+                                <iframe src="{!v.rmaFormURL}" style="width: 100%; height: 1100px;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+                
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button aura:id="sendEmailButton"  class="slds-button slds-button--brand" onclick="{!c.sendMail}" label="Send" disabled="{!v.disableSendButton}"/>
+                <lightning:button label="Close" onclick="{!c.closeNewModal}" variant="brand"/>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop" aura:id="Modalbackdrop"></div>
+    
+    <div class="slds-p-bottom_large"></div>
+</aura:component>

@@ -1,0 +1,26 @@
+<aura:component controller="ProductRMA" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >    
+    <aura:attribute name="recid" type="String" default="" access="global"/>
+    <aura:attribute name="fail" type="Boolean" default="true"/>
+    <aura:attribute name="today" type="Date" />
+    <!--<aura:if isTrue="{!v.fail}">-->
+    
+    <lightning:notificationsLibrary aura:id="notificationsLibrary"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:recordEditForm aura:id="cpeditform" recordId="{!v.recid}" objectApiName="CaseProduct__c" onsuccess="{!c.handleOnSuccess}">
+        <lightning:outputField fieldName="Name"/>
+        <lightning:inputField aura:id="idxProdCondition" fieldName="Product_Condition__c"/>
+        
+        <lightning:inputField aura:id="causeType" fieldName="Cause_Type__c" value="Administrative"/>
+        <lightning:inputField aura:id="idxCauseCode" fieldName="Cause_Code__c" value="Receiving"/>
+        <lightning:inputField aura:id="disposition" fieldName="Disposition__c" value="Set Aside for Test"/>
+        <lightning:inputField aura:id="idxSerialNum" fieldName="Serial_Number__c"/>
+        <lightning:inputField aura:id="idxMacId" fieldName="MacID__c"/>
+        <lightning:inputField aura:id="returnRegion" fieldName="Return_Region__c"/>
+    </lightning:recordEditForm><br></br>
+    <center><lightning:button type="Submit" variant="brand" label="Save" onclick="{!c.saveProducts}" name="edit"/></center>
+    
+    <!--<aura:set attribute="else">
+            <ui:outputtext value="Record saved successfully!"/>
+    </aura:set>
+  </aura:if> -->
+</aura:component>

@@ -1,0 +1,29 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large">Tax Error</h1>
+    
+    <p class="slds-p-top_large text-paragraph">When attempting to purchase 4Sight, we were unable to process taxes for your area. Follow the steps below to continue with the purchase.</p>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+            <p class="text-paragraph">
+                <ol class="slds-list--ordered text-paragraph">
+                    <li><a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+                    <li>Click <b>My Account</b>, then click <b>My Account</b>.</li>
+                    <li>Click <b>Edit</b> next to <i>USER</i>.</li>
+                    <li>Confirm your address, city, state, and ZIP Code are spelled correctly with no extra spaces, periods, or commas, and that the ZIP Code matches the card being used.</li>                
+                    <li>If you still receive the tax error, log out of your account. Log back in, and click <b>Buy 4Sight</b>.</li>
+                </ol>   
+            </p>        
+            
+            <p class="slds-p-top_large text-paragraph">If you’re unable to purchase the license, contact <a href="mailto:4sight@control4.com" class="slds-text-link text-paragrap"><u>Customer Advocacy</u></a>.</p>  
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <div class="slds-p-top_small">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>	
+</aura:component>

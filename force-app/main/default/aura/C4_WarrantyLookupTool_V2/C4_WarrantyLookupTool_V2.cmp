@@ -1,0 +1,294 @@
+<aura:component controller="WarrantyLookupToolController" implements="flexipage:availableForAllPageTypes,lightning:availableForFlowScreens">
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>    
+    <aura:attribute name="IsSpinner" type="Boolean" default="false"/>
+    
+    <aura:attribute name="url" type="String" /> 
+    <aura:attribute name="ShowPanel" type="String" default=""/>
+    <aura:attribute name="WarrantyHistory" type="Object[]"/>
+    
+    <aura:attribute name="MacSerialServiceID" type="String" default=""/> <!-- default="000FFF000082BFB4"-->
+    
+    <aura:attribute name="DealerSCode" type="string" default=""/> <!-- default="000FFF000082BFB4"-->   
+    <aura:attribute name="ProductSKU" type="string" default=""/> <!-- default="000FFF000082BFB4"-->
+    <aura:attribute name="ServiceTag" type="string" default=""/> <!-- default="000FFF000082BFB4"-->
+    
+    
+    <div class="slds-p-top_medium slds-p-right_large slds-p-left_large">
+        
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2 slds-border_top slds-border_bottom slds-border_right slds-border_left slds-text-align_center slds-theme_shade">          
+                <div class= "slds-text-heading_medium slds-text-align_center"><b>Mac/Serial Number Lookup</b></div>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_top slds-border_bottom slds-border_right slds-border_left slds-theme_shade">
+                <div class= "slds-text-heading_medium slds-text-align_center"><b>Service Tag Lookup</b></div>       
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_top slds-border_bottom slds-border_right slds-border_left">
+                <div class="slds-grid slds-p-left_large">
+                    <div class="slds-col ">            
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">                        
+                                    <div class="slds-size_1-of-3">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-01"><b>Mac/Serial Number</b></label>
+                                            <div class="slds-form-element__control">                                    
+                                                <input type="text" id="text-input-productId" class="slds-input" value ="{!v.MacSerialServiceID}" onkeypress="{!c.MacSerialServiceIDKeyCheck}"/>                                    
+                                            </div>                                
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-11">
+                                        <div class="slds-form-element">                                
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-form-element__label" for="text-input-id-1">&nbsp;</label>
+                                                <lightning:button class="slds-button slds-button_stretch" label="Lookup" onclick="{!c.GetWarrantyMacSerial}"/> 
+                                            </div>
+                                        </div>
+                                    </div>   
+                                    <!--<div class="slds-size_1-of-11">
+                                    <div class="slds-form-element">                                
+                                        <div class="slds-form-element__control">
+                                            <label class="slds-form-element__label" for="text-input-id-1">&nbsp;</label>
+                                            <lightning:button class="slds-button slds-button_stretch" label="Clear Screen" onclick="{!c.ClearScreen}"/> 
+                                        </div>
+                                    </div>
+                                </div>-->  
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_top slds-border_bottom slds-border_right slds-border_left">
+                <div class="slds-grid slds-p-left_large">
+                    <div class="slds-col ">  
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                            <!--<legend class="slds-form-element__legend slds-form-element__label">SnapAV Required Information</legend>-->
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-4">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-02"><b>Service Tag</b></label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="text-input-serviceTag" class="slds-input" value ="{!v.ServiceTag}" onkeypress="{!c.ServiceTagKeyCheck}" />
+                                            </div>                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-4">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-02"><b>Product SKU</b></label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="text-input-productSKU" class="slds-input" value ="{!v.ProductSKU}" onkeypress="{!c.ServiceTagKeyCheck}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-4">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-01"><b>Dealer SCode</b></label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="text-input-dealerSCode" class="slds-input" value ="{!v.DealerSCode}" onkeypress="{!c.ServiceTagKeyCheck}"/>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-4">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" for="input-02">&nbsp;</label>                                
+                                            <div class="slds-form-element__control">
+                                                <lightning:button class="slds-button" label="Lookup" disabled="{!v.SnapAVButtonEndabled}" onclick="{!c.GetWarrantyServiceTag}"/>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset> 
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-p-top_large slds-p-right_large slds-p-left_large">
+        
+        <div class="{!if(v.ShowPanel == 'ErrorMessage','slds-show','slds-hide')}">            
+            <div class="slds-text-heading_large">An unkown error has occured.</div>           
+        </div>        
+        <div class="{!if(v.ShowPanel == 'NoWarrantyFound','slds-show','slds-hide')}">            
+            <div class="slds-text-heading_large">No warranty found.</div>             
+        </div>   
+        <div class="{!if(v.ShowPanel == 'ResultMessage','slds-show','slds-hide')}">           
+            
+            <div class="slds-grid slds-grid_vertical slds-border_top slds-border_bottom slds-border_right slds-border_left">      
+                <div class="slds-grid slds-grid_vertical">                    
+                    <aura:if isTrue="{!or(v.WarrantyHistory[0].row.is_in_warranty_ind == '1',
+                                     v.WarrantyHistory[0].row[0].is_in_warranty_ind == '1')}">                        
+                        <div class="slds-col slds-text-heading_large">
+                        </div>
+                        <div class="slds-text-heading_large slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#147d12">
+                            <b>In Warranty - {!v.WarrantyHistory[0].row.replacement_product_stock_type_code}{!v.WarrantyHistory[0].row[0].replacement_product_stock_type_code} Stock Replacement</b>
+                        </div>                        
+                        <aura:set attribute="else">
+                            <div class="slds-text-heading_large slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#e3092f">
+                                <b>Out Of Warranty</b>
+                            </div>
+                        </aura:set>
+                    </aura:if>                   
+                    <div class="slds-grid slds-p-left_medium">
+                        <div class="slds-col slds-size_10-of-10 slds-p-top_small slds-text-heading_medium">
+                            <B>{!v.WarrantyHistory[0].row.partner_name}{!v.WarrantyHistory[0].row[0].partner_name} ({!v.WarrantyHistory[0].row.partner_id}{!v.WarrantyHistory[0].row[0].partner_id})</B>
+                        </div>
+                    </div>                  
+                    <div class="slds-grid slds-wrap slds-p-left_medium slds-p-top_small slds-p-bottom_small slds-text-heading_small">    
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Product:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <b>{!v.WarrantyHistory[0].row.product_sku_name}{!v.WarrantyHistory[0].row[0].product_sku_name}</b>
+                        </div>
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Product SKU:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <a target="_blank" href="{!v.url +'/'+ v.WarrantyHistory[0].row.productcode + v.WarrantyHistory[0].row[0].productcode}"><b>{!v.WarrantyHistory[0].row.product_sku_id}{!v.WarrantyHistory[0].row[0].product_sku_id}</b></a>
+                        </div>
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Sales Order:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <aura:if isTrue="{!v.WarrantyHistory[0].row.order_id != null}">                        
+                                <b>{!v.WarrantyHistory[0].row.order_id}</b>                                                   
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.WarrantyHistory[0].row[0].order_id == null}">                        
+                                        <b>{!v.WarrantyHistory[0].row[1].order_id}</b>                                                   
+                                        <aura:set attribute="else">
+                                            <b>{!v.WarrantyHistory[0].row[0].order_id}</b> 
+                                        </aura:set>
+                                    </aura:if>                                                
+                                </aura:set>
+                            </aura:if>                         
+                        </div> 
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>MAC:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <b>{!v.WarrantyHistory[0].row.mac_address_txt}{!v.WarrantyHistory[0].row[0].mac_address_txt}</b>
+                        </div>
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Service Tag:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <b>{!v.WarrantyHistory[0].row.service_tag_txt}{!v.WarrantyHistory[0].row[0].service_tag_txt}</b>
+                        </div>
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Warranty Start:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <b>{!v.WarrantyHistory[0].row.warranty_start_date}{!v.WarrantyHistory[0].row[0].warranty_start_date}</b>
+                        </div> 
+                        <div class="slds-col slds-size_1-of-8">
+                            <b>Warranty End:</b> 
+                        </div>
+                        <div class="slds-col slds-size_7-of-8">
+                            <b>{!v.WarrantyHistory[0].row.warranty_end_date}{!v.WarrantyHistory[0].row[0].warranty_end_date}</b>
+                        </div> 
+                    </div>                            
+                </div>
+            </div>           
+            
+            <div class="slds-p-top_large slds-text-heading_medium">
+                <B>Warranty History</B>
+            </div>
+            <table class="slds-table slds-table--bordered"> <!-- slds-table- -striped -->
+                <tbody>
+                    <tr class="slds-theme_shade slds-text-heading_small slds-text-title_bold">
+                        <td>Type</td>
+                        <td>Transaction Date</td> 
+                        <td>Product SKU</td> 
+                        <td>Dealer SCode</td>  
+                        <td>Dealer Name</td>  
+                        <td>Sales Order</td>  
+                        <td>Purchase Price</td>
+                        <td>Storefront Name</td>  
+                        <td>Storefront Location Name</td>               
+                        <td>Warranty Name</td>                         
+                        <td>MAC ID</td>  
+                        <td>Serial Code</td>  
+                        <td>Service Tag</td>                         
+                        <td>Data Source</td>                       
+                        <td>Transaction Notes</td>  
+                        <td>Warranty Start Date</td>  
+                        <td>Warranty End Date</td>  
+                        <td>Grace Period Start Date</td>  
+                        <td>Grace Period End Date</td>                                          
+                        <td>Mount Type</td>  
+                        <td>Veneer Finish</td>  
+                        <td>Paint Color</td>  
+                        <td>Grill Paint Color</td>  
+                        <td>Paint Manufacturer</td>   
+                    </tr>
+                    <aura:iteration items="{!v.WarrantyHistory}" var="item">
+                        <!-- this is if there is only 1 row of results -->
+                        <tr>
+                            <td>{!item.row.transaction_type_code}</td> 
+                            <td>{!item.row.local_transaction_date}</td>  
+                            <td><a target="_blank" href="{!v.url +'/'+ item.row.productcode}">{!item.row.product_sku_id}</a></td> 
+                            <td>{!item.row.partner_id}</td> 
+                            <td>{!item.row.partner_name}</td>  
+                            <td>{!item.row.order_id}</td>  
+                            <td>{!item.row.system_currency_price_amt}</td>
+                            <td>{!item.row.storefront_name}</td>  
+                            <td>{!item.row.storefront_location_name}</td>  
+                            <td>{!item.row.warranty_name}</td>
+                            <td>{!item.row.mac_address_txt}</td>  
+                            <td>{!item.row.serial_code}</td>  
+                            <td>{!item.row.service_tag_txt}</td>                             
+                            <td>{!item.row.datasource_code}</td>                            
+                            <td>{!item.row.transaction_notes_txt}</td>  
+                            <td>{!item.row.warranty_start_date}</td>  
+                            <td>{!item.row.warranty_end_date}</td>  
+                            <td>{!item.row.grace_period_start_date}</td>  
+                            <td>{!item.row.grace_period_end_date}</td>                        
+                            <td>{!item.row.mount_type_txt}</td>  
+                            <td>{!item.row.veneer_finish_txt}</td>  
+                            <td>{!item.row.paint_color_txt}</td>  
+                            <td>{!item.row.grill_paint_color_txt}</td>  
+                            <td>{!item.row.paint_manufacturer_txt}</td>                            
+                        </tr> 
+                        <aura:iteration items="{!item.row}" var="i">
+                            <tr>                
+                                <td>{!i.transaction_type_code}<a target="_blank" href="{!v.url +'/'+ i.rma_line_id}">&nbsp;{!i.rma_id}</a></td>
+                                <td>{!i.local_transaction_date}</td> 
+                                <td><a target="_blank" href="{!v.url +'/'+ i.productcode}">{!i.product_sku_id}</a></td>  
+                                <td>{!i.partner_id}</td>  
+                                <td>{!i.partner_name}</td>  
+                                <td>{!i.order_id}</td>  
+                                <td>{!i.system_currency_price_amt}</td>
+                                <td>{!i.storefront_name}</td>  
+                                <td>{!i.storefront_location_name}</td>
+                                <td>{!i.warranty_name}</td>
+                                <td>{!i.mac_address_txt}</td>  
+                                <td>{!i.serial_code}</td>  
+                                <td>{!i.service_tag_txt}</td>                                
+                                <td>{!i.datasource_code}</td>
+                                <td>{!i.transaction_notes_txt}</td>  
+                                <td>{!i.warranty_start_date}</td>  
+                                <td>{!i.warranty_end_date}</td>  
+                                <td>{!i.grace_period_start_date}</td>  
+                                <td>{!i.grace_period_end_date}</td>                               
+                                <td>{!i.mount_type_txt}</td>  
+                                <td>{!i.veneer_finish_txt}</td>  
+                                <td>{!i.paint_color_txt}</td>  
+                                <td>{!i.grill_paint_color_txt}</td>  
+                                <td>{!i.paint_manufacturer_txt}</td>                    
+                            </tr>     
+                        </aura:iteration>   
+                    </aura:iteration>             
+                </tbody>
+            </table>          
+        </div>
+    </div>
+    
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" size="large" />
+    </aura:if>
+    
+</aura:component>

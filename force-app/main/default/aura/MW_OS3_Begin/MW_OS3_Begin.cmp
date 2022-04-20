@@ -1,0 +1,52 @@
+<aura:component >
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    <lightning:overlayLibrary aura:id="overlayLib2"/>
+    
+    <h1 tabindex="0"></h1>
+    <h1 class="slds-text-heading_large">Smart Home OS 3</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none"> 
+        
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-gutters_medium">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.VideosClick}" onmouseover="{!c.HoverVideosImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Videos','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-01106-www-customer-support-knowledge-base-os-3-update-1a-pg-videos.png" /></div>
+                    <div class="{!if(v.ImageToggle == 'Videos','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-videos.png" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">How-to Videos</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">                
+                <span style="cursor: pointer;" onclick="{!c.GuidesClick}" onmouseover="{!c.HoverGuideImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Guide','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-01106-www-customer-support-knowledge-base-os-3-update-1a-pg-guides-videos.png" /></div>
+                    <div class="{!if(v.ImageToggle == 'Guide','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-entertainment-guide.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">User Guide</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.AppClick}" onmouseover="{!c.HoverAppImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'App','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_New-Device-1.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'App','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-new-device-1.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">OS 3 App</p>
+                </span>
+            </div>            
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ConnectionClick}" onmouseover="{!c.HoverConnectionImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Connection','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Connection-Issues.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Connection','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-connection-issues.svg" /></div>
+                  
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Connection</p>
+                    <p class="slds-align_absolute-center text-navigation">Issues</p>
+                </span>
+            </div>
+        </div>         
+    </div>
+    
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div> 
+</aura:component>

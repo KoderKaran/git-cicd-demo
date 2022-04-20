@@ -1,0 +1,389 @@
+<apex:page showHeader="false">
+<style>
+#liveAgentClientChat.liveAgentStateWaiting
+{
+    box-shadow: 0 0 25px rgba(0,0,0,0.2);
+    font-family: 'Montserrat', 'Gotham', 'Gotham SSm A', 'Gotham SSm B', 'Helvetica Neue', Calibri, Arial; 
+    font-size: 16px; 
+    font-style: normal; 
+    font-weight: 300; 
+    letter-spacing: normal; 
+    text-transform: none; 
+    color: #9A7611; 
+    background-color: #f5f5f5; 
+}
+
+.liveAgentStateEnded div .waitingMessage{
+    display: none; 
+}
+
+.liveAgentStateWaiting.waitingMessage{
+    display: table-cell !important; 
+    color: #f5f5f5; 
+    padding: 25px; 
+    width: 100%; 
+    max-width: 600px; 
+    background: #fff; 
+}
+
+
+table{
+    margin-left: 25px;
+}
+
+html body{
+    font-family: 'Montserrat', 'Gotham', 'Gotham SSm A', 'Gotham SSm B', 'Helvetica Neue', Calibri, Arial; 
+    font-size: 16px; 
+    font-style: normal; 
+    font-weight: 300; 
+    letter-spacing: normal; 
+    line-height: 25px; 
+    text-transform: none; 
+    background-color: #f5f5f5; 
+}
+
+.name{
+    color: #9A7611; 
+    font-weight: normal; 
+    font-size: 18px; 
+    
+}
+
+
+ #liveAgentChatLog{
+    font-size: 16px;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0;  
+    border: none; 
+}
+
+div#liveAgentClientChatSettings.no_save.no_brand{
+    background-color: #f5f5f5 !important;
+    position: flex; 
+}
+
+span .messageText{
+    display: block !important ; 
+    font-size: 16px; 
+    max-width: 600px;  
+    padding: 25px;  
+}
+
+.operator .messageText{
+  background-color: #e8e8e8;
+}
+
+.client .messageText{
+    background-color: #fff;
+}
+
+#liveAgentState{
+    color: white; 
+    background-color: #adadad;
+    font-weight: 400; 
+    margin: 25px; 
+    padding: 25px;    
+}
+
+div.liveAgentAlert{
+    margin-left: 25px; 
+    padding-bottom: 15px;
+}
+
+.system{
+    bottom: 0; 
+    background: none; 
+    width: 100%;
+    max-width: 600px; 
+    padding: 25px; 
+    
+}
+
+div.liveAgentChatElement{
+    margin-top: 125px; 
+    position: fixed;
+    height: inherit; 
+    padding-left: 20px; 
+    
+}
+div#liveAgentChatLogText{
+    height: auto; 
+
+}
+
+#liveAgentChatLog #liveAgentChatLogText {
+    background: #f5f5f5;
+}
+
+#liveAgentChatLog::before{
+    box-sizing: border-box; 
+}
+
+#liveAgentChatLog::after{
+    box-sizing: border-box; 
+}
+
+div #liveAgentChatLogText{
+    display: block; 
+    white-space: normal; 
+    margin-top: 0;  
+}
+
+#liveAgentChatLogText#chatLogText.client,
+#liveAgentChatLogText#chatLogText.operator {
+    padding: 0px 25px;
+    overflow: wrap;
+}
+
+.client{
+    margin-left: 0px;
+    text-align: left; 
+    left: 0px;  
+    font-style: italic;  
+}
+
+.operator{
+    margin-left: 0px;
+    text-align: left; 
+    left: 0px;
+}
+
+.name{
+    font-size: 11px; 
+}
+
+div#liveAgentChatLog {
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
+    margin-bottom: 66px;
+    margin-top: 50px;
+    width: calc(100% - 50px);
+}
+
+#liveAgentChatLogText.operator, #liveAgentChatLogText.client,
+#liveAgentMessage{
+    margin-bottom: 0;
+    color: #777;
+    font-size: 12.777px;
+    border: none; 
+}
+
+
+#liveAgentChatLogTyping{
+    display: block; 
+    position: static;
+    margin-top: calc(inherit + 15%); 
+    font-size: calc(0.8em - 1px); 
+}
+
+.messageText{
+    white-space: pre-wrap; 
+    text-align: inherit; 
+    padding: 5px 0px 5px 15px; 
+}
+
+
+#liveAgentChatInput {
+    background-color: #fff;
+    box-shadow: 0px 20px 26px 11px #5a5a5a; 
+    color: #000;
+    border-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    user-select: text;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    height: 49px;
+    width: calc(100% - 33px);
+    bottom: -5px;
+    position: absolute;
+    left: -6px;
+}
+
+#liveAgentMessageContainer {
+    background: #f5f5f5;
+    color: #000;
+    border-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    transition: 0.1s;
+    -webkit-appearance: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    user-select: text;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    height: 40px;
+    width: calc(100% - 33px);
+    bottom: 100px;
+    position: absolute;
+    left: -6px;
+}
+
+#liveAgentChatInput:focus{
+    background: white; 
+    border: none; 
+    outline: none;   
+}
+
+#liveAgentClientChat{
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    font-family: 'Montserrat', 'Gotham', 'Gotham SSm A', 'Gotham SSm B', 'Helvetica Neue', Calibri, Arial; 
+    font-size: 16px; 
+    font-style: normal; 
+    font-weight: 300; 
+    letter-spacing: normal; 
+    text-transform: none; 
+}
+
+body{ 
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+
+  
+button.liveAgentSaveButton, button.liveAgentEndButton {
+    color: white;
+    display: inline-flex;
+    height: 50px;
+    width: 100%;
+    padding: 0 25px;
+    margin: 0;
+    line-height: 25px;
+    background: #5a5a5a;
+    background-image: none;
+    font-size: 12.30769px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    justify-content: center;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1000;
+}
+
+button.liveAgentEndButton:hover{
+    background: #9A7611 !important; 
+}
+
+  
+button.liveAgentSendButton{
+    color: white;
+    height: 61px;
+    width: 100px;
+    padding: 0 25px;
+    line-height: 25px;
+    background: #5a5a5a;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    bottom: -6px;
+    left: calc(100% - 29px);
+}
+
+ #liveAgentMessageContainer button {
+    color: white;
+    height: 61px;
+    width: 125px;
+    padding: 0 25px;
+    line-height: 25px;
+    background: #5a5a5a;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    border-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    bottom: -6px;
+    
+ }
+
+button{
+    background: #5a5a5a; 
+    background-image: none; 
+}
+
+
+
+input.liveAgentChatInput, button.liveAgentSendButton{
+    display: inline-block;
+    outline: none; 
+}
+
+#liveAgent:clientChatLogAlertMessage{
+    color: #000; 
+    z-index: 100;
+}
+
+button.liveAgentSendButton{
+    outline: none; 
+}
+
+button:hover{
+    background: #9A7611 !important; 
+}
+
+</style>
+<div style="top: 0; left: 0; right: 0; bottom: 0; position: absolute;">
+<liveAgent:clientChat >
+<liveAgent:clientChatSaveButton />
+<liveAgent:clientChatEndButton />
+<div style="top: 25px; left: 5px; right: 5px; bottom: 5px; position: absolute; z-index:
+0;">
+<liveAgent:clientChatAlertMessage />
+<liveAgent:clientChatStatusMessage />
+<table id="waitingMessage" class="waitingMessage" cellpadding="0" cellspacing="0">
+<tr>
+<td>Please wait while you are connected to an available agent.</td>
+</tr>
+<td align="center;">
+<span>Queue Position: <i style="color: #9A7611; display: inline-block;"><liveAgent:clientChatQueuePosition /></i></span>
+</td>
+</table>
+<div style="top: 0; right: 0; bottom: 0; left: 0; padding: 0; position: absolute;
+word-wrap: break-word; z-index: 0;">
+<liveAgent:clientChatLog />
+</div>
+
+
+<div style="position: absolute; height: auto; right: 0; bottom: 0; left: 0;">
+<liveAgent:clientChatLogAlertMessage />
+<div style=" margin-right: 67px;">
+<liveagent:clientChatInput /><liveAgent:clientChatSendButton />
+</div>
+</div>
+</div>
+</liveAgent:clientChat>
+</div>
+</apex:page>

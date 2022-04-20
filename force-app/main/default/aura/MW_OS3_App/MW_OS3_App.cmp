@@ -1,0 +1,21 @@
+<aura:component >
+	    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 class="slds-text-heading_large text-red">OS 3 App</h1>
+  
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+            <p class="text-paragraph bold">Download OS 3 App</p>
+        </div>    
+        
+        <div class="slds-p-top_large">         
+            <button class="slds-button style1button" onclick="{!c.AppIOSButtonClick}"><img src="https://res.cloudinary.com/control4/image/upload/customer-support/Operating_System_Logos_iOS.svg" />iOS</button>
+            <button class="slds-button style1button" onclick="{!c.AppAndroidButtonClick}"><img src="https://res.cloudinary.com/control4/image/upload/customer-support/Operating_System_Logos_Android.svg" />Android</button>
+        </div>  
+    </div>
+    <div class="slds-grid slds-wrap slds-p-top_x-large">
+        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-4 slds-order_2 slds-medium-order_1">
+            <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+        </div>
+    </div>
+</aura:component>

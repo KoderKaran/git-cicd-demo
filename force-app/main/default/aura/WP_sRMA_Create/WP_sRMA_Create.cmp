@@ -1,0 +1,152 @@
+<aura:component controller="WP_sRMA_Controller" Implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:WP_sRMAEvent" action="{!c.addRemoveRMAEvent}"/>
+    <aura:attribute name="cpList" type="CaseProduct__c[]"/> 
+    <aura:attribute name="caseRecord" type="Object"/> 
+    <aura:attribute name="reasonList" type="List"/> 
+    <aura:attribute name="shippingList" type="List"/> 
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <aura:attribute name="sendViaTrigger" type="Boolean"/>
+    <aura:attribute name="optOutOfEmail" type="Boolean" default="false"/>   
+    <aura:attribute name="noCreditMemo" type="Boolean" default="false"/>   
+    <aura:attribute name="numEvents" type="Integer" default="0"/>
+    <aura:attribute name="isBtnDisabled" type="Boolean" default="true"/> 
+    <aura:attribute name="isErrorModal" type="Boolean" default="false"/>   
+    <aura:attribute name="errorMessage" type="string"/> 
+    <aura:registerEvent name="sRMARemoveEventName" type="c:WP_sRMA_RemoveEvent"/>
+    
+	<force:recordData aura:id="recordHandler"
+                      recordId="{!v.recordId}"
+                      fields="Description"
+                      targetFields="{!v.caseRecord}" 
+                      mode="EDIT"
+                      />
+    
+    <lightning:card>
+        <!--<div class="slds-float_right slds-p-bottom_small"><h1 class="slds-page-header__title">Manual Return<lightning:buttonIcon iconName="utility:add"  size="large" variant="bare" alternativeText="Add" onclick="{!c.addRow}"/></h1></div>-->
+        <div class="slds-p-right_medium slds-p-left_medium">        
+            <div class="slds-grid slds-wrap">
+                
+                <div class="slds-col slds-size_1-of-1 slds-border_top slds-border_bottom slds-border_right slds-border_left slds-text-align_center slds-theme_shade">          
+                    <div class= "slds-text-heading_medium slds-text-align_center"><b>Returns</b></div>
+                </div>               
+                
+                <div class="slds-col slds-size_1-of-1 customblue slds-border_bottom slds-border_right slds-border_left ">                    
+                    <aura:iteration items="{!v.cpList}" var="cp" indexVar="index">                    
+                        <div class="slds-grid slds-p-top_x-small slds-p-left_xxx-small slds-p-right_xxx-small slds-p-bottom_xxx-small">                          
+                            <!--<div class="slds-grid slds-p-top_small slds-p-right_small">                            
+                            <div class="slds-col slds-grow-none slds-p-around_x-small slds-align_absolute-center">
+                                <a onclick="{!c.removeRow}" data-record="{!index}">
+                                    <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                                    <span class="slds-assistive-text">Delete</span>
+                                </a>
+                            </div>-->
+                            <div class="slds-col slds-border_top slds-border_bottom slds-border_right slds-border_left">                              
+                                <div class="slds-grid slds-theme_shade slds-p-around_xxx-small">
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <Label><b>Sales Number</b></Label>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <Label><b>SKU</b></Label>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <Label class="slds-float_right"><b>Quantity</b></Label>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <Label class="slds-float_right"><b>Total</b></Label>
+                                    </div>
+                                </div>                                
+                                <div class="slds-grid slds-theme_default slds-p-around_xxx-small">                                    
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <ui:outputText value="{!cp.SalesNumber}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <ui:outputText value="{!cp.SKU}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle slds-float_right">
+                                        <lightning:input name="{!index}" required="true" class="label-hidden quantityTextAlign quantityWidth slds-float_right" min="1" max="{!cp.MaxQuantity}" label="NotUsed" variant="label-hidden" type="number" autocomplete="off" value="{!cp.Quantity}" oncommit="{!c.changeQuantity}" />
+                                        <!--<input type="text" data-record-id="{!index}" id="quantityID" min="1" class="slds-input quantityTextAlign" value="{!cp.Quantity}" onkeypress="{!c.changeQuantity}"/>-->                                
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4 slds-align-middle">
+                                        <ui:outputCurrency class="slds-float_right" value="{!cp.TotalPrice}"/>
+                                    </div>
+                                </div>     
+                                <div class="slds-grid slds-theme_shade slds-p-around_xxx-small">
+                                    <div class="slds-col slds-size_2-of-4 slds-align-middle">
+                                        <Label><b>Reason</b></Label>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-4 slds-align-middle">
+                                        <div class="{!if(cp.Reason == 'Warehouse Error','slds-show','slds-hide')}"> 
+                                            <Label><b>Warehouse Error Type</b></Label>
+                                        </div>
+                                    </div>                             
+                                </div>
+                                <div class="slds-grid slds-theme_default slds-p-around_xxx-small" >
+                                    <div class="slds-col slds-size_2-of-4 slds-p-right_xxx-small">
+                                        <lightning:select label="NotUsed" variant="label-hidden" class="label-hidden" value="{!cp.Reason}">
+                                            <option value="" text="- None -" />
+                                            <aura:iteration items="{!v.reasonList}" var="ind">
+                                                <option text="{!ind}" value="{!ind}"/>
+                                            </aura:iteration>
+                                        </lightning:select>                       
+                                    </div>                                    
+                                    <div class="slds-col slds-size_2-of-4 slds-p-left_xxx-small">                                      
+                                        <div class="{!if(cp.Reason == 'Warehouse Error','slds-show','slds-hide')}">   
+                                            <lightning:select label="NotUsed" variant="label-hidden" class="label-hidden" value="{!cp.WarehouseError}">
+                                                <option value="" text="- None -" />
+                                                <option text="Shipping Error" value="Shipping Error"/>
+                                                <option text="Fulfillment Error" value="Fulfillment Error"/>
+                                                <option text="Shipping Damage" value="Shipping Damage"/>
+                                            </lightning:select>                                       
+                                        </div>                     
+                                    </div>
+                                </div>                               
+                            </div>                            
+                        </div>
+                    </aura:iteration> 
+                </div>
+            </div>
+        </div>    
+        
+        <div class="slds-p-top_x-small slds-p-right_medium slds-p-left_medium slds-p-bottom_medium">
+
+            <ui:inputTextArea label="Notes" value="{!v.caseRecord.Description}" disabled="{!v.isBtnDisabled}" />
+   
+            <div class="slds-grid slds-gutters_xx-small slds-grid_align-end slds-p-top_x-small">                
+				<div class="slds-col slds-align-middle">
+                    <ui:inputCheckbox aura:id="checkbox" label="No Credit Memo" value="{!v.noCreditMemo}"/>
+                </div>
+                <!-- Leave optOutOfEmail in just in case they want it again
+                <div class="slds-col slds-align-middle">
+                    <ui:inputCheckbox aura:id="checkbox" label="Opt Out of Email" value="{!v.optOutOfEmail}"/>
+                </div>-->
+                <div class="slds-col slds-align-middle">
+                    <lightning:button variant="brand" label="Submit Returns" disabled="{!v.isBtnDisabled}" onclick="{!c.saveRMA}" />
+                </div>
+            </div>          
+        </div>
+        
+                <!-- Modal/Popup-->
+        <aura:if isTrue="{!v.isErrorModal}">            
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Header -->
+                    <header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModel}" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <div class="slds-text-heading_medium slds-text-title_bold">Error</div>
+                    </header>
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        {!v.errorMessage}
+                    </div>
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" label="Close" title="Close" onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <!-- End Modal/Popup-->    
+    </lightning:card>
+</aura:component>

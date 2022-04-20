@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="height" label="String" description="height separator" />
+	<design:attribute name="top" label="String" description="top separator" />
+</design:component>

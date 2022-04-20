@@ -1,0 +1,34 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />         
+
+    <h1 class="slds-text-heading_large text-red">Troubleshooting</h1>
+
+    <p class="slds-p-top_large text-paragraph bold">Select your dimmer or keypad</p>      
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium">
+          <div class="slds-col slds-p-bottom_large">
+            <span style="cursor: pointer;" onclick="{!c.APD120Click}">
+                <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_210,h_160,f_auto,q_auto/customer-support/Lighting_Keypad_Thumbnails_Icon-1.png"/>
+            </span>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            <span style="cursor: pointer;" onclick="{!c.KD120Click}">
+	            <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_210,h_160,f_auto,q_auto/customer-support/Lighting_Keypad_Thumbnails_Icon-2.png"/>
+            </span>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            <span style="cursor: pointer;" onclick="{!c.LDZ101Click}">
+    	        <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_210,h_160,f_auto,q_auto/customer-support/Lighting_Keypad_Thumbnails_Icon-3.png"/>
+            </span>
+          </div>
+          <div class="slds-col slds-p-bottom_x-large">
+            <span style="cursor: pointer;" onclick="{!c.K6Click}">
+    	        <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_210,h_160,f_auto,q_auto/customer-support/Lighting_Keypad_Thumbnails_Icon-4.png"/>
+            </span>
+          </div>
+        </div>
+    </div>
+  
+    <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+</aura:component>

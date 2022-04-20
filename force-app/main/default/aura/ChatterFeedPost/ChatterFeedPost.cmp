@@ -1,0 +1,159 @@
+<aura:component controller="CustomChatterFeedPostController" implements="forceCommunity:availableForAllPageTypes,force:hasRecordId">
+
+	<aura:attribute name="blobValue" type="Blob" />
+	<aura:attribute name="uploadedFileURL" type="String" />
+	<aura:attribute name="uploadedFileName" type="String" />
+	<!-- <aura:attribute name="topics" type="sObject[]" /> -->
+	<aura:attribute name="fileToBeUploaded" type="Object[]" />
+	<aura:attribute name="userId" type="String" default=""/>
+	<aura:attribute name="userPhoto" type="String" default=""/>
+	<aura:attribute name="user" type="sObject" default=""/>
+	<aura:attribute name="comments" type="sObject[]" default=""/>
+	<aura:attribute name="checkVotes" type="boolean[]" default=""/>
+	<aura:attribute name="feedAttachment" type="String" />
+	<aura:attribute name="feed" type="sObject" default=""/>
+	<aura:attribute name="editMode" type="Boolean" default="false"/>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+	<ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css', 
+    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}" />
+
+    <h2 class="uppercase">Great<br/><strong>Questions</strong></h2>
+	<div class="col-lg-8">			
+		<!-- question -->
+		<div class="flex margin-bottom">
+			<div class="flex-75">
+				<div class="{!if(v.feed.myVote == 'Up','slds-show','slds-hide')}">
+					<a href="" class="block text-grey" onclick="{!c.upvoteFeedItem}" id="{!v.feed.feedItem.Id}" name="{!v.feed.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+				</div>
+				<div class="{!if(v.feed.myVote != 'Up','slds-show','slds-hide')}">
+					<a href="" class="block text-light-grey" onclick="{!c.upvoteFeedItem}" id="{!v.feed.feedItem.Id}" name="{!v.feed.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+				</div>
+
+				<div class="count">{!v.feed.countVote}</div>
+
+				<div class="{!if(v.feed.myVote == 'Down','slds-show','slds-hide')}">
+					<a href="" class="block text-grey" onclick="{!c.downvoteFeedItem}" id="{!v.feed.feedItem.Id}" name="{!v.feed.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+				</div>
+				<div class="{!if(v.feed.myVote != 'Down','slds-show','slds-hide')}">
+					<a href="" class="block text-light-grey" onclick="{!c.downvoteFeedItem}" id="{!v.feed.feedItem.Id}" name="{!v.feed.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+				</div>
+			</div>
+			<div class="flex-75">
+				<div class="{!if(v.feed.userPhoto == '','slds-show','slds-hide')}">
+					<a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultMinAvatar + ')'}" title="{! v.feed.user.Contact.FirstName + '&nbsp;' + v.feed.user.Contact.LastName + '\n'+ v.feed.user.Account.Name}"></div></a>
+				</div>
+				<div class="{!if(v.feed.userPhoto == '','slds-hide','slds-show')}">
+					<a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + v.feed.userPhoto + ')'}" title="{! v.feed.user.Contact.FirstName + '&nbsp;' + v.feed.user.Contact.LastName + '\n'+ v.feed.user.Account.Name}"></div></a>
+				</div>
+				<!-- <a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + v.feed.userPhoto + ')'}" title="{! v.feed.user.Contact.FirstName + '&nbsp;' + v.feed.user.Contact.LastName + '\n'+ v.feed.user.Account.Name}"></div></a> -->
+			</div>
+			<div class="flex-stretch">
+				<p class="bold no-margin">{!v.feed.feedItem.Title}</p>
+				<ui:outputRichText class="slds-text-longform feedItem" value="{!v.feed.feedItem.Body}"/>
+				<!-- <div class="tags">
+					<aura:iteration items="{!v.topics}" var="topic">
+						<a href="">
+							<ui:outputRichText value="{!topic.name}"/>
+						</a>
+					</aura:iteration>
+				</div> -->
+				<aura:if isTrue="{!v.feedAttachment}">
+					<lightning:fileCard fileId="{!v.feedAttachment}"/>
+				</aura:if>
+				<small>Asked by {!v.feed.user.Contact.FirstName}&nbsp;{!v.feed.user.Contact.LastName} | <lightning:formattedDateTime value="{!v.feed.feedItem.CreatedDate}"
+                                 year="numeric" month="long" day="2-digit" hour="2-digit"
+                                 minute="2-digit"/></small>
+			</div>
+		</div>
+		
+		<aura:if isTrue="{!v.editMode}">
+		<!-- respond -->
+			<div class="flex margin-bottom">
+				<div class="flex-75 hidden-xs hidden-sm"></div>
+				<div class="flex-75 hidden-xs"></div>
+				<div class="flex-75">
+					<div class="{!if(v.user.Contact.Avatar_URL__c == '','slds-show','slds-hide')}">
+						<a id="{!v.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultMinAvatar + ')'}" title="{! v.user.Contact.FirstName + '&nbsp;' + v.user.Contact.LastName + '\n'+v.user.Account.Name}"></div></a>
+					</div>
+					<div class="{!if(v.user.Contact.Avatar_URL__c == '','slds-hide','slds-show')}">
+						<a id="{!v.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + v.user.Contact.Avatar_URL__c + ')'}" title="{! v.user.Contact.FirstName + '&nbsp;' + v.user.Contact.LastName + '\n'+v.user.Account.Name}"></div></a>
+					</div>
+					<!-- <a id="{!v.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + v.user.Contact.Avatar_URL__c + ')'}" title="{! v.user.Contact.FirstName + '&nbsp;' + v.user.Contact.LastName + '\n'+v.user.Account.Name}"></div></a> -->
+				</div>
+				<div class="flex-stretch pointer">	
+					<textarea id="message-input" class='pointerTrue' placeholder="Your Answer"></textarea>
+					<!-- <button class="light-grey" onclick="{!c.uploadPreviewAttachment}"><i class="fal fa-paperclip"></i>Attach</button> -->
+					<lightning:input type="file"
+									variant="label-hidden"
+									files="{!v.fileToBeUploaded}"
+									name="file" 
+									multiple="false"
+									messageWhenBadInput="File type not supported"
+									onchange="{!c.uploadPreviewAttachment}"
+									class="uploadFile"/>
+					<span style="padding-left: 10px;">{!v.uploadedFileName}</span>
+					<div>
+						<button class="light-grey pointerTrue" onclick="{!c.submitComment}"><i class="fal fa-check-circle"></i>Submit Answer</button>
+					</div>
+				</div>
+			</div>
+		</aura:if>
+		<div class="margin-top margin-bottom border-bottom"></div>
+				
+		<!-- response_answer -->
+		<aura:iteration items="{!v.comments}" var="comment">
+			<div class="flex margin-bottom">
+				<div class="{!if(v.feed.feedItem.BestCommentId != comment.feedComment.Id,'slds-show','slds-hide')}">
+					 <a href="" class="text-light-grey" title="Mark as best answer" onclick="{!c.bestCommentUpdate}" id="{!comment.feedComment.Id}"><i class="fal fa-check-circle fa-2x"></i></a>
+				</div>
+				<div class="{!if(v.feed.feedItem.BestCommentId == comment.feedComment.Id,'slds-show','slds-hide')}">
+					 <a href="" id="{!comment.feedComment.Id}"><i class="fal fa-check-circle fa-2x text-success"></i></a>
+				</div>
+				<div class="flex-75">
+					<div class="{!if(comment.myVote == 'Up','slds-show','slds-hide')}">
+					 <a href="" class="block text-grey" onclick="{!c.upvoteComment}" id="{!comment.feedComment.Id}" name="{!comment.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+					</div>
+					<div class="{!if(comment.myVote != 'Up','slds-show','slds-hide')}">
+					 <a href="" class="block text-light-grey" onclick="{!c.upvoteComment}" id="{!comment.feedComment.Id}" name="{!comment.myVote}"><i class="fal fa-arrow-up fa-2x"></i></a>
+					</div>
+					<div class="count">{!comment.countVote}</div>
+					<div class="{!if(comment.myVote == 'Down','slds-show','slds-hide')}">
+					 <a href="" class="block text-grey" onclick="{!c.downvoteComment}" id="{!comment.feedComment.Id}" name="{!comment.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+					</div>
+					<div class="{!if(comment.myVote != 'Down','slds-show','slds-hide')}">
+					 <a href="" class="block text-light-grey" onclick="{!c.downvoteComment}" id="{!comment.feedComment.Id}" name="{!comment.myVote}"><i class="fal fa-arrow-down fa-2x"></i></a>
+					</div>
+				</div>
+				<div class="flex-75">
+					<div class="{!if(comment.userPhoto == '','slds-show','slds-hide')}">
+						<a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultMinAvatar + ')'}" title="{! comment.user.Contact.FirstName + '&nbsp;' + comment.user.Contact.LastName + '\n'+comment.user.Account.Name}"></div></a>
+					</div>
+					<div class="{!if(comment.userPhoto == '','slds-hide','slds-show')}">
+						<a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + comment.userPhoto + ')'}" title="{! comment.user.Contact.FirstName + '&nbsp;' + comment.user.Contact.LastName + '\n'+comment.user.Account.Name}"></div></a>
+					</div>
+					<!-- <a id="{!v.feed.user.Id}" onclick="{!c.redirectToProfilePage}"><div class="userimg" style="{!'background-image: url(' + comment.userPhoto + ')'}" title="{! comment.user.Contact.FirstName + comment.user.Contact.LastName + '\n'+comment.user.Account.Name}"></div></a> -->
+				</div>
+				<div class="flex-stretch">
+					<ui:outputRichText class="slds-text-longform no-margin" value="{!comment.feedComment.CommentBody}"/>
+					<div class="{!if(comment.fileId != '','slds-show','slds-hide')}">
+					 <lightning:fileCard fileId="{!comment.fileId}"/>
+					</div>
+					<!-- <p class="no-margin">{!comment.feedComment.CommentBody}</p> -->
+					<div class="{!if(v.feed.feedItem.BestCommentId != comment.feedComment.Id,'slds-show','slds-hide')}">
+					 	<small>Response by {!comment.user.Contact.FirstName}&nbsp;{!comment.user.Contact.LastName} | <lightning:formattedDateTime value="{!comment.feedComment.CreatedDate}"
+                                 year="numeric" month="long" day="2-digit" hour="2-digit"
+                                 minute="2-digit"/></small>
+					</div>
+					<div class="{!if(v.feed.feedItem.BestCommentId == comment.feedComment.Id,'slds-show','slds-hide')}">
+						<small><span class="text-success bold">Best Answer</span> by {!comment.user.Contact.FirstName}&nbsp;{!comment.user.Contact.LastName} | <lightning:formattedDateTime value="{!comment.createdDate}"
+                                 year="numeric" month="long" day="2-digit" hour="2-digit"
+                                 minute="2-digit"/></small>
+					</div>
+				</div>
+			</div>
+		</aura:iteration>
+	</div>
+</aura:component>

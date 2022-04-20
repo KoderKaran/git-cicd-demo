@@ -1,0 +1,15 @@
+.THIS {
+        background-color: white; 
+}
+.THIS .quantityWidth{
+    width: 60px;
+}
+.THIS .quantityTextAlign input { 
+    text-align: right;
+}
+.THIS .label-hidden > label {
+    display: none;
+}
+.THIS .customblue {
+   background-color: #B0C4DF;  
+}

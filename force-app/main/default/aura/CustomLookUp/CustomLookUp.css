@@ -1,0 +1,9 @@
+.THIS .search-lookup {
+    padding-left: 1rem;
+    min-height: calc(1.875rem + (1px * 2));
+}
+
+.THIS .selected-value {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}

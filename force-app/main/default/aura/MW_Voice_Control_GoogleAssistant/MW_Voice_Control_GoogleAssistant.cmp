@@ -1,0 +1,40 @@
+<aura:component >    
+    <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />    
+    
+    <h1 tabIndex="0"></h1>
+    <h1 class="slds-text-heading_large">Google Assistant</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.SetupClick}" onmouseover="{!c.HoverSetupImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Setup','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Getting-Started-Video.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Setup','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-getting-started-video.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">Setup</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.UsingClick}" onmouseover="{!c.HoverUsingImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Using','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Quick-Start-Guide-1.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Using','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-quick-start-guide-1.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">Using</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.FAQClick}" onmouseover="{!c.HoverCFImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'CF','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Customer-FAQs.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'CF','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-customer-faqs.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-p-bottom_large slds-align_absolute-center text-navigation">FAQ</p>
+                </span>
+            </div>         
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div> 
+</aura:component>

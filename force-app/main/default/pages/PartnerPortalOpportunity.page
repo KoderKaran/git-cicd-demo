@@ -1,0 +1,5 @@
+<apex:page controller="PartnerPortalOpportunity" tabStyle="Account">
+<apex:pageBlock title="Hello {!$User.FirstName}!"></apex:pageBlock>
+<apex:pageBlock title="Contacts"></apex:pageBlock>
+{!opportunities}
+</apex:page>

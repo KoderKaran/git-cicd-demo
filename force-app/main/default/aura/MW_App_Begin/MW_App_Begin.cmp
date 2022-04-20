@@ -1,0 +1,60 @@
+<aura:component >
+     <aura:attribute name="ImageToggle" type="string" default=""/>
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />
+    
+    <h1 tabindex="0"></h1>
+    <h1 class="slds-text-heading_large">App</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">   
+        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_align-center slds-gutters_medium ">
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.ConnectionIssuesClick}" onmouseover="{!c.HoverConnectionImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Connection','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Connection-Issues.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Connection','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-connection-issues.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">OS 2 Connection</p>
+                    <p class="slds-align_absolute-center text-navigation">Issues</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.NewDeviceClick}" onmouseover="{!c.HoverNewDeviceImage}" onmouseout="{!c.NoMouseOver}">                 
+                    <div class="{!if(v.ImageToggle == 'NewDevice','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_New-Device-1.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'NewDevice','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-new-device-1.svg" /></div>
+                    
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">New Device</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.MusicServicesClick}" onmouseover="{!c.HoverMusicImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Music','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Music-Services.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Music','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-music-services.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Music</p>
+                    <p class="slds-align_absolute-center text-navigation">Services</p>
+                </span>
+            </div>
+            <div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.IntercomAnywhereClick}" onmouseover="{!c.HoverIntercomImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'Intercom','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Intercom-Anywhere.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'Intercom','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-intercom-anywhere.svg" /></div>
+                 
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">Intercom</p>
+                    <p class="slds-align_absolute-center text-navigation">Anywhere</p>
+                </span>
+            </div>
+            <!--<div class="slds-col slds-p-bottom_large">
+                <span style="cursor: pointer;" onclick="{!c.PCMacClick}" onmouseover="{!c.HoverAppImage}" onmouseout="{!c.NoMouseOver}">
+                    <div class="{!if(v.ImageToggle == 'App','slds-hide','slds-show')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/Customer_Support_Base_Icons_Control4-App-For-Mac-PC.svg" /></div>
+                    <div class="{!if(v.ImageToggle == 'App','slds-show','slds-hide')}"><img class="slds-align_absolute-center" src="https://res.cloudinary.com/control4/image/upload/c_limit,w_111,h_160,f_auto,q_auto/customer-support/customer-support-solid-icons-control4-app-for-mac-pc.svg" /></div>
+
+                    <p class="slds-p-top_medium slds-align_absolute-center text-navigation">OS 2 App</p>
+                    <p class="slds-align_absolute-center text-navigation">For PC/Mac</p>
+                </span>
+            </div>-->            
+        </div>
+    </div>
+    
+    <div class="slds-p-top_medium">
+        <lightning:button aura:id="beginBackButton" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+    </div>   
+</aura:component>

@@ -1,0 +1,16 @@
+<apex:page title="Dealer Scoring">
+
+	<apex:includeLightning />
+
+	<div id="dealer-scoring" style="page-break-after: always"/>
+
+	<script>
+		$Lightning.use("c:DealerScoringApp", function() {
+
+			$Lightning.createComponent("c:DealerScoring", "", "dealer-scoring",
+				
+			function(cmp) {});
+
+		});
+	</script>
+</apex:page>

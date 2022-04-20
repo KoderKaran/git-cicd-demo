@@ -1,0 +1,30 @@
+<aura:component >
+	<aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" />   	
+
+    <h1 class="slds-text-heading_large text-red">Connection Issues</h1>
+    
+    <div class="slds-p-top_large slds-scrollable_none">
+        
+        <p class="text-paragraph bold">What error message do you see on your mobile device?</p>        
+        
+        <div class="slds-grid slds-wrap slds-p-top_x-large slds-grid_align-center slds-gutters">
+          <div class="slds-col slds-p-bottom_large">
+            <span style="cursor: pointer;" onclick="{!c.Con40321Click}">
+                <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_220,h_160,f_auto,q_auto/customer-support/Connection_Issues_Selection_Buttons_Error-403.21.svg"/>
+            </span>
+          </div>
+          <div class="slds-col slds-p-bottom_large">
+            <span style="cursor: pointer;" onclick="{!c.Con500Click}">
+            <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_220,h_160,f_auto,q_auto/customer-support/Connection_Issues_Selection_Buttons_Error-500.svg"/>
+              </span>
+          </div>
+          <div class="slds-col slds-p-bottom_x-large">
+            <span style="cursor: pointer;" onclick="{!c.DNAClick}">
+            <img src="https://res.cloudinary.com/control4/image/upload/c_limit,w_220,h_160,f_auto,q_auto/customer-support/Connection_Issues_Selection_Buttons_Device-Not-Authenticated.svg"/>
+            </span>
+          </div>
+        </div>
+    </div>
+    
+    <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+</aura:component>

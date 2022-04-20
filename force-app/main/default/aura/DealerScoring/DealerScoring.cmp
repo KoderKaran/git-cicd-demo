@@ -1,0 +1,244 @@
+<aura:component controller="DealerScoringController">
+    
+    <aura:attribute type="Map" name="accountFields" access="public" />
+    <aura:attribute type="Map" name="accountNameToLabel" access="public" />
+    <aura:attribute type="List" name="nameToLabel" access="public" />
+    <aura:attribute type="Object" name="selectedField" />
+    <aura:attribute type="String" name="selectedFieldName" />
+    <aura:attribute type="String" name="selectedFieldType" default="" />
+    <aura:attribute type="List" name="generatedObjects"/>
+    <aura:attribute type="List" name="objectsToSave"/>
+    <aura:attribute type="List" name="savedObjects"/>
+    <aura:attribute type="Boolean" name="isEditMode" default="false" />
+    <aura:attribute type="Boolean" name="areSavedObjectsShown" default="true" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="aura:waiting" action="{!c.toggleSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.toggleSpinner}"/>
+
+    <lightning:spinner variant="brand" size="large" aura:id="mySpinner" class="slds-hide"/>
+    <div class="header">
+        <span>
+            <lightning:icon iconName="standard:contact"/>
+        </span>
+        <span>
+                <span>Dealer Scoring</span><br/>
+                <span>Define point values</span>
+        </span>
+        <span>
+                <lightning:button variant="neutral" label="Back" onclick="{!c.goBack}" />
+                <lightning:button variant="neutral" label="Save" onclick="{!c.saveCreatedObjects}" disabled="{!v.objectsToSave.length == 0}" />
+        </span>
+    </div>
+
+    <!-- <div class="header slds-page-header">
+      <div class="slds-media">
+        <div class="slds-media__figure">
+          <span class="slds-icon_container slds-icon-standard-opportunity" title="Dealer Scoring">
+            <lightning:icon iconName="standard:contact"/>
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Dealer Scoring">Dealer Scoring</h1>
+          <h2 class="slds-text-body_large slds-line-height_reset">Define point values</h2>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="select-type">
+        <lightning:select value="{!v.selectedFieldName}" label="Field" onchange="{!c.switchSelectField}">
+            <option value="0">Select Field</option>
+            <aura:iteration items="{!v.accountNameToLabel}" var="accountNameToLabel" indexVar="key">
+                <option value="{!accountNameToLabel.key}" text="{!accountNameToLabel.value}"></option>
+            </aura:iteration>
+        </lightning:select>
+    </div>
+    
+    <div class="slds-grid slds-wrap slds-gutters select-value">
+        <!-- <aura:iteration items="{!v.generatedObjects}" var="generatedObject"> -->
+            <!-- <span class="slds-size_3-of-3">
+                
+                {!generatedObject}
+            </span> -->
+        <aura:iteration items="{!v.objectsToSave}" var="object" >
+            <div class="slds-size_3-of-3">
+                <aura:renderIf isTrue="{!v.selectedFieldType != '' &amp;&amp; v.selectedFieldType != 'select' &amp;&amp; v.selectedFieldType != 'checkbox' }">
+                    <lightning:buttonIcon name="{!object}" iconName="utility:close" variant="neutral" onclick="{!c.deletePreparedElement}" alternativeText="delete element" />
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'date'}">
+                    <ui:inputDate label="Low Value" labelClass="{!object}" class="slds-input" displayDatePicker="true" change="{!c.bindDateValue}">
+                    </ui:inputDate>
+                    <ui:inputDate label="High Value" labelClass="{!object}" class="slds-input" displayDatePicker="true" change="{!c.bindDateValue}">
+                    </ui:inputDate>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'dateTime'}">
+                    <ui:inputDateTime label="Low Value" labelClass="{!object}" class="slds-input" displayDatePicker="true" change="{!c.bindDateValue}">
+                    </ui:inputDateTime>
+                    <ui:inputDateTime label="High Value" labelClass="{!object}" class="slds-input" displayDatePicker="true" change="{!c.bindDateValue}">
+                    </ui:inputDateTime>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'checkbox'}">
+                    <ui:inputCheckbox disabled="true" label="Value" class="slds-input" value="{!object.fieldValue}">
+                    </ui:inputCheckbox>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'number'}">
+                    <ui:inputNumber label="Low Value" class="slds-input" value="{!object.fieldValueLow}">
+                    </ui:inputNumber>
+                    <ui:inputNumber label="High Value" class="slds-input" value="{!object.fieldValueHigh}">
+                    </ui:inputNumber>
+                </aura:renderIf>
+                <!-- <aura:renderIf isTrue="{!v.selectedFieldType == 'text'}">
+                    <ui:inputText maxlength="{!object.maxLength}" label="Value" class="slds-input " value="{!object.fieldValue}">
+                    </ui:inputText>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'textArea'}">
+                    <ui:inputText maxlength="{!object.maxLength}" label="Value" class="slds-input text-area" value="{!object.fieldValue}">
+                    </ui:inputText>
+                </aura:renderIf> -->
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'textArea' || v.selectedFieldType == 'text'}">
+                    <ui:inputText maxlength="{!object.maxLength}" label="Value" class="slds-input text-area" value="{!object.fieldValue}">
+                    </ui:inputText>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'select'}">
+                    <ui:inputSelect disabled="true" label="Value" options="{!object.options}" class="slds-select" labelClass="{!object}" change="{!c.bindPicklistValue}" >
+                    </ui:inputSelect>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.selectedFieldType == 'lookup'}">
+                    <div>
+                        <c:CustomLookUp objectAPIName="{!object.lookupType}"
+                            selectedRecordId="{!object.fieldValue}"
+                            label="Value" />
+                    </div>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!v.objectsToSave.length != 0}">
+                    <ui:inputNumber label="Points" class="slds-input points" value="{!object.scores}">
+                    </ui:inputNumber>
+                </aura:renderIf>
+            </div>
+        </aura:iteration>
+
+        <aura:renderIf isTrue="{!v.isEditMode &amp;&amp; v.selectedFieldType != 'select' &amp;&amp; v.selectedFieldType != 'checkbox'}">
+            <div class="slds-col slds-size_3-of-3 add-button">
+                <lightning:button label="+" onclick="{!c.generateEmptyField}" />        
+            </div>
+        </aura:renderIf>
+        <div class="slds-hide" id="error-message">
+        </div>
+    </div>
+
+    <aura:renderIf isTrue="{!v.objectsToSave.length != 0}">
+        <div class="save-button">
+            <lightning:button variant="brand" label="Save" onclick="{!c.saveCreatedObjects}" />
+        </div>
+    </aura:renderIf>
+    <div class="saved-point" onclick="{!c.showSavedObjects}">
+        <span>
+            <aura:renderIf isTrue="{!v.areSavedObjectsShown}">
+                <lightning:icon class="slds-button__icon" iconName="utility:chevrondown"/>
+            </aura:renderIf>
+            <aura:renderIf isTrue="{!!v.areSavedObjectsShown}">
+                <lightning:icon class="slds-button__icon" iconName="utility:chevronup"/>
+            </aura:renderIf>
+        </span> 
+        <span>
+            Saved Point Values
+        </span> 
+    </div>
+    <div class="{!'value-output ' + if(v.areSavedObjectsShown, '', 'slds-hide')}">
+        <table class="slds-table--fixed-layout slds-table slds-table_bordered slds-table_cell-buffer">
+          <thead>
+            <tr class="slds-text-title_caps">
+              <th class="slds-cell-shrink" scope="col">
+                <div class="slds-truncate" title="Delete Button"></div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Field Name">Field Name</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Low Value">Value</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Value">Low Value</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="High Value">High Value</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Points">Points</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:iteration items="{!v.savedObjects}" var="savedObject" >
+            <tr>
+              <td data-label="delete-button">
+                <div class="slds-truncate" title="delete-button">
+                    <!-- <aura:renderIf isTrue="{!savedObject.type != 'checkbox' &amp;&amp; savedObject.type != 'select'}"> -->
+                            <lightning:buttonIcon name="{!savedObject}" class="delete-button" iconName="utility:close" variant="neutral" onclick="{!c.deleteSavedElement}" alternativeText="delete element" />
+                    <!--     </aura:renderIf> -->
+                    </div>
+              </td>
+              <td data-label="Field Label">
+                <div class="slds-truncate" title="{!savedObject.fieldLabel}">{!savedObject.fieldLabel}</div>
+              </td>
+              <td data-label="Value">
+                <aura:renderIf isTrue="{!savedObject.type == 'checkbox'}">
+                    <div class="left-padded-checkbox">
+                        <ui:outputCheckbox value="{!savedObject.fieldValue == 'true'}"/>
+                    </div>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!savedObject.type == 'lookup'}">
+                    <div class="slds-truncate" title="{!savedObject.lookupValue}">
+                        {!savedObject.lookupValue}
+                    </div>
+                </aura:renderIf>
+                <aura:renderIf isTrue="{!savedObject.type != 'checkbox' &amp;&amp; savedObject.type != 'lookup'}">
+                    <div class="slds-truncate" title="{!savedObject.fieldValue}">
+                        {!savedObject.fieldValue}
+                    </div>
+                </aura:renderIf>
+              </td>
+              <td data-label="Low Value">
+                <div class="slds-truncate" title="{!savedObject.fieldValueLow}">
+                    <aura:renderIf isTrue="{!savedObject.type == 'date' || savedObject.type == 'dateTime'}">
+                        <lightning:formattedDateTime value="{!savedObject.fieldValueLow}" timeZone="America/Los_Angeles" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit"/>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!savedObject.type == 'number'}">
+                        {!savedObject.fieldValueLow}
+                    </aura:renderIf>
+                </div>
+              </td>
+              <td data-label="High Value">
+                <div class="slds-truncate" title="{!savedObject.fieldValueHigh}">
+                    <aura:renderIf isTrue="{!savedObject.type == 'date' || savedObject.type == 'dateTime'}">
+                        <lightning:formattedDateTime value="{!savedObject.fieldValueHigh}" timeZone="America/Los_Angeles" year="numeric" month="numeric" day="numeric"  hour="2-digit" minute="2-digit"/>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!savedObject.type == 'number'}">
+                        {!savedObject.fieldValueHigh}
+                    </aura:renderIf>
+                </div>
+              </td>
+              <td data-label="Points">
+                <div class="slds-truncate points-output" title="{!savedObject.scores}">
+                    <ui:inputNumber class="slds-input" value="{!savedObject.scores}">
+                    </ui:inputNumber>
+                </div>
+              </td>
+            </tr>
+            </aura:iteration>
+          </tbody>
+        </table>
+        
+        <aura:renderIf isTrue="{!v.savedObjects.length != 0}">
+            <div class="update-button">
+                <lightning:button variant="brand" label="Save Point Values" onclick="{!c.updatePoints}" />
+            </div>
+        </aura:renderIf>
+        <span class="slds-hide" id="success-message">
+            Points successfully saved
+        </span>
+        <span class="slds-hide" id="error-message-2">
+        </span>
+    </div>
+    
+</aura:component>

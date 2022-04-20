@@ -1,0 +1,96 @@
+<aura:component controller="WP_sRMA_Controller" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <!--<aura:handler event="aura:waiting" action="{!c.waiting}"/>-->
+    <!--<aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>-->    
+    <aura:registerEvent name="sRMAEventName" type="c:WP_sRMAEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:WP_sRMA_RemoveEvent" action="{!c.handleRemoveItem}"/>
+    
+    <!--<aura:attribute name="IsSpinner" type="Boolean" default="false"/>--> 
+    <aura:attribute name="recordId" type="String" /> 
+    <aura:attribute name="ShowPanel" type="String" default=""/>
+    <aura:attribute name="salesNumber" type="String" default=""/> <!-- default="AVD906"-->   
+    <aura:attribute name="gridColumns" type="List" />
+    <aura:attribute name="gridData" type="Object" />
+    <aura:attribute name="selectedRows" type="List" />
+    <aura:attribute name="previousSelectedRows" type="List" />
+    <aura:attribute name="gridExpandedRows" type="List" />
+    <aura:attribute name="beginDate" type="Date" default=""/>
+    <aura:attribute name="endDate" type="Date" default=""/>
+    
+    <lightning:card>       
+        <div class="slds-p-right_medium slds-p-left_medium">        
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-border_top slds-border_bottom slds-border_right slds-border_left slds-text-align_center slds-theme_shade">          
+                    <div class= "slds-text-heading_medium slds-text-align_center"><b>Sales Orders</b></div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-border_bottom slds-border_right slds-border_left slds-p-top_small">
+                    <div class="slds-grid slds-gutters slds-p-left_medium slds-p-right_medium">
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <label>Sales Order Number</label>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <label>Begin Date</label>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <label>End Date</label>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <label></label>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-grid slds-gutters slds-p-left_medium slds-p-right_medium slds-p-bottom_small">                        
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <ui:inputText class="field" value="{!v.salesNumber}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <ui:inputDate aura:id="beginDate" class="field" value="{!v.beginDate}" displayDatePicker="true" />
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <ui:inputDate aura:id="endDate" class="field" value="{!v.endDate}" displayDatePicker="true" />
+                        </div>
+                        <div class="slds-col slds-size_1-of-5 slds-align-middle">
+                            <lightning:button class="slds-button slds-button_stretch" label="Lookup" onclick="{!c.GetDeliveries}"/> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-p-top_medium slds-p-right_medium slds-p-left_medium">
+            <div class="{!if(v.ShowPanel == 'BlankMessage','slds-show','slds-hide')}">            
+            </div>           
+            <div class="{!if(v.ShowPanel == 'ErrorMessage','slds-show','slds-hide')}">            
+                <div class="slds-text-heading_large slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#32527B">
+                    <b>No Orders Found</b>
+                </div>
+            </div>        
+            <div class="{!if(v.ShowPanel == 'NoOrdersFound','slds-show','slds-hide')}">            
+                <div class="slds-text-heading_large slds-align_absolute-center slds-text-color_inverse" style="width:100%;padding:0.6rem;background:#32527B">
+                    <b>No Orders Found</b>
+                </div>
+            </div>     
+            <div class="{!if(v.ShowPanel == 'ResultMessage','slds-show','slds-hide')}">           
+                <div class="slds-grid slds-grid_vertical slds-border_top slds-border_right slds-border_left">      
+                    <div class="slds-grid slds-grid_vertical">                   
+                        <div>
+                            <lightning:treeGrid aura:id="treegridID"
+                                                keyField="KeyField"
+                                                columns="{!v.gridColumns}"
+                                                data="{!v.gridData}"                                               
+                                                selectedRows="{!v.selectedRows}"
+                                                expandedRows="{!v.gridExpandedRows}"                                                
+                                                onrowselection= "{!c.onSelected}"
+                                               
+                                                />
+                        </div>                   
+                    </div>
+                </div>            
+            </div>
+        </div>
+        
+        <!--<aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner alternativeText="Loading" variant="brand" size="large" />
+    </aura:if>-->
+    </lightning:card>    
+</aura:component>

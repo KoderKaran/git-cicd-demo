@@ -1,0 +1,90 @@
+<apex:page docType="html-5.0" showHeader="true" sidebar="true" standardController="Case" extensions="SerialNumberTrackingController" tabStyle="Case">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+     var msgBody = '{!serialNumberSaved}';
+   
+ 
+    if(msgBody=='true'){
+        $("#id_saveresult_msg").css("display", "block");
+        $("#id_saveresult_msg").fadeOut(5000);
+        }
+    else{
+        console.log('nothing was updated'); 
+    } 
+  
+});
+</script>
+    <apex:form >
+<!--  
+Serial_Number__c
+RMA_Received_Date__c
+Return_Shipment_Priority__c
+Product_Returned__c
+Name
+Item__c
+Quantity__c
+-->
+    
+ <apex:pageBlock title="Serial Number Tracking">
+     <apex:commandButton value="Back to Case" id="backToCaseButton" action="{!URLFOR($Action.Case.view, currentRecordId)}"/>
+ 
+            <!--<apex:inputText value="{!itemNum}">Quantity to return&nbsp;&nbsp;</apex:inputText>
+            <apex:commandButton action="{!addSelectedRecord}" value="Return" />-->
+            <apex:pageMessages />
+    </apex:pageBlock>
+    <apex:pageBlock title="All Products"  id="ModifyBlock">
+        <apex:pageblocktable value="{!topList}" var="tp" rendered="{!topList !=null && topList.size > 0 }" title="All Products" >
+        <apex:column headerValue="Select One Record">
+                <apex:inputCheckbox value="{!tp.Add_to_List__c}">
+                    <apex:actionsupport event="onchange" rerender="ModifyBlock"/>
+                </apex:inputCheckbox>
+            </apex:column>
+            <apex:column headerValue="RMA Number">
+                <apex:outputLink value="/{!tp.Id}">{!tp.Name}</apex:outputLink>    
+            </apex:column>   
+            <apex:column headerValue="Item" value="{!tp.Item__c}"/>
+            <apex:column headerValue="Quantity" value="{!tp.Quantity__c}"/>
+            
+        </apex:pageblocktable>
+        <br/>
+        <apex:inputText value="{!itemNum}" rendered="{!topList !=null && topList.size > 0 }" >Quantity to return&nbsp;&nbsp;</apex:inputText>
+        <apex:outputText value="No Products to return" rendered="{!topList ==null || topList.size == 0 }" />
+            <apex:commandButton action="{!returnProd}" value="Return" rendered="{!topList !=null && topList.size > 0 }" />
+        <!--<apex:commandButton action="{!addSelectedRecord}" value="Add to Selected Products" />-->
+    </apex:pageblock>
+    <apex:pageBlock title="Returned Products" >
+        <!-- Display Save and Cancel Button -->
+            <div id="id_saveresult_msg" style="display:none; font-weight:bold; color:red; font-size:13px; "><img src="/img/msg_icons/confirm16.png" style="vertical-align:middle" />Your changes have been saved.</div>
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" id="saveButton" action="{!updateMacId}"/>
+        </apex:pageBlockButtons>
+        <apex:pageblocktable value="{!finalBottomList}" var="al" rendered="{!finalBottomList !=null && finalBottomList.size > 0}" title="Returned Products"  >
+            <apex:column headerValue="RMA Number">
+                <apex:outputLink value="/{!al.Id}">{!al.Name}</apex:outputLink>
+            </apex:column>
+            <apex:column headerValue="Item" value="{!al.Item__c}"/>
+            <apex:column headerValue="Quantity" value="{!al.Quantity__c}"/>
+            <apex:column headerValue="RMA Received Date">
+                <apex:inputField value="{!al.RMA_Received_Date__c}"
+                                 onkeypress="if(event.keyCode==13 || event.keyIdentifier=='Enter'){event.preventDefault(); return false;}else{return true;}"/>
+            </apex:column> 
+            <apex:column ><apex:facet name="header">Mac ID </apex:facet>
+                <apex:inputField value="{!al.MacID__c}"
+                                 onkeypress="if(event.keyCode==13 || event.keyIdentifier=='Enter'){event.preventDefault(); return false;}else{return true;}"/>
+            </apex:column>
+            <!-- Inline editing added -->
+            <apex:inlineEditSupport showOnEdit="saveButton" event="ondblclick"/>
+            <apex:column headerValue="Product Returned?" value="{!al.Product_Returned__c}"/>
+            <!--<apex:column headerValue="Uncheck to Remove">
+                <apex:inputCheckbox value="{!al.Add_to_List__c}">
+                    <apex:actionsupport event="onchange" rerender="ModifyBlock"/>
+                </apex:inputCheckbox>
+            </apex:column>-->
+            <!-- <apex:commandButton value="Save" action="{!updatecon}" /> // Adding save button --> 
+        </apex:pageblocktable>
+        <br/>
+        <!--<apex:commandButton action="{!removeFromList}" value="Remove From List" />-->
+    </apex:pageblock>
+</apex:form>
+</apex:page>

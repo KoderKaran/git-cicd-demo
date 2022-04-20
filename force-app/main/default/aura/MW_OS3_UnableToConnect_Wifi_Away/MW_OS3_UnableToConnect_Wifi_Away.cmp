@@ -1,0 +1,23 @@
+<aura:component >
+    <aura:registerEvent name="bubblingEvent" type="c:MW_Screen_Event" /> 
+	<h1 class="slds-text-heading_large text-red slds-p-bot_large">Unable To Connect</h1>
+    
+    <div class="slds-scrollable_none">      
+        <div class="slds-p-top_large">
+        	<p class="text-paragraph">
+                To connect to your system remotely, a <a href="https://www.control4.com/o/4sight-services" class="slds-text-link text-paragraph" target="_blank"><b><u>4Sight</u></b></a> subscription is required.</p>
+            
+            <p class = "text-paragraph"><br/> <b>Get 4Sight</b></p>
+        </div>
+    	<div class="slds-p-top_large text-paragraph">
+            <ol class="slds-list--ordered">
+            <li><a href="https://customer.control4.com" class="slds-text-link text-paragraph" target="_blank"><b><u>Log in</u></b></a> to your account.</li>
+            <li>Click <b> My Automation</b>, then click <b>4Sight</b>.</li>
+            <li>Enter your credit card information, then click <b>Buy 4Sight</b>.</li>
+            </ol>
+            <p><br/></p>
+        </div>
+    </div>
+    
+    <lightning:button aura:id="back" class="slds-button slds-button_neutral" label="Back" onclick="{!c.BackButtonClick}"/>
+</aura:component>

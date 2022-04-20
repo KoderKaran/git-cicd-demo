@@ -1,0 +1,41 @@
+<aura:component controller="CustomProfileMenuController" implements="forceCommunity:profileMenuInterface" access="global">
+    <aura:attribute name="options" type="String[]" default="Profile, Settings, Sign Out"/>
+    <aura:attribute name="userPhoto" type="String" default=""/>
+    <aura:attribute name="userId" type="String" default=""/>
+    <aura:attribute name="user" type="SObject"/>
+
+    <ltng:require styles="{!join(',', 
+    	$Resource.TechnicianCommunityResources + '/fonts/fontawesome/css/fontawesome.min.css', 
+    	$Resource.TechnicianCommunityResources + '/fonts/montserrat/montserrat.css')}" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:registerEvent name="navigateToURL" type="force:navigateToURL" />
+    <!-- <ui:menu class="headeruser">
+        <ui:menuTriggerLink aura:id="trigger" class="username hidden-xs" label="Ed Turdburgler"/>
+        <ui:menuList class="actionMenu" aura:id="actionMenu">
+            <aura:iteration items="{!v.options}" var="itemLabel">
+                <ui:actionMenuItem label="{!itemLabel}" click="{!c.handleClick}"/>
+            </aura:iteration>
+            <ul>
+				<li><a href="profile.html"><i class="fal fa-user-circle"></i>Profile</a></li>
+				<li><a href="settings.html"><i class="fal fa-cog"></i>Settings</a></li>
+				<li><a href=""><i class="fal fa-sign-out"></i>Sign Out</a></li>
+			</ul>
+        </ui:menuList>
+    </ui:menu> -->
+    <div class="headeruser">
+        <div class="{!if(v.user.Avatar_URL__c == '','slds-show','slds-hide')}">
+            <div class="userimg" style="{!'background-image: url(' + $Resource.Technician_DefaultMinAvatar + ')'}"></div>
+        </div>
+        <div class="{!if(v.user.Avatar_URL__c == '','slds-hide','slds-show')}">
+            <div class="userimg" style="{!'background-image: url(' + v.user.Avatar_URL__c + ')'}"></div>
+        </div>
+		<!-- <div class="userimg" style="{!'background-image: url(' + v.userPhoto + ')'}"></div> -->
+		<div class="username hidden-xs">{!v.user.FirstName}&nbsp;{!v.user.LastName}</div>
+		<ul>
+			<li><a href="" class="slds-text-link_reset" onclick="{!c.goToProfile}"><i class="fal fa-user-circle"></i> Profile</a></li>
+			<li><a href="" class="slds-text-link_reset" onclick="{!c.goToSettings}"><i class="fal fa-cog"></i> Settings</a></li>
+            <!-- {!'/settings/' + v.userId} -->
+			<li><a href="" onclick="{!c.logOut}" class="slds-text-link_reset"><i class="fal fa-sign-out"></i> Sign Out</a></li>
+		</ul>
+	</div>
+</aura:component>

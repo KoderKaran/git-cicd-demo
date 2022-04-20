@@ -1,5 +1,5 @@
 public with sharing class AccountSettingCtrl {
-
+	//test for pr
 	@AuraEnabled
 	public static User getContact(String userId) {
 		return [
